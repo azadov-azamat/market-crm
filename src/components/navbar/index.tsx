@@ -77,7 +77,7 @@ export default function NavbarComponent(): JSX.Element {
 
     return (
         <nav
-            className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white xl:px-16 px-3 py-1 border shadow-md"}>
+            className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>
             <Typography variant={'paragraph'} className={"font-bold"}>
                 Mening do'konim
             </Typography>

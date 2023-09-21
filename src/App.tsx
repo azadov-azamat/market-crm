@@ -8,21 +8,22 @@ import SignIn from "./view/login/sign-in.tsx";
 function App() {
 
     return (
-     <Routes>
-         <Route path={'/'} element={<SignIn/>}/>
-         {
-             routes.map(route =>
-                 <Route
-                     key={route.id}
-                     path={route.path}
-                     element={
-                         <Layout>
-                             <route.component/>
-                         </Layout>}
-                 />
-             )
-         }
-     </Routes>
+        <Routes>
+            <Route path={'/'} element={<SignIn/>}/>
+            {
+                routes.map(route =>
+                    <Route
+                        key={route.id}
+                        path={route.path}
+                        element={
+                            <Layout>
+                                <route.component/>
+                            </Layout>
+                        }
+                    />
+                )
+            }
+        </Routes>
     )
 }
 
