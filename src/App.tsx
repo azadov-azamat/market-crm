@@ -12,7 +12,7 @@ function App() {
 
     useEffect(() => {
         tele.ready();
-        tele.close()
+        // tele.close()
         console.log(tele.initDataUnsafe)
     });
 
