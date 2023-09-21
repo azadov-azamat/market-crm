@@ -5,7 +5,15 @@ import Layout from "./layout/layout.tsx";
 import './index.css'
 import SignIn from "./view/login/sign-in.tsx";
 
+// const tele = window.Telegram.WebApp;
+
 function App() {
+
+    // useEffect(() => {
+    //     tele.ready();
+    //     tele.close()
+    //     console.log(tele.initDataUnsafe)
+    // });
 
     return (
         <Routes>
