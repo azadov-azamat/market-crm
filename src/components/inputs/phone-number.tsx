@@ -12,7 +12,7 @@ export default function PhoneNumber({setState}: PhoneNumberProps) {
     const [nmb, setNmb] = React.useState<number>(998)
 
     return (
-        <Input size="lg" label="Telefon Raqam" value={nmb} onChange={event => {
+        <Input crossOrigin={undefined} size="lg" label="Telefon Raqam" value={nmb} onChange={event => {
             setNmb(handleNumberMask(event.target.value))
             setState(handleNumberMask(event.target.value))
         }} maxLength={12} minLength={3}/>

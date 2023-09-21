@@ -17,8 +17,7 @@ export default function Password(
     return (
         <div className={"flex items-center relative"}>
             <Input type={isShow ? 'text' : 'password'} size="lg"
-                   label="Parol"
-
+                   label="Parol" crossOrigin={undefined}
                 // onChange={event => {
                 //     setState(event.target.value)
                 // }}
