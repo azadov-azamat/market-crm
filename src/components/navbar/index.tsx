@@ -13,7 +13,7 @@ import {
     MenuList,
     Typography
 } from "@material-tailwind/react";
-import {BiChevronDown} from "react-icons/bi";
+import {BiChevronDown, BiSearch} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
@@ -159,6 +159,9 @@ export default function NavbarComponent(): JSX.Element {
                 </Collapse>
             </div>
             <div className={"flex gap-6 items-center"}>
+                <div className="block md:hidden ">
+                    <BiSearch className={'text-2xl cursor-pointer'}/>
+                </div>
                 {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
                     <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
                         <SlBasket className={'text-2xl '}/>
