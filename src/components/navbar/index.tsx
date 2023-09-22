@@ -1,5 +1,5 @@
 import React from "react";
-import {Avatar, Button, Menu, MenuHandler, MenuItem, MenuList, Typography} from "@material-tailwind/react";
+import {Avatar, Badge, Button, Menu, MenuHandler, MenuItem, MenuList, Typography} from "@material-tailwind/react";
 import {BiChevronDown} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
@@ -83,7 +83,11 @@ export default function NavbarComponent(): JSX.Element {
                 Mening do'konim
             </Typography>
             <div className={"flex gap-6 items-center"}>
-                <SlBasket className={'text-xl cursor-pointer'} onClick={()=> navigate("/seller/baskets")}/>
+                <Badge content={"2"} overlap="circular" className={"text-xs"}>
+                    <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                        <SlBasket className={'text-2xl '}/>
+                    </div>
+                </Badge>
                 <ProfileMenu/>
             </div>
         </nav>
