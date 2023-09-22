@@ -4,10 +4,17 @@ export interface InitialStateProps {
     userData: userDataProps | null;
     magazines: MagazinesDataProps[] | [];
     products: ProductsDataProps[] | [];
+    fltProduct: ProductsDataProps[] | [];
     baskets: BasketsDataProps[] | [];
     debtor: DebtorDataProps | null;
+    orders: OrderDataProps[] | [];
 }
 
+export interface OrderDataProps {
+    debtor: DebtorDataProps,
+    baskets: BasketsDataProps,
+    commit: string;
+}
 export interface DebtorDataProps {
     name: string;
     phoneNumber: string;

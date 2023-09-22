@@ -39,6 +39,22 @@ export default function BasketBox(props: BasketsDataProps) {
         dispatch(decrementBasket(id))
     }
 
+    function IncrementDecrementBtns() {
+        return (
+            <>
+
+                <Typography variant={"small"} color={currentAmount === 1 ? "lime" : "inherit"}
+                            className={`px-2 py-1 ${currentAmount === 1 ? "cursor-not-allowed" : "cursor-pointer"} rounded text-base`}
+                            onClick={() => currentAmount !== 1 ? decrement() : console.log('')}>-</Typography>
+                <Typography variant={"small"}>{currentAmount}</Typography>
+                <Typography variant={"small"} color={currentAmount >= count ? "lime" : "inherit"}
+                            className={`${currentAmount >= count ? "cursor-not-allowed" : "cursor-pointer"} px-2 py-1 rounded text-base`}
+                            onClick={() => currentAmount >= count ? console.log('') : increment()}
+                >+</Typography>
+            </>
+        )
+    }
+
     return (
         <Card shadow color={"white"} className={"border"}>
             <CardBody className={"flex justify-start"}>
@@ -60,12 +76,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
                         <div
                             className={"w-6/12 h-8 rounded-lg border border-black flex xl:hidden justify-between items-center select-none"}>
-                            <Typography variant={"small"}
-                                        className={"disabled cursor-pointer px-2 py-1 rounded text-base"}
-                                        onClick={decrement}>-</Typography>
-                            <Typography variant={"small"}>{currentAmount}</Typography>
-                            <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
-                                        onClick={increment}>+</Typography>
+                            <IncrementDecrementBtns/>
                         </div>
                         <Button color={'red'} onClick={() => dispatch(removeBasket(id))}>
                             <FaTrash/>
@@ -76,19 +87,12 @@ export default function BasketBox(props: BasketsDataProps) {
                     <div className="flex w-full items-center gap-3">
                         <div
                             className={"w-6/12 h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
-                            <Typography variant={"small"} color={currentAmount === 1 ? "lime" : "inherit"}
-                                        className={`px-2 py-1 ${currentAmount === 1 ? "cursor-not-allowed" : "cursor-pointer"} rounded text-base`}
-                                        onClick={() => currentAmount !== 1 ? decrement() : console.log('')}>-</Typography>
-                            <Typography variant={"small"}>{currentAmount}</Typography>
-                            <Typography variant={"small"} color={currentAmount >= count ? "lime" : "inherit"}
-                                        className={`${currentAmount >= count ? "cursor-not-allowed" : "cursor-pointer"} px-2 py-1 rounded text-base`}
-                                        onClick={() => currentAmount >= count ? console.log('') : increment()}
-                            >+</Typography>
+                            <IncrementDecrementBtns/>
                         </div>
                         <div className="">
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {currentAmount !== 0 ? ((price - currentDiscount) * currentAmount) + " sum" : price}
+                                {currentAmount !== 0 ? ((price - currentDiscount) * currentAmount) + " sum" : price + " sum"}
                             </Typography>
                         </div>
                     </div>
@@ -114,7 +118,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base"}>
-                    {currentAmount !== 0 ? ((price - currentDiscount) * currentAmount) + " sum" : price}
+                    {currentAmount !== 0 ? ((price - currentDiscount) * currentAmount) + " sum" : price + " sum"}
                 </Typography>
             </div>
         </Card>

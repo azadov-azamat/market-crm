@@ -79,7 +79,10 @@ export default function ProductBox(props: ProductsDataProps) {
                                         onClick={increment}>+</Typography>
                         </div> : <>
                             <Button className={"py-1.5 md:w-9/12"} disabled={count === 0} color={"blue"}
-                                    onClick={() => navigate("/seller/baskets")}>
+                                    onClick={() => {
+                                        increment()
+                                        navigate("/seller/baskets")
+                                    }}>
                                 <Typography variant={"small"} className={"normal-case text-xs"}>
                                     Bittada sotib olish
                                 </Typography>

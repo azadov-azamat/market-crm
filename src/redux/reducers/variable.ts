@@ -1,7 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dictionary} from "../../helpers/enumuration/dictionary";
 import i18n from "i18next";
-import {BasketsDataProps, DebtorDataProps, InitialStateProps} from "../../interface/redux/variable.interface";
+import {
+    BasketsDataProps,
+    DebtorDataProps,
+    InitialStateProps,
+    OrderDataProps
+} from "../../interface/redux/variable.interface";
 
 // export const login = createAsyncThunk('variables/login', async (data: authDataProps, {rejectWithValue}) => {
 //     try {
@@ -69,8 +74,10 @@ const initialState: InitialStateProps = {
 
         }
     ],
+    fltProduct: [],
     baskets: [],
-    debtor: null
+    debtor: null,
+    orders: []
 }
 
 const reducers = {
@@ -103,13 +110,26 @@ const reducers = {
     removeBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
         state.baskets = state.baskets.filter(item => item.id !== action.payload)
     },
-    setDiscountBasket: (state: InitialStateProps, action: PayloadAction<any>)=>{
+    setDiscountBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
         const crnInd = baskets.findIndex(item => item.id === action.payload?.id)
         baskets[crnInd].discount = action.payload?.discount
     },
-    setDebtorData: (state: InitialStateProps, action: PayloadAction<DebtorDataProps>)=>{
+    setDebtorData: (state: InitialStateProps, action: PayloadAction<DebtorDataProps>) => {
         state.debtor = action.payload
+    },
+    setOrder: (state: InitialStateProps, action: PayloadAction<OrderDataProps>) => {
+        // @ts-ignore
+        state.orders.push(action.payload)
+    },
+    filterProduct: (state: InitialStateProps, action: PayloadAction<string>) => {
+        const products = state.products
+        if (action.payload.length === 0) {
+            state.fltProduct = []
+        } else {
+            state.fltProduct = products.filter(item => item.name.match(action.payload))
+                .concat(products.filter(item => item.price >= Number(action.payload)))
+        }
     }
 }
 
@@ -123,6 +143,7 @@ export const {
     setLang, logoutFunc,
     setBasket, removeBasket,
     incrementBasket, decrementBasket,
-    setDiscountBasket, setDebtorData
+    setDiscountBasket, setDebtorData,
+    setOrder, filterProduct
 } = variableSlice.actions;
 export default variableSlice.reducer

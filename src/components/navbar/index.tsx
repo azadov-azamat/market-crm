@@ -1,14 +1,33 @@
-import React from "react";
-import {Avatar, Badge, Button, Menu, MenuHandler, MenuItem, MenuList, Typography} from "@material-tailwind/react";
+import React, {useEffect} from "react";
+import {
+    Avatar,
+    Badge,
+    Button,
+    Card,
+    CardBody,
+    Collapse,
+    Input,
+    Menu,
+    MenuHandler,
+    MenuItem,
+    MenuList,
+    Typography
+} from "@material-tailwind/react";
 import {BiChevronDown} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
-import {useAppSelector} from "../../redux/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
+import {filterProduct} from "../../redux/reducers/variable.ts";
+import {LazyLoadImage} from "react-lazy-load-image-component";
 
 export default function NavbarComponent(): JSX.Element {
 
     const navigate = useNavigate()
-    const {baskets} = useAppSelector(state => state.variables)
+    const dispatch = useAppDispatch()
+
+    const {baskets, fltProduct} = useAppSelector(state => state.variables)
+
+    const [search, setSearch] = React.useState<string>("")
 
     const profileMenuItems = [
         {
@@ -78,12 +97,67 @@ export default function NavbarComponent(): JSX.Element {
         );
     }
 
+    useEffect(() => {
+        if (search.length !== 0) {
+            dispatch(filterProduct(search))
+        } else {
+            dispatch(filterProduct(""))
+        }
+    }, [search])
+
     return (
         <nav
             className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>
             <Typography variant={'paragraph'} className={"font-bold"}>
                 Mening do'konim
             </Typography>
+            <div className="relative w-4/12 hidden md:block">
+                <Input
+                    label={"Mahsulotlarni qidirish"}
+                    name={"search"}
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    crossOrigin={undefined}
+                />
+                <Collapse open={fltProduct.length !== 0} className={"fixed z-10"}>
+                    <Card className="w-4/12">
+                        <CardBody className={"m-0 p-2"}>
+                            {
+                                fltProduct.map((item, ind) =>
+                                    <div key={ind} className={"flex my-2 border rounded p-1 cursor-pointer"}
+                                         onClick={() => {
+                                             navigate(`/seller/product/${item.id}`)
+                                             setSearch("")
+                                         }}
+                                    >
+                                        <div className="w-2/12 h-20">
+                                            <LazyLoadImage effect={"black-and-white"}
+                                                           className={"object-cover object-center h-20"}
+                                                           alt={item.name}
+                                                           src={item.src}
+                                            />
+                                        </div>
+                                        <div className="w-10/12 flex flex-col justify-between pl-3">
+                                            <Typography variant={"small"}
+                                                        className={"font-bold text-sm"}>
+                                                {item.name}
+                                            </Typography>
+                                            <div className="w-full flex justify-between">
+                                                <Typography variant={"small"} className={"font-bold text-xs"}>
+                                                    {item.price} sum
+                                                </Typography>
+                                                <Typography variant={"small"} className={"font-medium text-xs"}>
+                                                    Miqdori: {item.count} {item.measure}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </CardBody>
+                    </Card>
+                </Collapse>
+            </div>
             <div className={"flex gap-6 items-center"}>
                 {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
                     <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
