@@ -17,7 +17,8 @@ interface ProductBoxProps {
 }
 
 export default function ProductBox(props: ProductBoxProps) {
-    const {text, img, id, price, measure, count} = props
+    const {text, img, price, measure, count, id} = props
+
     const navigate = useNavigate()
     const [isBasket, setBasket] = React.useState<boolean>(false)
     const [basketCount, setBasketCount] = React.useState<number>(0)
@@ -36,8 +37,7 @@ export default function ProductBox(props: ProductBoxProps) {
 
 
     return (
-        <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${count === 0 && 'opacity-40'}`}
-              onClick={() => navigate(`/seller/products/${id}`)}>
+        <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${count === 0 && 'opacity-40'}`}>
             <CardBody className={"w-full h-full flex flex-col justify-between py-2 px-2"}>
                 <div className="">
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">
@@ -47,8 +47,8 @@ export default function ProductBox(props: ProductBoxProps) {
                         />
                     </div>
                     <div className="mt-3">
-                        <Typography variant={"small"}
-                                    className={"h-10 overflow-ellipsis font-medium text-xs leading-6"}>
+                        <Typography variant={"small"} onClick={()=> navigate(`/seller/product/${id}`)}
+                                    className={"h-10 overflow-ellipsis font-medium text-xs leading-6 cursor-pointer hover:underline"}>
                             {text}
                         </Typography>
                     </div>
@@ -71,7 +71,8 @@ export default function ProductBox(props: ProductBoxProps) {
                             <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
                                         onClick={increment}>+</Typography>
                         </div> : <>
-                            <Button className={"py-1.5 md:w-9/12"} disabled={count === 0} color={"blue"}>
+                            <Button className={"py-1.5 md:w-9/12"} disabled={count === 0} color={"blue"}
+                                    onClick={() => navigate("/seller/baskets")}>
                                 <Typography variant={"small"} className={"normal-case text-xs"}>
                                     Bittada sotib olish
                                 </Typography>
