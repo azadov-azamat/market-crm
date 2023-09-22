@@ -15,7 +15,8 @@ export default function MagazineBox(props: MagazineBoxProps) {
     const navigate = useNavigate()
 
     return (
-        <Card shadow color={"white"} className={'md:w-72 sm:w-64 w-60 md:h-72 sm:h-64 h-60 cursor-pointer'} onClick={()=> navigate(`/products/${id}`)}>
+        <Card shadow color={"white"} className={'md:w-72 sm:w-64 w-60 md:h-72 sm:h-64 h-60 cursor-pointer'}
+              onClick={()=> navigate(`/seller/products/${id}`)}>
             <CardBody>
                 <LazyLoadImage effect={"black-and-white"}
                                className={"w-full md:h-40 sm:h-36 h-28 object-cover"} alt={text}

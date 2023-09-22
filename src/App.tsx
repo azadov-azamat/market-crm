@@ -4,17 +4,9 @@ import {routes} from "./config/constants.ts";
 import Layout from "./layout/layout.tsx";
 import './index.css'
 import SignIn from "./view/login/sign-in.tsx";
-import {useEffect} from "react";
 
-const tele = window.Telegram.WebApp;
 
 function App() {
-
-    useEffect(() => {
-        tele.ready();
-        // tele.close()
-        console.log(tele.initDataUnsafe)
-    });
 
     return (
         <Routes>

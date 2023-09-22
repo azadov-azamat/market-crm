@@ -20,7 +20,7 @@ export default function SignIn() {
                             <InputComponent.PhoneNumber/>
                             <InputComponent.Password/>
                         </div>
-                        <Button className="mt-6" fullWidth onClick={()=> navigate('/magazines')}>
+                        <Button className="mt-6" fullWidth onClick={()=> navigate('/seller/magazines')}>
                             Kirish
                         </Button>
                     </form>
