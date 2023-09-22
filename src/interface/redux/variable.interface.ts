@@ -2,6 +2,40 @@ export interface InitialStateProps {
     lang: string;
     loading: boolean;
     userData: userDataProps | null;
+    magazines: MagazinesDataProps[] | [];
+    products: ProductsDataProps[] | [];
+    baskets: BasketsDataProps[] | [];
+    debtor: DebtorDataProps | null;
+}
+
+export interface DebtorDataProps {
+    name: string;
+    phoneNumber: string;
+    expDate: string;
+    paidSum: number;
+    givenSum: number;
+    payType: string;
+    address: string;
+}
+
+export interface ProductsDataProps {
+    id: number;
+    name: string;
+    price: number;
+    count: number;
+    src: string;
+    measure: string;
+}
+
+export interface BasketsDataProps extends ProductsDataProps {
+    amount: number;
+    discount?: number;
+}
+
+export interface MagazinesDataProps {
+    id: number;
+    name: string;
+    src: string;
 }
 
 export interface PortfolioDataProps {

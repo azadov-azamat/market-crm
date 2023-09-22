@@ -3,10 +3,12 @@ import {Avatar, Badge, Button, Menu, MenuHandler, MenuItem, MenuList, Typography
 import {BiChevronDown} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
+import {useAppSelector} from "../../redux/hooks.ts";
 
 export default function NavbarComponent(): JSX.Element {
 
     const navigate = useNavigate()
+    const {baskets} = useAppSelector(state => state.variables)
 
     const profileMenuItems = [
         {
@@ -83,11 +85,13 @@ export default function NavbarComponent(): JSX.Element {
                 Mening do'konim
             </Typography>
             <div className={"flex gap-6 items-center"}>
-                <Badge content={"2"} overlap="circular" className={"text-xs"}>
+                {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
                     <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
                         <SlBasket className={'text-2xl '}/>
                     </div>
-                </Badge>
+                </Badge> : <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                    <SlBasket className={'text-2xl '}/>
+                </div>}
                 <ProfileMenu/>
             </div>
         </nav>
