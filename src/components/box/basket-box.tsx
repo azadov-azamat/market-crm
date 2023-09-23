@@ -6,7 +6,7 @@ import {handleNumberMask} from "../../config/servise.ts";
 import {BasketsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {
-    decrementBasket,
+    // decrementBasket,
     incrementBasket,
     removeBasket,
     setBasket,
@@ -23,37 +23,42 @@ export default function BasketBox(props: BasketsDataProps) {
     const currentAmount = baskets[baskets.findIndex(item => item.id === id)]?.amount;
     const currentDiscount = baskets[baskets.findIndex(item => item.id === id)]?.discount || 0;
 
-    const increment = () => {
+    const increment = (text: string) => {
         if (baskets.find(item => item.id === id)) {
-            if (currentAmount >= count) {
+            if (Number(text) > count) {
                 toast.error(`Xozirda ${count + measure} mahsulot mavjud`)
             } else {
-                dispatch(incrementBasket(id))
+                dispatch(incrementBasket({id, amount: text}))
             }
         } else {
-            dispatch(setBasket({...props, amount: 1}))
+            dispatch(setBasket({...props, amount: '1'}))
         }
     }
 
-    const decrement = () => {
-        dispatch(decrementBasket(id))
-    }
+    // const decrement = () => {
+    //     dispatch(decrementBasket(id))
+    // }
 
-    function IncrementDecrementBtns() {
-        return (
-            <>
-
-                <Typography variant={"small"} color={currentAmount === 1 ? "lime" : "inherit"}
-                            className={`px-2 py-1 ${currentAmount === 1 ? "cursor-not-allowed" : "cursor-pointer"} rounded text-base`}
-                            onClick={() => currentAmount !== 1 ? decrement() : console.log('')}>-</Typography>
-                <Typography variant={"small"}>{currentAmount}</Typography>
-                <Typography variant={"small"} color={currentAmount >= count ? "lime" : "inherit"}
-                            className={`${currentAmount >= count ? "cursor-not-allowed" : "cursor-pointer"} px-2 py-1 rounded text-base`}
-                            onClick={() => currentAmount >= count ? console.log('') : increment()}
-                >+</Typography>
-            </>
-        )
-    }
+    // function IncrementDecrementBtns() {
+    //     return (
+    //         <>
+    //             <Input
+    //                 label={"Miqdor kiriting"}
+    //                 value={currentAmount}
+    //                 crossOrigin={undefined}
+    //                 onChange={(e) => increment(handleNumberMask(e.target.value))}
+    //             />
+    //             {/*<Typography variant={"small"} color={currentAmount === "1" ? "lime" : "inherit"}*/}
+    //             {/*            className={`px-2 py-1 ${currentAmount === "1" ? "cursor-not-allowed" : "cursor-pointer"} rounded text-base`}*/}
+    //             {/*            onClick={() => currentAmount !== "1" ? decrement() : console.log('')}>-</Typography>*/}
+    //             {/*<Typography variant={"small"}>{currentAmount}</Typography>*/}
+    //             {/*<Typography variant={"small"} color={currentAmount >= count ? "lime" : "inherit"}*/}
+    //             {/*            className={`${currentAmount >= count ? "cursor-not-allowed" : "cursor-pointer"} px-2 py-1 rounded text-base`}*/}
+    //             {/*            onClick={() => currentAmount >= count ? console.log('') : increment()}*/}
+    //             {/*>+</Typography>*/}
+    //         </>
+    //     )
+    // }
 
     return (
         <Card shadow color={"white"} className={"border"}>
@@ -75,10 +80,15 @@ export default function BasketBox(props: BasketsDataProps) {
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
                         <div
-                            className={"w-6/12 h-8 rounded-lg border border-black flex xl:hidden justify-between items-center select-none"}>
-                            <IncrementDecrementBtns/>
+                            className={"w-6/12 h-8 flex xl:hidden justify-between items-center"}>
+                            <Input
+                                label={"Miqdor kiriting"}
+                                value={currentAmount}
+                                crossOrigin={undefined}
+                                onChange={(e) => increment(handleNumberMask(e.target.value))}
+                            />
                         </div>
-                        <Button color={'red'} onClick={() => dispatch(removeBasket(id))}>
+                        <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
                             <FaTrash/>
                         </Button>
                     </div>
@@ -86,13 +96,18 @@ export default function BasketBox(props: BasketsDataProps) {
                 <div className="hidden w-4/12 h-full xl:flex xl:flex-col gap-3 justify-center">
                     <div className="flex w-full items-center gap-3">
                         <div
-                            className={"w-6/12 h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
-                            <IncrementDecrementBtns/>
+                            className={"w-8/12 h-8 flex justify-between mb-2"}>
+                            <Input
+                                label={"Miqdor kiriting"}
+                                value={currentAmount}
+                                crossOrigin={undefined}
+                                onChange={(e) => increment(handleNumberMask(e.target.value))}
+                            />
                         </div>
                         <div className="">
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {currentAmount !== 0 ? ((price - currentDiscount) * currentAmount) + " sum" : price + " sum"}
+                                {currentAmount !== "0" ? `${(price - currentDiscount) * Number(currentAmount)} sum` : price + " sum"}
                             </Typography>
                         </div>
                     </div>
@@ -102,7 +117,7 @@ export default function BasketBox(props: BasketsDataProps) {
                             value={currentDiscount}
                             onChange={e => dispatch(setDiscountBasket({
                                 id,
-                                discount: handleNumberMask(e.target.value)
+                                discount: Number(handleNumberMask(e.target.value))
                             }))}
                             crossOrigin={undefined}/>
                     </div>
@@ -113,12 +128,12 @@ export default function BasketBox(props: BasketsDataProps) {
                     <Input
                         label={"Chegirma qilasizmi?"}
                         value={currentDiscount}
-                        onChange={e => dispatch(setDiscountBasket({id, discount: handleNumberMask(e.target.value)}))}
+                        onChange={e => dispatch(setDiscountBasket({id, discount: Number(handleNumberMask(e.target.value))}))}
                         crossOrigin={undefined}/>
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base"}>
-                    {currentAmount !== 0 ? ((price - currentDiscount) * currentAmount) + " sum" : price + " sum"}
+                    {currentAmount !== "0" ? `${(price - currentDiscount) * Number(currentAmount)} sum` : price + " sum"}
                 </Typography>
             </div>
         </Card>

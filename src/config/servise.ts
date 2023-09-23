@@ -1,5 +1,5 @@
-export function handleNumberMask(text: string): number {
-    return Number(text.replace(/[^0-9.]/g, ''));
+export function handleNumberMask(text: string) {
+    return text.replace(/[^0-9.]/g, '');
 }
 
 export function handleSwitchPayType(text: string): string {

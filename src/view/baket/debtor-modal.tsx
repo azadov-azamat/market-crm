@@ -24,7 +24,7 @@ export function DebtorModal({isOpen, toggle, totalPrice}: DebtorModalProps) {
 
     const ValidateSchema = Yup.object().shape({
         name: Yup.string().required(),
-        // address: Yup.string().required(),
+        address: Yup.string().required(),
         payType: Yup.string().required(),
         phoneNumber: Yup.string().required(),
         expDate: Yup.string().required()
@@ -60,7 +60,16 @@ export function DebtorModal({isOpen, toggle, totalPrice}: DebtorModalProps) {
                     crossOrigin={undefined}
                 />
 
+                <Input
+                    name={"address"}
+                    defaultValue={debtor?.address}
+                    onChange={formik.handleChange}
+                    label={"Manzilni kiriting"}
+                    crossOrigin={undefined}
+                />
+
                 <InputComponent.PhoneNumber setState={setPhone}/>
+
                 <Input
                     name={"expDate"}
                     type={"date"}

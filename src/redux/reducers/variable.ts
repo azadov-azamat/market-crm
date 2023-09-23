@@ -94,19 +94,19 @@ const reducers = {
         // @ts-ignore
         state.baskets.push(action.payload)
     },
-    incrementBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
+    incrementBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
-        baskets[baskets.findIndex(item => item.id === action.payload)].amount += 1
+        baskets[baskets.findIndex(item => item.id === action.payload?.id)].amount = action.payload?.amount
     },
-    decrementBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
-        const baskets = state.baskets
-        const crnInd = baskets.findIndex(item => item.id === action.payload)
-        baskets[crnInd].amount -= 1
-
-        if (baskets[crnInd].amount <= 0) {
-            state.baskets = baskets.filter(item => item.id !== baskets[crnInd].id)
-        }
-    },
+    // decrementBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
+    //     const baskets = state.baskets
+    //     const crnInd = baskets.findIndex(item => item.id === action.payload)
+    //     baskets[crnInd].amount -= 1
+    //
+    //     if (baskets[crnInd].amount <= 0) {
+    //         state.baskets = baskets.filter(item => item.id !== baskets[crnInd].id)
+    //     }
+    // },
     removeBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
         state.baskets = state.baskets.filter(item => item.id !== action.payload)
     },
@@ -142,7 +142,8 @@ export const variableSlice = createSlice({
 export const {
     setLang, logoutFunc,
     setBasket, removeBasket,
-    incrementBasket, decrementBasket,
+    incrementBasket,
+    // decrementBasket,
     setDiscountBasket, setDebtorData,
     setOrder, filterProduct
 } = variableSlice.actions;

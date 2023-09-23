@@ -1,13 +1,14 @@
 import React from "react";
 
-import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Input, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
 import {toast} from "react-toastify";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {decrementBasket, incrementBasket, setBasket} from "../../redux/reducers/variable.ts";
+import { incrementBasket, setBasket} from "../../redux/reducers/variable.ts";
+import {handleNumberMask} from "../../config/servise.ts";
 
 export default function ProductBox(props: ProductsDataProps) {
     const {name, src, price, measure, count, id} = props
@@ -25,22 +26,22 @@ export default function ProductBox(props: ProductsDataProps) {
         if (baskets.find(item => item.id === id)) setIsBasket(true)
     }, [baskets])
 
-    const increment = () => {
+    const increment = (text: string) => {
         if (baskets.find(item => item.id === id)) {
-            if (currentAmount >= count) {
+            if (Number(text) > count) {
                 toast.error(`Xozirda ${count + measure} mahsulot mavjud`)
             } else {
-                dispatch(incrementBasket(id))
+                dispatch(incrementBasket({id, amount: text}))
             }
         } else {
-            dispatch(setBasket({...props, amount: 1}))
+            dispatch(setBasket({...props, amount: '1'}))
         }
     }
 
-    const decrement = () => {
-        dispatch(decrementBasket(id))
-        if ((currentAmount - 1) < 1) setIsBasket(false)
-    }
+    // const decrement = () => {
+    //     dispatch(decrementBasket(id))
+    //     if ((currentAmount - 1) < 1) setIsBasket(false)
+    // }
 
     return (
         <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${count === 0 && 'opacity-40'}`}>
@@ -70,17 +71,23 @@ export default function ProductBox(props: ProductsDataProps) {
                 <div className="w-full flex md:flex-row flex-col gap-2">
                     {
                         isBasket ? <div
-                            className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
-                            <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
-                                        onClick={decrement}>-</Typography>
-                            <Typography
-                                variant={"small"}>{currentAmount}</Typography>
-                            <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
-                                        onClick={increment}>+</Typography>
+                            className={"w-full h-8 rounded-lg flex mb-2"}>
+                            <Input
+                                label={"Miqdor kiriting"}
+                                value={currentAmount}
+                                crossOrigin={undefined}
+                                onChange={(e)=> increment(handleNumberMask(e.target.value))}
+                            />
+                            {/*<Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}*/}
+                            {/*            onClick={decrement}>-</Typography>*/}
+                            {/*<Typography*/}
+                            {/*    variant={"small"}>{currentAmount}</Typography>*/}
+                            {/*<Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}*/}
+                            {/*            onClick={increment}>+</Typography>*/}
                         </div> : <>
                             <Button className={"py-1.5 md:w-9/12"} disabled={count === 0} color={"blue"}
                                     onClick={() => {
-                                        increment()
+                                        increment("1")
                                         navigate("/seller/baskets")
                                     }}>
                                 <Typography variant={"small"} className={"normal-case text-xs"}>
@@ -88,7 +95,7 @@ export default function ProductBox(props: ProductsDataProps) {
                                 </Typography>
                             </Button>
                             <Button onClick={() => {
-                                increment()
+                                increment("1")
                                 setIsBasket(true)
                             }}
                                     className={"flex justify-center items-center py-1.5"}
