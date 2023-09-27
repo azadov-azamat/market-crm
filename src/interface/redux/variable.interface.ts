@@ -8,12 +8,17 @@ export interface InitialStateProps {
     baskets: BasketsDataProps[] | [];
     debtor: DebtorDataProps | null;
     orders: OrderDataProps[] | [];
+    mixedPay: MixedPayDataProps[] | [];
 }
 
 export interface OrderDataProps {
     debtor: DebtorDataProps,
     baskets: BasketsDataProps,
     commit: string;
+}
+export interface MixedPayDataProps {
+    paymentType: string;
+    paymentAmount: number;
 }
 export interface DebtorDataProps {
     name: string;

@@ -6,11 +6,13 @@ export function handleSwitchPayType(text: string): string {
     switch (text) {
         case "debt-pay":
             return "Qarz to'lovi"
-        case "terminal-pay":
+        case "terminal":
             return "Terminal orqali (Uzcard/Humo)"
-        case "cash-pay":
+        case "naqd":
             return "Naxd to'lov"
-        case "click-pay":
+        case "mixed-pay":
+            return "Aralash to'lov"
+        case "transfer":
         default:
             return "Online to'lov (click)"
     }

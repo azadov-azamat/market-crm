@@ -1,20 +1,24 @@
 import BasketBox from "../../components/box/basket-box.tsx";
-import {Button, Card, CardBody, Radio, Textarea, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Input, Radio, Textarea, Typography} from "@material-tailwind/react";
 import React from "react";
-import {handleSwitchPayType} from "../../config/servise.ts";
+import {handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
 import {useAppSelector} from "../../redux/hooks.ts";
-import {DebtorModal} from "./debtor-modal.tsx";
+import {DebtorSidebar} from "./debtor-sidebar.tsx";
+import {MixedPaySidebar} from "./mixed-pay-sidebar.tsx";
 
 export default function Basket() {
 
-    const {baskets, debtor} = useAppSelector(state => state.variables)
+    const {baskets, debtor, mixedPay} = useAppSelector(state => state.variables)
 
     const [totalPrice, setTotalPrice] = React.useState<number>(0)
+    const [transferSum, setTransferSum] = React.useState<number>(0)
     const [totalAfterDiscount, setTotalAfterDiscount] = React.useState<number>(0)
     const [payType, setPayType] = React.useState<string>("")
     const [isDebt, setDebt] = React.useState<boolean>(false)
+    const [isMixed, setMixed] = React.useState<boolean>(false)
     const toggleDebt = () => setDebt(!isDebt)
+    const toggleMixed = () => setMixed(!isMixed)
 
     React.useEffect(() => {
         let totalAmount = 0;
@@ -27,6 +31,7 @@ export default function Basket() {
         setTotalAfterDiscount(discountAmount)
     }, [baskets])
 
+    console.log(mixedPay)
     return (
         <div className={"flex flex-col md:flex-row w-full h-auto gap-5"}>
             <div className="w-full xl:w-7/12 flex flex-col gap-5">
@@ -56,12 +61,12 @@ export default function Basket() {
                         <div className="grid grid-cols-2 gap-2">
                             <Radio name={"pay-type"}
                                    onChange={e => setPayType(e.target.defaultValue)}
-                                   value={'click-pay'}
+                                   value={'transfer'}
                                    defaultChecked
                                    label={<img
                                        width={80}
                                        src="https://olcha.uz/uploads/images/payments/8MgaV0UlK0rLi2sf3R1vtuhys1BKTEkE5VgM50Sk.jpeg"
-                                       alt="click-pay"/>} crossOrigin={undefined}
+                                       alt="transfer"/>} crossOrigin={undefined}
                             />
                             <Radio name={"pay-type"}
                                    value={"debt-pay"}
@@ -76,24 +81,46 @@ export default function Basket() {
                                        alt="debt-pay"/>} crossOrigin={undefined}
                             />
                             <Radio name={"pay-type"}
-                                   value={"cash-pay"}
+                                   value={"naqd"}
                                    onChange={e => setPayType(e.target.defaultValue)}
                                    label={<img
                                        width={80}
                                        className={"rounded-full"}
                                        src="https://storage.kun.uz/source/3/Qwj26y2xYpIVcRcX6sbU1XN7X_FHVBlr.jpg"
-                                       alt="cash-pay"/>} crossOrigin={undefined}
+                                       alt="naqd"/>} crossOrigin={undefined}
                             />
                             <Radio name={"pay-type"}
-                                   value={"terminal-pay"}
+                                   value={"terminal"}
                                    onChange={e => setPayType(e.target.defaultValue)}
                                    label={<img
                                        width={80}
                                        src="https://ru.ipakyulibank.uz/uploads/images/widget/2021/09/widget_1632922827_4049.png"
-                                       alt="terminal-pay"/>} crossOrigin={undefined}
+                                       alt="terminal"/>} crossOrigin={undefined}
+                            />
+                            <Radio name={"pay-type"}
+                                   value={"mixed-pay"}
+                                   onClick={toggleMixed}
+                                   onChange={e => {
+                                       setPayType(e.target.defaultValue)
+                                       toggleMixed()
+                                   }}
+                                   label={<img
+                                       width={90}
+                                       className={"rounded-full"}
+                                       src="https://www.pngitem.com/pimgs/m/509-5093697_payment-png-transparent-png.png"
+                                       alt="terminal"/>} crossOrigin={undefined}
                             />
                         </div>
-                        <div className="mt-3">
+                        <div className="my-3">
+                            {payType !== "debt-pay" && payType !== "mixed-pay" ? <Input
+                                name={"paymentAmount"}
+                                label={"O'tkazilgan summa"}
+                                value={transferSum}
+                                onChange={e => setTransferSum(Number(handleNumberMask(e.target.value)))}
+                                crossOrigin={undefined}
+                            /> : <></>}
+                        </div>
+                        <div>
                             <Textarea label="Izoh qoldirish"/>
                         </div>
                     </CardBody>
@@ -134,8 +161,9 @@ export default function Basket() {
                                             <Typography variant={"small"} className={"font-bold text-sm"}>Qarzdor
                                                 F.I.O: </Typography>
                                             <Typography variant={"small"}
-                                                        className={"font-bold text-sm flex items-center"}>{debtor?.name}<BiEdit className={"ml-1 text-lg text-green-500 cursor-pointer"}
-                                                                   onClick={toggleDebt}/></Typography>
+                                                        className={"font-bold text-sm flex items-center"}>{debtor?.name}<BiEdit
+                                                className={"ml-1 text-lg text-green-500 cursor-pointer"}
+                                                onClick={toggleDebt}/></Typography>
                                         </li>
                                         <li className={"w-full flex items-center justify-between my-2"}>
                                             <Typography variant={"small"} className={"font-bold text-sm"}>Telefon
@@ -163,7 +191,26 @@ export default function Basket() {
                                         </li>
                                     </>
                                 }
-
+                                {
+                                    payType === "mixed-pay" && <div className={"flex flex-col w-full"}>
+                                        <div className={"w-full flex justify-between items-center"}>
+                                            <div className={"text-sm font-bold w-1/3"}>№</div>
+                                            <div className={"text-sm font-bold w-1/3"}>To'lov summasi</div>
+                                            <div className={"text-sm font-bold w-1/3"}>To'lov turi</div>
+                                        </div>
+                                        <div>
+                                            {
+                                                mixedPay.map((item, ind) => <div
+                                                    className={"w-full flex justify-between py-1 border-b"}>
+                                                    <div className={"text-sm w-1/3"}>{ind + 1}</div>
+                                                    <div className={"text-sm w-1/3"}>{item.paymentAmount} sum</div>
+                                                    <div
+                                                        className={"text-sm w-1/3"}>{handleSwitchPayType(item.paymentType)}</div>
+                                                </div>)
+                                            }
+                                        </div>
+                                    </div>
+                                }
                                 <li className={"w-full flex justify-center mt-5"}>
                                     <Button className={"normal-case"} color={"green"}>
                                         Buyurtmani aktivlashtirish
@@ -174,7 +221,8 @@ export default function Basket() {
                     </CardBody>
                 </Card>
             </div>
-            <DebtorModal isOpen={isDebt} toggle={toggleDebt} totalPrice={totalAfterDiscount}/>
+            <DebtorSidebar isOpen={isDebt} toggle={toggleDebt} totalPrice={totalAfterDiscount}/>
+            <MixedPaySidebar isOpen={isMixed} toggle={toggleMixed}/>
         </div>
     );
 }

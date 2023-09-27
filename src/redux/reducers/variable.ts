@@ -4,7 +4,7 @@ import i18n from "i18next";
 import {
     BasketsDataProps,
     DebtorDataProps,
-    InitialStateProps,
+    InitialStateProps, MixedPayDataProps,
     OrderDataProps
 } from "../../interface/redux/variable.interface";
 
@@ -77,7 +77,8 @@ const initialState: InitialStateProps = {
     fltProduct: [],
     baskets: [],
     debtor: null,
-    orders: []
+    orders: [],
+    mixedPay: []
 }
 
 const reducers = {
@@ -130,7 +131,10 @@ const reducers = {
             state.fltProduct = products.filter(item => item.name.match(action.payload))
                 .concat(products.filter(item => item.price >= Number(action.payload)))
         }
-    }
+    },
+    setMixedPayList: (state: InitialStateProps, action: PayloadAction<MixedPayDataProps[]>) => {
+        state.mixedPay = action.payload
+    },
 }
 
 export const variableSlice = createSlice({
@@ -145,6 +149,7 @@ export const {
     incrementBasket,
     // decrementBasket,
     setDiscountBasket, setDebtorData,
-    setOrder, filterProduct
+    setOrder, filterProduct,
+    setMixedPayList
 } = variableSlice.actions;
 export default variableSlice.reducer

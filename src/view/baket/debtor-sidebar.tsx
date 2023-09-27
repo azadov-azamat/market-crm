@@ -14,7 +14,7 @@ interface DebtorModalProps {
     totalPrice: number;
 }
 
-export function DebtorModal({isOpen, toggle, totalPrice}: DebtorModalProps) {
+export function DebtorSidebar({isOpen, toggle, totalPrice}: DebtorModalProps) {
 
     const dispatch = useAppDispatch()
 
@@ -101,32 +101,32 @@ export function DebtorModal({isOpen, toggle, totalPrice}: DebtorModalProps) {
                 />
                 <div className="">
                     <Radio name={"debt-pay-type"}
-                           value={'click-pay'}
-                           defaultChecked={debtor !== null ? debtor?.payType === "click-pay" : true}
-                           onChange={() => formik.setFieldValue('payType', 'click-pay')}
+                           value={'transfer'}
+                           defaultChecked={debtor !== null ? debtor?.payType === "transfer" : true}
+                           onChange={() => formik.setFieldValue('payType', 'transfer')}
                            label={<img
                                width={50}
                                src="https://olcha.uz/uploads/images/payments/8MgaV0UlK0rLi2sf3R1vtuhys1BKTEkE5VgM50Sk.jpeg"
-                               alt="click-pay"/>} crossOrigin={undefined}
+                               alt="transfer"/>} crossOrigin={undefined}
                     />
                     <Radio name={"debt-pay-type"}
-                           value={"cash-pay"}
-                           defaultChecked={debtor?.payType === "cash-pay"}
-                           onChange={() => formik.setFieldValue('payType', 'cash-pay')}
+                           value={"naqd"}
+                           defaultChecked={debtor?.payType === "naqd"}
+                           onChange={() => formik.setFieldValue('payType', 'naqd')}
                            label={<img
                                width={50}
                                className={"rounded-full"}
                                src="https://storage.kun.uz/source/3/Qwj26y2xYpIVcRcX6sbU1XN7X_FHVBlr.jpg"
-                               alt="cash-pay"/>} crossOrigin={undefined}
+                               alt="naqd"/>} crossOrigin={undefined}
                     />
                     <Radio name={"debt-pay-type"}
-                           value={"terminal-pay"}
-                           defaultChecked={debtor?.payType === "terminal-pay"}
-                           onChange={() => formik.setFieldValue('payType', 'terminal-pay')}
+                           value={"terminal"}
+                           defaultChecked={debtor?.payType === "terminal"}
+                           onChange={() => formik.setFieldValue('payType', 'terminal')}
                            label={<img
                                width={50}
                                src="https://ru.ipakyulibank.uz/uploads/images/widget/2021/09/widget_1632922827_4049.png"
-                               alt="terminal-pay"/>} crossOrigin={undefined}
+                               alt="terminal"/>} crossOrigin={undefined}
                     />
                 </div>
                 <div className="flex items-center justify-between mt-8">
