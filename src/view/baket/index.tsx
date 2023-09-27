@@ -192,21 +192,20 @@ export default function Basket() {
                                 {
                                     payType === "mixed-pay" && <div className={"flex flex-col w-full"}>
                                         <div className={"w-full flex justify-between items-center"}>
-                                            <div className={"text-sm font-bold w-1/3"}>№</div>
-                                            <div className={"text-sm font-bold w-1/3"}>To'lov summasi</div>
-                                            <div className={"text-sm font-bold w-1/3"}>To'lov turi</div>
+                                            <div className={"text-sm font-bold w-1/12"}>№</div>
+                                            <div className={"text-sm font-bold w-5/12"}>To'lov summasi</div>
+                                            <div className={"text-sm font-bold w-6/12"}>To'lov turi</div>
                                         </div>
-                                        <div>
-                                            {
-                                                mixedPay.map((item, ind) => <div
-                                                    className={"w-full flex justify-between py-1 border-b"}>
-                                                    <div className={"text-sm w-1/3"}>{ind + 1}</div>
-                                                    <div className={"text-sm w-1/3"}>{item.paymentAmount} sum</div>
-                                                    <div
-                                                        className={"text-sm w-1/3"}>{handleSwitchPayType(item.paymentType)}</div>
-                                                </div>)
-                                            }
-                                        </div>
+
+                                        {
+                                            mixedPay.map((item, ind) => <div
+                                                className={"w-full flex justify-between py-1 border-b"}>
+                                                <div className={"text-sm w-1/12`"}>{ind + 1}</div>
+                                                <div className={"text-sm pl-5 w-5/12"}>{item.paymentAmount} sum</div>
+                                                <div
+                                                    className={"text-sm w-6/12"}>{handleSwitchPayType(item.paymentType)}</div>
+                                            </div>)
+                                        }
                                     </div>
                                 }
                                 <li className={"w-full flex justify-center mt-5"}>
