@@ -3,12 +3,14 @@ import {Button, Card, CardBody, Input, Radio, Textarea, Typography} from "@mater
 import React from "react";
 import {handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
-import {useAppSelector} from "../../redux/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {DebtorSidebar} from "./debtor-sidebar.tsx";
 import {MixedPaySidebar} from "./mixed-pay-sidebar.tsx";
+import {setMixedPayList} from "../../redux/reducers/variable.ts";
 
 export default function Basket() {
 
+    const dispatch = useAppDispatch()
     const {baskets, debtor, mixedPay} = useAppSelector(state => state.variables)
 
     const [totalPrice, setTotalPrice] = React.useState<number>(0)
@@ -31,7 +33,11 @@ export default function Basket() {
         setTotalAfterDiscount(discountAmount)
     }, [baskets])
 
-    console.log(mixedPay)
+    React.useEffect(() => {
+        return () => {
+            dispatch(setMixedPayList([]))
+        }
+    }, [])
     return (
         <div className={"flex flex-col md:flex-row w-full h-auto gap-5"}>
             <div className="w-full xl:w-7/12 flex flex-col gap-5">
