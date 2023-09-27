@@ -38,6 +38,7 @@ export default function Basket() {
             dispatch(setMixedPayList([]))
         }
     }, [])
+
     return (
         <div className={"flex flex-col md:flex-row w-full h-auto gap-5"}>
             <div className="w-full xl:w-7/12 flex flex-col gap-5">
@@ -227,8 +228,8 @@ export default function Basket() {
                     </CardBody>
                 </Card>
             </div>
-            <DebtorSidebar isOpen={isDebt} toggle={toggleDebt} totalPrice={totalAfterDiscount}/>
-            <MixedPaySidebar isOpen={isMixed} toggle={toggleMixed}/>
+            <DebtorSidebar open={isDebt} toggle={toggleDebt} totalPrice={totalAfterDiscount}/>
+            <MixedPaySidebar open={isMixed} toggle={toggleMixed}/>
         </div>
     );
 }

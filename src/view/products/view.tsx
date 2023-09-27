@@ -38,32 +38,6 @@ export default function ViewProduct() {
         }
     }
 
-    // const decrement = () => {
-    //     dispatch(decrementBasket(Number(id)))
-    // }
-
-    // function IncrementDecrementBtns() {
-    //     return (
-    //         <>
-    //             <Input
-    //                 label={"Miqdor kiriting"}
-    //                 value={currentAmount}
-    //                 crossOrigin={undefined}
-    //                 onChange={(e) => increment(handleNumberMask(e.target.value))}
-    //             />
-    //             {/*<Typography variant={"small"}*/}
-    //             {/*            className={`px-2 py-1 cursor-pointer rounded text-base`}*/}
-    //             {/*            onClick={decrement}>-</Typography>*/}
-    //             {/*<Typography variant={"small"}>{currentAmount}</Typography>*/}
-    //             {/*<Typography variant={"small"}*/}
-    //             {/*            color={currentProduct !== null && currentAmount >= currentProduct?.count ? "lime" : "inherit"}*/}
-    //             {/*            className={`${currentProduct !== null && currentAmount >= currentProduct?.count ? "cursor-not-allowed" : "cursor-pointer"} px-2 py-1 rounded text-base`}*/}
-    //             {/*            onClick={() => currentProduct !== null && currentAmount >= currentProduct?.count ? console.log('') : increment()}*/}
-    //             {/*>+</Typography>*/}
-    //         </>
-    //     )
-    // }
-
     return (
         <div>
             <div className="flex flex-col md:flex-row gap-5 justify-between">

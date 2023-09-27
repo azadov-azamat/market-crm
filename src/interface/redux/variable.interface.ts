@@ -9,6 +9,7 @@ export interface InitialStateProps {
     debtor: DebtorDataProps | null;
     orders: OrderDataProps[] | [];
     mixedPay: MixedPayDataProps[] | [];
+    debtors: DebtorDataProps[] | []
 }
 
 export interface OrderDataProps {

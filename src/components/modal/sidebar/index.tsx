@@ -1,10 +1,9 @@
-import React, {ReactNode} from 'react';
+import React from 'react';
+import {ModalInterfaceProps} from "../../../interface/modal/modal.interface.ts";
 
-interface SidebarModalProps {
+interface SidebarModalProps extends ModalInterfaceProps {
     title: string;
-    open: boolean;
-    children: ReactNode;
-    toggle: React.MouseEventHandler<HTMLButtonElement>;
+    children: React.ReactNode;
 }
 
 export default function SidebarModal({children, open, title, toggle}: SidebarModalProps): JSX.Element {
@@ -24,7 +23,8 @@ export default function SidebarModal({children, open, title, toggle}: SidebarMod
                         </svg>
                         {title}
                     </h5>
-                    <button type="button" data-drawer-hide="drawer-example" aria-controls="drawer-example" onClick={toggle}
+                    <button type="button" data-drawer-hide="drawer-example" aria-controls="drawer-example"
+                            onClick={toggle}
                             className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 right-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                              xmlns="http://www.w3.org/2000/svg">

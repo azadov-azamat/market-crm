@@ -5,13 +5,10 @@ import {MixedPayDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch} from "../../redux/hooks.ts";
 import {setMixedPayList} from "../../redux/reducers/variable.ts";
 import {handleNumberMask} from "../../config/servise.ts";
+import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 
-interface MixedPayModalProps {
-    isOpen: boolean;
-    toggle?: React.MouseEventHandler<HTMLButtonElement> | any;
-}
 
-export function MixedPaySidebar({isOpen, toggle}: MixedPayModalProps) {
+export function MixedPaySidebar({open, toggle}: ModalInterfaceProps) {
 
     const dispatch = useAppDispatch()
 
@@ -52,7 +49,7 @@ export function MixedPaySidebar({isOpen, toggle}: MixedPayModalProps) {
     }
 
     return (
-        <SidebarModal title={"To'lovlar kiritish"} open={isOpen} toggle={toggle}>
+        <SidebarModal title={"To'lovlar kiritish"} open={open} toggle={toggle}>
             {inputFields.map((field, index) => (
                 <div className={"mt-5"}>
                     <Input

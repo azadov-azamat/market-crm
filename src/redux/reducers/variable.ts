@@ -4,7 +4,8 @@ import i18n from "i18next";
 import {
     BasketsDataProps,
     DebtorDataProps,
-    InitialStateProps, MixedPayDataProps,
+    InitialStateProps,
+    MixedPayDataProps,
     OrderDataProps
 } from "../../interface/redux/variable.interface";
 
@@ -78,7 +79,36 @@ const initialState: InitialStateProps = {
     baskets: [],
     debtor: null,
     orders: [],
-    mixedPay: []
+    mixedPay: [],
+    debtors: [
+        {
+            name: "Azamat Azadov",
+            phoneNumber: "+998932052443",
+            payType: "naqd",
+            paidSum: 89000,
+            givenSum: 30000,
+            expDate: "20/01/2024",
+            address: "Yangi Obof MFY"
+        },
+        {
+            name: "Ivan Ivanov",
+            phoneNumber: "+998932052443",
+            payType: "transfer",
+            paidSum: 200000,
+            givenSum: 50000,
+            expDate: "20/01/2024",
+            address: "Yangi Obof MFY"
+        },
+        {
+            name: "Andrey Malaxov",
+            phoneNumber: "+998932052443",
+            payType: "terminal",
+            paidSum: 1500000,
+            givenSum: 100000,
+            expDate: "20/01/2024",
+            address: "Yangi Obof MFY"
+        }
+    ]
 }
 
 const reducers = {

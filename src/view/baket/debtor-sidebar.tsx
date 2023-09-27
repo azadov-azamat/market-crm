@@ -7,14 +7,13 @@ import {DebtorDataProps} from "../../interface/redux/variable.interface.ts";
 import * as Yup from "yup"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {setDebtorData} from "../../redux/reducers/variable.ts";
+import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 
-interface DebtorModalProps {
-    isOpen: boolean;
-    toggle?: React.MouseEventHandler<HTMLButtonElement> | any;
+interface DebtorModalProps extends ModalInterfaceProps{
     totalPrice: number;
 }
 
-export function DebtorSidebar({isOpen, toggle, totalPrice}: DebtorModalProps) {
+export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {
 
     const dispatch = useAppDispatch()
 
@@ -50,7 +49,7 @@ export function DebtorSidebar({isOpen, toggle, totalPrice}: DebtorModalProps) {
     })
 
     return (
-        <SidebarModal title={"Qarz savdo"} open={isOpen} toggle={toggle}>
+        <SidebarModal title={"Qarz savdo"} open={open} toggle={toggle}>
             <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
                 <Input
                     name={"name"}

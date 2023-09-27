@@ -17,9 +17,10 @@ import {BiChevronDown, BiSearch} from "react-icons/bi";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {filterProduct} from "../../redux/reducers/variable.ts";
 import {LazyLoadImage} from "react-lazy-load-image-component";
-import DialogModal from "../modal/dialog";
+import {PiUserSwitchLight} from "react-icons/pi";
+import SearchModal from "./search-modal.tsx";
+import {filterProduct} from "../../redux/reducers/variable.ts";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -43,6 +44,14 @@ export default function NavbarComponent(): JSX.Element {
             onClick: () => navigate('/')
         },
     ];
+
+    useEffect(() => {
+        if (search.length !== 0) {
+            dispatch(filterProduct(search))
+        } else {
+            dispatch(filterProduct(""))
+        }
+    }, [search])
 
     function ProfileMenu() {
         const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -101,14 +110,6 @@ export default function NavbarComponent(): JSX.Element {
         );
     }
 
-    useEffect(() => {
-        if (search.length !== 0) {
-            dispatch(filterProduct(search))
-        } else {
-            dispatch(filterProduct(""))
-        }
-    }, [search])
-
     return (
         <nav
             className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>
@@ -162,9 +163,12 @@ export default function NavbarComponent(): JSX.Element {
                     </Card>
                 </Collapse>
             </div>
-            <div className={"flex gap-6 items-center"}>
+            <div className={"flex md:gap-5 gap-2 items-center"}>
                 <div className="block md:hidden ">
                     <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
+                </div>
+                <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>
+                    <PiUserSwitchLight className={'text-2xl '}/>
                 </div>
                 {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
                     <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
@@ -175,56 +179,7 @@ export default function NavbarComponent(): JSX.Element {
                 </div>}
                 <ProfileMenu/>
             </div>
-            <DialogModal open={isModal} toggle={toggleModal}>
-                <div className="relative w-full">
-                    <Input
-                        label={"Mahsulotlarni qidirish"}
-                        name={"search"}
-                        value={search}
-                        onChange={e => setSearch(e.target.value)}
-                        crossOrigin={undefined}
-                    />
-                    {/*<Collapse open={fltProduct.length !== 0} className={"fixed z-10"}>*/}
-                    {/*    <Card className="w-9/12">*/}
-                    {/*        <CardBody className={"m-0 p-2"}>*/}
-                    {
-                        fltProduct.map((item, ind) =>
-                            <div key={ind} className={"flex my-2 border rounded p-1 cursor-pointer"}
-                                 onClick={() => {
-                                     navigate(`/seller/product/${item.id}`)
-                                     setSearch("")
-                                     toggleModal()
-                                 }}
-                            >
-                                <div className="w-2/12 h-20">
-                                    <LazyLoadImage effect={"black-and-white"}
-                                                   className={"object-cover object-center h-20"}
-                                                   alt={item.name}
-                                                   src={item.src}
-                                    />
-                                </div>
-                                <div className="w-10/12 flex flex-col justify-between pl-3">
-                                    <Typography variant={"small"}
-                                                className={"font-bold text-sm"}>
-                                        {item.name}
-                                    </Typography>
-                                    <div className="w-full flex justify-between">
-                                        <Typography variant={"small"} className={"font-bold text-xs"}>
-                                            {item.price} sum
-                                        </Typography>
-                                        <Typography variant={"small"} className={"font-medium text-xs"}>
-                                            Miqdori: {item.count} {item.measure}
-                                        </Typography>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    }
-                    {/*</CardBody>*/}
-                    {/*</Card>*/}
-                    {/*</Collapse>*/}
-                </div>
-            </DialogModal>
+            <SearchModal open={isModal} toggle={toggleModal}/>
         </nav>
     );
 }
