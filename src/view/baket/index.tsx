@@ -20,8 +20,8 @@ export default function Basket() {
         let totalAmount = 0;
         let discountAmount = 0;
         for (const basket of baskets) {
-            totalAmount += (basket.price * basket.amount)
-            discountAmount += (basket.price - (basket.discount || 0)) * basket.amount
+            totalAmount += (basket.price * Number(basket.amount))
+            discountAmount += (basket.price - (basket.discount || 0)) * Number(basket.amount)
         }
         setTotalPrice(totalAmount)
         setTotalAfterDiscount(discountAmount)

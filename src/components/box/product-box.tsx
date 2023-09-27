@@ -7,8 +7,9 @@ import {SlBasket} from "react-icons/sl";
 import {toast} from "react-toastify";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import { incrementBasket, setBasket} from "../../redux/reducers/variable.ts";
+import {incrementBasket, removeBasket, setBasket} from "../../redux/reducers/variable.ts";
 import {handleNumberMask} from "../../config/servise.ts";
+import {BiXCircle} from "react-icons/bi";
 
 export default function ProductBox(props: ProductsDataProps) {
     const {name, src, price, measure, count, id} = props
@@ -38,13 +39,14 @@ export default function ProductBox(props: ProductsDataProps) {
         }
     }
 
-    // const decrement = () => {
-    //     dispatch(decrementBasket(id))
-    //     if ((currentAmount - 1) < 1) setIsBasket(false)
-    // }
-
     return (
         <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${count === 0 && 'opacity-40'}`}>
+            <div className="w-full flex justify-end">
+                {isBasket && <BiXCircle onClick={() => {
+                    dispatch(removeBasket(id))
+                    setIsBasket(false)
+                }} className={"text-2xl absolute -top-2 -right-2 text-red-500 cursor-pointer"}/>}
+            </div>
             <CardBody className={"w-full h-full flex flex-col justify-between py-2 px-2"}>
                 <div className="">
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">

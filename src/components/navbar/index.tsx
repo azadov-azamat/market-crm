@@ -193,6 +193,7 @@ export default function NavbarComponent(): JSX.Element {
                                  onClick={() => {
                                      navigate(`/seller/product/${item.id}`)
                                      setSearch("")
+                                     toggleModal()
                                  }}
                             >
                                 <div className="w-2/12 h-20">
