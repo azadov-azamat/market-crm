@@ -1,7 +1,7 @@
 import BasketBox from "../../components/box/basket-box.tsx";
-import {Button, Card, CardBody, Input, Radio, Textarea, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Radio, Textarea, Typography} from "@material-tailwind/react";
 import React from "react";
-import {handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
+import {handleSwitchPayType} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {DebtorSidebar} from "./debtor-sidebar.tsx";
@@ -14,7 +14,7 @@ export default function Basket() {
     const {baskets, debtor, mixedPay} = useAppSelector(state => state.variables)
 
     const [totalPrice, setTotalPrice] = React.useState<number>(0)
-    const [transferSum, setTransferSum] = React.useState<number>(0)
+    const [commit, setCommit] = React.useState<string>('')
     const [totalAfterDiscount, setTotalAfterDiscount] = React.useState<number>(0)
     const [payType, setPayType] = React.useState<string>("")
     const [isDebt, setDebt] = React.useState<boolean>(false)
@@ -119,16 +119,7 @@ export default function Basket() {
                             />
                         </div>
                         <div className="my-3">
-                            {payType !== "debt-pay" && payType !== "mixed-pay" ? <Input
-                                name={"paymentAmount"}
-                                label={"O'tkazilgan summa"}
-                                value={transferSum}
-                                onChange={e => setTransferSum(Number(handleNumberMask(e.target.value)))}
-                                crossOrigin={undefined}
-                            /> : <></>}
-                        </div>
-                        <div>
-                            <Textarea label="Izoh qoldirish"/>
+                            <Textarea label="Izoh qoldirish" value={commit} onChange={e => setCommit(e.target.value)}/>
                         </div>
                     </CardBody>
                 </Card>
@@ -219,7 +210,7 @@ export default function Basket() {
                                     </div>
                                 }
                                 <li className={"w-full flex justify-center mt-5"}>
-                                    <Button className={"normal-case"} color={"green"}>
+                                    <Button className={"normal-case"} color={"green"} disabled={baskets.length === 0}>
                                         Buyurtmani aktivlashtirish
                                     </Button>
                                 </li>

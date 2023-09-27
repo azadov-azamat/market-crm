@@ -37,7 +37,7 @@ export default function NavbarComponent(): JSX.Element {
     const profileMenuItems = [
         {
             label: "Mening profilim",
-            onClick: () => navigate('/profile')
+            onClick: () => navigate('/seller/profile')
         },
         {
             label: "Chiqish",
