@@ -140,7 +140,7 @@ export default function Basket() {
                                         sum</Typography>
                                 </li>
                                 {baskets.map((item, ind) => (
-                                    <li className={"w-full flex items-center justify-between my-2"}>
+                                    <li key={ind} className={"w-full flex items-center justify-between my-2"}>
                                         <Typography variant={"small"} className={"font-bold text-sm"}>{ind + 1} -
                                             mahsulotdan
                                             chegirma: </Typography>
@@ -199,7 +199,7 @@ export default function Basket() {
 
                                         {
                                             mixedPay.map((item, ind) => <div
-                                                className={"w-full flex justify-between py-1 border-b"}>
+                                                className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                                 <div className={"text-sm w-1/12`"}>{ind + 1}</div>
                                                 <div className={"text-sm pl-5 w-5/12"}>{item.paymentAmount} sum</div>
                                                 <div

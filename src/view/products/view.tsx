@@ -3,10 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Button, Card, CardBody, Input, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
-import {
-    // decrementBasket,
-    incrementBasket, setBasket, setDiscountBasket
-} from "../../redux/reducers/variable.ts";
+import {incrementBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
 import {handleNumberMask} from "../../config/servise.ts";
 import {toast} from "react-toastify";
 import ProductList from "./list.tsx";
@@ -106,7 +103,10 @@ export default function ViewProduct() {
                             <Input
                                 label={"Chegirma qilasizmi?"}
                                 value={currentDiscount}
-                                onChange={e => dispatch(setDiscountBasket({id, discount: Number(handleNumberMask(e.target.value))}))}
+                                onChange={e => dispatch(setDiscountBasket({
+                                    id,
+                                    discount: Number(handleNumberMask(e.target.value))
+                                }))}
                                 crossOrigin={undefined}/>
                         </div>
                         <Typography variant={"h2"}

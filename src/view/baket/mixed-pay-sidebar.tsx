@@ -51,7 +51,7 @@ export function MixedPaySidebar({open, toggle}: ModalInterfaceProps) {
     return (
         <SidebarModal title={"To'lovlar kiritish"} open={open} toggle={toggle}>
             {inputFields.map((field, index) => (
-                <div className={"mt-5"}>
+                <div className={"mt-5"} key={index}>
                     <Input
                         name={"paymentAmount"}
                         value={field.paymentAmount}

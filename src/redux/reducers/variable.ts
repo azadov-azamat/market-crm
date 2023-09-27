@@ -127,7 +127,7 @@ const reducers = {
     },
     incrementBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
-        baskets[baskets.findIndex(item => item.id === action.payload?.id)].amount = action.payload?.amount
+        baskets[baskets.findIndex(item => item.id === Number(action.payload?.id))].amount = String(action.payload?.amount)
     },
     // decrementBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
     //     const baskets = state.baskets
