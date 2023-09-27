@@ -35,31 +35,6 @@ export default function BasketBox(props: BasketsDataProps) {
         }
     }
 
-    // const decrement = () => {
-    //     dispatch(decrementBasket(id))
-    // }
-
-    // function IncrementDecrementBtns() {
-    //     return (
-    //         <>
-    //             <Input
-    //                 label={"Miqdor kiriting"}
-    //                 value={currentAmount}
-    //                 crossOrigin={undefined}
-    //                 onChange={(e) => increment(handleNumberMask(e.target.value))}
-    //             />
-    //             {/*<Typography variant={"small"} color={currentAmount === "1" ? "lime" : "inherit"}*/}
-    //             {/*            className={`px-2 py-1 ${currentAmount === "1" ? "cursor-not-allowed" : "cursor-pointer"} rounded text-base`}*/}
-    //             {/*            onClick={() => currentAmount !== "1" ? decrement() : console.log('')}>-</Typography>*/}
-    //             {/*<Typography variant={"small"}>{currentAmount}</Typography>*/}
-    //             {/*<Typography variant={"small"} color={currentAmount >= count ? "lime" : "inherit"}*/}
-    //             {/*            className={`${currentAmount >= count ? "cursor-not-allowed" : "cursor-pointer"} px-2 py-1 rounded text-base`}*/}
-    //             {/*            onClick={() => currentAmount >= count ? console.log('') : increment()}*/}
-    //             {/*>+</Typography>*/}
-    //         </>
-    //     )
-    // }
-
     return (
         <Card shadow color={"white"} className={"border"}>
             <CardBody className={"flex justify-start"}>
@@ -88,9 +63,11 @@ export default function BasketBox(props: BasketsDataProps) {
                                 onChange={(e) => increment(handleNumberMask(e.target.value))}
                             />
                         </div>
-                        <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
-                            <FaTrash/>
-                        </Button>
+                        <div className="z-10">
+                            <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
+                                <FaTrash/>
+                            </Button>
+                        </div>
                     </div>
                 </div>
                 <div className="hidden w-4/12 h-full xl:flex xl:flex-col gap-3 justify-center">
