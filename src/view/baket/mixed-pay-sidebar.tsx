@@ -7,15 +7,27 @@ import {setMixedPayList} from "../../redux/reducers/variable.ts";
 import {handleNumberMask} from "../../config/servise.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 
+interface MixedPaySidebarProps extends ModalInterfaceProps {
+    totalPrice: number;
+}
 
-export function MixedPaySidebar({open, toggle}: ModalInterfaceProps) {
+export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps) {
 
     const dispatch = useAppDispatch()
-
+    const [isAdd, setAdd] = React.useState<boolean>(false)
     const [inputFields, setInputFields] = React.useState<MixedPayDataProps[]>([{
         paymentAmount: 0,
         paymentType: ''
     }]);
+
+    React.useEffect(() => {
+        let amount = 0
+        inputFields.forEach(item => {
+            amount += item.paymentAmount
+        })
+        if (amount >= totalPrice) setAdd(true)
+        else setAdd(false)
+    }, [inputFields])
 
     function handleMask(e: any, index: number) {
         const name: "paymentType" | "paymentAmount" = e.target.name
@@ -90,8 +102,9 @@ export function MixedPaySidebar({open, toggle}: ModalInterfaceProps) {
                         className={`flex items-center ${inputFields.length > 1 ? "justify-between" : "justify-center"} mt-2`}>
                         {inputFields.length > 1 && <Button className={"normal-case"} color={"red"}
                                                            onClick={() => handleRemove(index)}>O'chirish</Button>}
-                        {inputFields.length === (index + 1) &&
-                            <Button className={"normal-case"} color={"green"} onClick={handleAdd}>Qo'shish</Button>}
+                        {inputFields.length === (index + 1) && !isAdd ?
+                            <Button className={"normal-case"} color={"green"}
+                                    onClick={handleAdd}>Qo'shish</Button> : ''}
                     </div>
                 </div>
             ))}

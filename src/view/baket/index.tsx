@@ -219,7 +219,7 @@ export default function Basket() {
                 </Card>
             </div>
             <DebtorSidebar open={isDebt} toggle={toggleDebt} totalPrice={totalAfterDiscount}/>
-            <MixedPaySidebar open={isMixed} toggle={toggleMixed}/>
+            <MixedPaySidebar open={isMixed} toggle={toggleMixed} totalPrice={totalAfterDiscount}/>
         </div>
     );
 }
