@@ -11,6 +11,7 @@ import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 
 interface DebtorModalProps extends ModalInterfaceProps{
     totalPrice: number;
+    currentUser?: DebtorDataProps | null
 }
 
 export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {

@@ -7,10 +7,10 @@ interface PageTitleProps {
 
 export default function PageTitle({title}: PageTitleProps) {
     return (
-        <div className="w-full h-auto flex justify-center items-center border-b-2 border-white">
+        <div className="w-full h-auto flex justify-center items-center border-b-2 mb-2 pb-2 border-white">
             <Typography
                 variant="h2"
-                className={"text-3xl font-bold"}
+                className={"md:text-2xl  text-xl font-bold"}
             >
                 {title}
             </Typography>
