@@ -1,17 +1,13 @@
-import {Button, Card, CardBody, Input, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {toast} from "react-toastify";
 import {FaTrash} from "react-icons/fa";
 import {handleNumberMask} from "../../config/servise.ts";
 import {BasketsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {
-    // decrementBasket,
-    incrementBasket,
-    removeBasket,
-    setBasket,
-    setDiscountBasket
-} from "../../redux/reducers/variable.ts";
+import {incrementBasket, removeBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
+import * as InputComponent from "../inputs";
+// import React from "react";
 
 export default function BasketBox(props: BasketsDataProps) {
 
@@ -56,12 +52,19 @@ export default function BasketBox(props: BasketsDataProps) {
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
                         <div
                             className={"w-6/12 h-8 flex xl:hidden justify-between items-center"}>
-                            <Input
-                                label={"Miqdor kiriting"}
-                                value={currentAmount}
-                                crossOrigin={undefined}
-                                onChange={(e) => increment(handleNumberMask(e.target.value))}
-                            />
+                            <InputComponent.Text value={currentAmount}
+                                                 name={"amount"}
+                                                 placeholder={"Miqdorini kiriting"}
+                                                 onChange={(e: {
+                                                     target: { value: string; };
+                                                 }) => increment(handleNumberMask(e.target.value))}
+                                                 label={"Miqdorini kiriting"}/>
+                            {/*<Input*/}
+                            {/*    label={"Miqdor kiriting"}*/}
+                            {/*    value={currentAmount}*/}
+                            {/*    crossOrigin={undefined}*/}
+                            {/*    onChange={(e) => increment(handleNumberMask(e.target.value))}*/}
+                            {/*/>*/}
                         </div>
                         <div className="z-10">
                             <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
@@ -73,13 +76,14 @@ export default function BasketBox(props: BasketsDataProps) {
                 <div className="hidden w-4/12 h-full xl:flex xl:flex-col gap-3 justify-center">
                     <div className="flex w-full items-center gap-3">
                         <div
-                            className={"w-8/12 h-8 flex justify-between mb-2"}>
-                            <Input
-                                label={"Miqdor kiriting"}
-                                value={currentAmount}
-                                crossOrigin={undefined}
-                                onChange={(e) => increment(handleNumberMask(e.target.value))}
-                            />
+                            className={"w-8/12 h-8 flex justify-between mb-6"}>
+                            <InputComponent.Text value={currentAmount}
+                                                 name={"amount"}
+                                                 placeholder={"Miqdorini kiriting"}
+                                                 onChange={(e: {
+                                                     target: { value: string; };
+                                                 }) => increment(handleNumberMask(e.target.value))}
+                                                 label={"Miqdorini kiriting"}/>
                         </div>
                         <div className="">
                             <Typography variant={"h2"}
@@ -89,24 +93,33 @@ export default function BasketBox(props: BasketsDataProps) {
                         </div>
                     </div>
                     <div className="">
-                        <Input
-                            label={"Chegirma qilasizmi?"}
-                            value={currentDiscount}
-                            onChange={e => dispatch(setDiscountBasket({
-                                id,
-                                discount: Number(handleNumberMask(e.target.value))
-                            }))}
-                            crossOrigin={undefined}/>
+                        <InputComponent.Text value={currentDiscount}
+                                             disabled={!baskets.find(item => item.id === Number(id))}
+                                             name={"discount-item"}
+                                             placeholder={"Chegirma qilasizmi?"}
+                                             onChange={(e: {
+                                                 target: { value: string; };
+                                             }) => dispatch(setDiscountBasket({
+                                                 id,
+                                                 discount: Number(handleNumberMask(e.target.value))
+                                             }))}
+                                             label={"Chegirma qilasizmi?"}/>
                     </div>
                 </div>
             </CardBody>
             <div className="w-full flex justify-between items-center xl:hidden px-6 py-2">
-                <div className="">
-                    <Input
-                        label={"Chegirma qilasizmi?"}
-                        value={currentDiscount}
-                        onChange={e => dispatch(setDiscountBasket({id, discount: Number(handleNumberMask(e.target.value))}))}
-                        crossOrigin={undefined}/>
+                <div className="w-2/3">
+                    <InputComponent.Text value={currentDiscount}
+                                         disabled={!baskets.find(item => item.id === Number(id))}
+                                         name={"discount-item"}
+                                         placeholder={"Chegirma qilasizmi?"}
+                                         onChange={(e: {
+                                             target: { value: string; };
+                                         }) => dispatch(setDiscountBasket({
+                                             id,
+                                             discount: Number(handleNumberMask(e.target.value))
+                                         }))}
+                                         label={"Chegirma qilasizmi?"}/>
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base"}>

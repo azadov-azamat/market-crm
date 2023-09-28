@@ -143,8 +143,8 @@ const reducers = {
     },
     setDiscountBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
-        const crnInd = baskets.findIndex(item => item.id === action.payload?.id)
-        baskets[crnInd].discount = action.payload?.discount
+        const crnInd = baskets.findIndex(item => item.id === Number(action.payload?.id))
+        baskets[crnInd].discount = Number(action.payload?.discount) || 0
     },
     setDebtorData: (state: InitialStateProps, action: PayloadAction<DebtorDataProps>) => {
         state.debtor = action.payload

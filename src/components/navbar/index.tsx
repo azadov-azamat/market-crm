@@ -6,7 +6,6 @@ import {
     Card,
     CardBody,
     Collapse,
-    Input,
     Menu,
     MenuHandler,
     MenuItem,
@@ -21,6 +20,7 @@ import {LazyLoadImage} from "react-lazy-load-image-component";
 import {PiUserSwitchLight} from "react-icons/pi";
 import SearchModal from "./search-modal.tsx";
 import {filterProduct} from "../../redux/reducers/variable.ts";
+import * as InputComponent from "../inputs";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -113,17 +113,17 @@ export default function NavbarComponent(): JSX.Element {
     return (
         <nav
             className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>
-            <Typography variant={'paragraph'} className={"font-bold"}>
-                Mening do'konim
+            <Typography onClick={() => navigate("/seller/magazines")} variant={'paragraph'} className={"font-bold"}>
+                Lochin
             </Typography>
             <div className="relative w-4/12 hidden md:block">
-                <Input
-                    label={"Mahsulotlarni qidirish"}
-                    name={"search"}
-                    value={search}
-                    onChange={e => setSearch(e.target.value)}
-                    crossOrigin={undefined}
-                />
+                <InputComponent.Text value={search}
+                                     name={"search-item"}
+                                     placeholder={"Mahsulotlarni qidirish"}
+                                     onChange={(e: {
+                                         target: { value: string; };
+                                     }) => setSearch(e.target.value)}
+                                     label={""}/>
                 <Collapse open={fltProduct.length !== 0} className={"fixed z-10"}>
                     <Card className="w-4/12">
                         <CardBody className={"m-0 p-2"}>
@@ -165,7 +165,7 @@ export default function NavbarComponent(): JSX.Element {
             </div>
             <div className={"flex md:gap-5 gap-2 items-center"}>
                 <div className="block md:hidden ">
-                    <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
+                    <BiSearch className={'text-xl cursor-pointer'} onClick={toggleModal}/>
                 </div>
                 <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>
                     <PiUserSwitchLight className={'text-2xl '}/>

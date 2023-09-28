@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Button, Card, CardBody, Input, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
@@ -10,6 +10,7 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket} from "../../redux/reducers/variable.ts";
 import {handleNumberMask} from "../../config/servise.ts";
 import {BiXCircle} from "react-icons/bi";
+import * as InputComponent from "../inputs";
 
 export default function ProductBox(props: ProductsDataProps) {
     const {name, src, price, measure, count, id} = props
@@ -47,7 +48,7 @@ export default function ProductBox(props: ProductsDataProps) {
                     setIsBasket(false)
                 }} className={"text-2xl absolute -top-2 -right-2 text-red-500 cursor-pointer"}/>}
             </div>
-            <CardBody className={"w-full h-full flex flex-col justify-between py-2 px-2"}>
+            <CardBody className={"w-full h-full flex flex-col justify-between py-2 px-2 pb-3"}>
                 <div className="">
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">
                         <LazyLoadImage effect={"black-and-white"}
@@ -74,18 +75,13 @@ export default function ProductBox(props: ProductsDataProps) {
                     {
                         isBasket ? <div
                             className={"w-full h-8 rounded-lg flex mb-2"}>
-                            <Input
-                                label={"Miqdor kiriting"}
-                                value={currentAmount}
-                                crossOrigin={undefined}
-                                onChange={(e)=> increment(handleNumberMask(e.target.value))}
-                            />
-                            {/*<Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}*/}
-                            {/*            onClick={decrement}>-</Typography>*/}
-                            {/*<Typography*/}
-                            {/*    variant={"small"}>{currentAmount}</Typography>*/}
-                            {/*<Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}*/}
-                            {/*            onClick={increment}>+</Typography>*/}
+                            <InputComponent.Text value={currentAmount}
+                                                 name={"amount"}
+                                                 placeholder={"Miqdorini kiriting"}
+                                                 onChange={(e: {
+                                                     target: { value: string; };
+                                                 }) => increment(handleNumberMask(e.target.value))}
+                                                 label={""}/>
                         </div> : <>
                             <Button className={"py-1.5 md:w-9/12"} disabled={count === 0} color={"blue"}
                                     onClick={() => {

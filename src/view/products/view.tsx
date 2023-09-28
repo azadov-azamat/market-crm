@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {Button, Card, CardBody, Input, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
 import {incrementBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
@@ -9,6 +9,8 @@ import {toast} from "react-toastify";
 import ProductList from "./list.tsx";
 import {SlBasket} from "react-icons/sl";
 import {LuShoppingBasket} from "react-icons/lu";
+import * as InputComponent from "../../components/inputs";
+// import React from "react";
 
 export default function ViewProduct() {
 
@@ -59,12 +61,19 @@ export default function ViewProduct() {
                                 className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
                                 <div
                                     className={"w-6/12 h-8 flex "}>
-                                    <Input
-                                        label={"Miqdor kiriting"}
-                                        value={currentAmount}
-                                        crossOrigin={undefined}
-                                        onChange={(e) => increment(handleNumberMask(e.target.value))}
-                                    />
+                                    <InputComponent.Text value={currentAmount}
+                                                         name={"amount-item"}
+                                                         placeholder={"Miqdorini kiriting"}
+                                                         onChange={(e: {
+                                                             target: { value: string; };
+                                                         }) => increment(handleNumberMask(e.target.value))}
+                                                         label={"Miqdorini kiriting"}/>
+                                    {/*<Input*/}
+                                    {/*    label={"Miqdor kiriting"}*/}
+                                    {/*    value={currentAmount}*/}
+                                    {/*    crossOrigin={undefined}*/}
+                                    {/*    onChange={(e) => increment(handleNumberMask(e.target.value))}*/}
+                                    {/*/>*/}
                                 </div>
                             </div>
                         </div>
@@ -72,12 +81,13 @@ export default function ViewProduct() {
                             <div className="flex w-full items-center gap-3">
                                 <div
                                     className={"w-6/12 h-8 flex "}>
-                                    <Input
-                                        label={"Miqdor kiriting"}
-                                        value={currentAmount}
-                                        crossOrigin={undefined}
-                                        onChange={(e) => increment(handleNumberMask(e.target.value))}
-                                    />
+                                    <InputComponent.Text value={currentAmount}
+                                                         name={"amount-item"}
+                                                         placeholder={"Miqdorini kiriting"}
+                                                         onChange={(e: {
+                                                             target: { value: string; };
+                                                         }) => increment(handleNumberMask(e.target.value))}
+                                                         label={"Miqdorini kiriting"}/>
                                 </div>
                                 <div className="">
                                     <Typography variant={"h2"}
@@ -87,27 +97,33 @@ export default function ViewProduct() {
                                 </div>
                             </div>
                             <div className="">
-                                <Input
-                                    label={"Chegirma qilasizmi?"}
-                                    value={currentDiscount}
-                                    onChange={e => dispatch(setDiscountBasket({
-                                        id,
-                                        discount: Number(handleNumberMask(e.target.value))
-                                    }))}
-                                    crossOrigin={undefined}/>
+                                <InputComponent.Text value={currentDiscount}
+                                                     disabled={!baskets.find(item => item.id === Number(id))}
+                                                     name={"discount-item"}
+                                                     placeholder={"Chegirma qilasizmi?"}
+                                                     onChange={(e: {
+                                                         target: { value: string; };
+                                                     }) => dispatch(setDiscountBasket({
+                                                         id,
+                                                         discount: Number(handleNumberMask(e.target.value))
+                                                     }))}
+                                                     label={"Chegirma qilasizmi?"}/>
                             </div>
                         </div>
                     </CardBody>
                     <div className="w-full flex justify-between items-center  px-6 py-2">
                         <div className="">
-                            <Input
-                                label={"Chegirma qilasizmi?"}
-                                value={currentDiscount}
-                                onChange={e => dispatch(setDiscountBasket({
-                                    id,
-                                    discount: Number(handleNumberMask(e.target.value))
-                                }))}
-                                crossOrigin={undefined}/>
+                            <InputComponent.Text value={currentDiscount}
+                                                 name={"discount-item"}
+                                                 disabled={!baskets.find(item => item.id === Number(id))}
+                                                 placeholder={"Chegirma qilasizmi?"}
+                                                 onChange={(e: {
+                                                     target: { value: string; };
+                                                 }) => dispatch(setDiscountBasket({
+                                                     id,
+                                                     discount: Number(handleNumberMask(e.target.value))
+                                                 }))}
+                                                 label={"Chegirma qilasizmi?"}/>
                         </div>
                         <Typography variant={"h2"}
                                     className={"font-bold text-base"}>
