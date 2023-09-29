@@ -32,7 +32,7 @@ export default function FileInput({name}: FileInputProps) {
         if (fileSelected) {
             const formData = new FormData();
             formData.append("image", fileSelected, fileSelected.name);
-            // console.log("formData", formData)
+            setImage(URL.createObjectURL(fileSelected))
         }
     };
 
@@ -50,9 +50,11 @@ export default function FileInput({name}: FileInputProps) {
                 />
                 <input type="text" value={String(image)} style={{display: "none"}} name={name} />
                 {
-                    image ? <div className={"relative w-32 h-32"}>
+                    image !== null ? <div className={"relative w-32 h-32"}>
                             <img src={image} alt={image} className={"w-full object-center object-contain"}/>
-                            <BiXCircle onClick={() => setImage(null)}
+                            <BiXCircle onClick={() => {
+                                setImage(null)
+                            }}
                                        className={"text-2xl absolute -top-2 -right-2 text-red-500 cursor-pointer"}/>
                         </div>
                         :
