@@ -1,11 +1,12 @@
 import React, {useEffect} from 'react';
 import {filterProduct} from "../../redux/reducers/variable.ts";
 import DialogModal from "../modal/dialog";
-import {Input, Typography} from "@material-tailwind/react";
+import {Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {useNavigate} from "react-router-dom";
+import * as InputComponent from "../inputs";
 
 export default function SearchModal({toggle, open}: ModalInterfaceProps) {
 
@@ -26,13 +27,13 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
     return (
         <DialogModal open={open} toggle={toggle}>
             <div className="relative w-full">
-                <Input
-                    label={"Mahsulotlarni qidirish"}
+                <InputComponent.Text
                     name={"search"}
                     value={search}
                     onChange={e => setSearch(e.target.value)}
-                    crossOrigin={undefined}
-                />
+                    placeholder={"Mahsulotlarni nomini yoki narxini kiriting"}
+                    label={"Mahsulotlarni qidirish"}/>
+
                 {
                     fltProduct.map((item, ind) =>
                         <div key={ind} className={"flex my-2 border rounded p-1 cursor-pointer"}
