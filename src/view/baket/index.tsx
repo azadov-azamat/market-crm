@@ -90,9 +90,11 @@ export default function Basket() {
                                         productPrice,
                                         productMeasure,
                                         productQuantity,
-                                        id
+                                        id,
+                                        storeId
                                     }, ind) => (
                            <BasketBox
+                               storeId={storeId}
                                key={ind}
                                amount={amount}
                                productName={productName}
