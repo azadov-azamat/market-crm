@@ -17,3 +17,5 @@ export function handleSwitchPayType(text: string): string {
             return "Online to'lov (click)"
     }
 }
+
+export const getMgId = () => localStorage.getItem("mgId")

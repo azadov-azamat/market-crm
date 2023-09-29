@@ -26,8 +26,8 @@ export default function Basket() {
         let totalAmount = 0;
         let discountAmount = 0;
         for (const basket of baskets) {
-            totalAmount += (basket.price * Number(basket.amount))
-            discountAmount += (basket.price - (basket.discount || 0)) * Number(basket.amount)
+            totalAmount += (basket.productPrice * Number(basket.amount))
+            discountAmount += (basket.productPrice - (basket.discount || 0)) * Number(basket.amount)
         }
         setTotalPrice(totalAmount)
         setTotalAfterDiscount(discountAmount)
@@ -43,16 +43,24 @@ export default function Basket() {
         <div className={"flex flex-col md:flex-row w-full h-auto gap-5"}>
             <div className="w-full xl:w-7/12 flex flex-col gap-5">
                 {
-                    baskets.map(({name, amount, src, price, measure, count, id}, ind) => (
+                    baskets.map(({
+                                     productName,
+                                     amount,
+                                     productImgUrl,
+                                     productPrice,
+                                     productMeasure,
+                                     productQuantity,
+                                     id
+                                 }, ind) => (
                         <BasketBox
                             key={ind}
                             amount={amount}
-                            name={name}
-                            src={src}
-                            price={price}
-                            measure={measure}
-                            count={count}
+                            productName={productName}
+                            productPrice={productPrice}
                             id={id}
+                            productImgUrl={productImgUrl}
+                            productMeasure={productMeasure}
+                            productQuantity={productQuantity}
                         />
                     ))
                 }

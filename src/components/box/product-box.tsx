@@ -13,7 +13,7 @@ import {BiXCircle} from "react-icons/bi";
 import * as InputComponent from "../inputs";
 
 export default function ProductBox(props: ProductsDataProps) {
-    const {name, src, price, measure, count, id} = props
+    const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id} = props
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -30,8 +30,8 @@ export default function ProductBox(props: ProductsDataProps) {
 
     const increment = (text: string) => {
         if (baskets.find(item => item.id === id)) {
-            if (Number(text) > count) {
-                toast.error(`Xozirda ${count + measure} mahsulot mavjud`)
+            if (Number(text) > productQuantity) {
+                toast.error(`Xozirda ${productQuantity + productMeasure} mahsulot mavjud`)
             } else {
                 dispatch(incrementBasket({id, amount: text}))
             }
@@ -41,7 +41,7 @@ export default function ProductBox(props: ProductsDataProps) {
     }
 
     return (
-        <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${count === 0 && 'opacity-40'}`}>
+        <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
             <div className="w-full flex justify-end">
                 {isBasket && <BiXCircle onClick={() => {
                     dispatch(removeBasket(id))
@@ -52,23 +52,24 @@ export default function ProductBox(props: ProductsDataProps) {
                 <div className="">
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">
                         <LazyLoadImage effect={"black-and-white"}
-                                       className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={name}
-                                       src={src}
+                                       className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={productName}
+                                       src={typeof productImgUrl === "object" ? URL.createObjectURL(Object(productImgUrl)) : productImgUrl}
                         />
+
                     </div>
                     <div className="mt-3">
                         <Typography variant={"small"} onClick={() => navigate(`/seller/product/${id}`)}
                                     className={"h-10 overflow-ellipsis font-medium text-xs leading-6 cursor-pointer hover:underline"}>
-                            {name}
+                            {productName}
                         </Typography>
                     </div>
                 </div>
                 <div className="my-3 sm:my-0">
                     <Typography variant={"small"} className={"font-bold text-lg"}>
-                        {price} sum
+                        {productPrice} sum
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Miqdori: {count} {measure}
+                        Miqdori: {productQuantity} {productMeasure}
                     </Typography>
                 </div>
                 <div className="w-full flex md:flex-row flex-col gap-2">
@@ -83,7 +84,7 @@ export default function ProductBox(props: ProductsDataProps) {
                                                  }) => increment(handleNumberMask(e.target.value))}
                                                  label={""}/>
                         </div> : <>
-                            <Button className={"py-1.5 md:w-9/12"} disabled={count === 0} color={"blue"}
+                            <Button className={"py-1.5 md:w-9/12"} disabled={productQuantity === 0} color={"blue"}
                                     onClick={() => {
                                         increment("1")
                                         navigate("/seller/baskets")
@@ -97,7 +98,7 @@ export default function ProductBox(props: ProductsDataProps) {
                                 setIsBasket(true)
                             }}
                                     className={"flex justify-center items-center py-1.5"}
-                                    disabled={count === 0}
+                                    disabled={productQuantity === 0}
                                     color={'light-green'}><SlBasket
                                 className={'text-lg'}/></Button>
                         </>

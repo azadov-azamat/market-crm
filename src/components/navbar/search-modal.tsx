@@ -45,21 +45,21 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
                             <div className="w-2/12 h-20">
                                 <LazyLoadImage effect={"black-and-white"}
                                                className={"object-cover object-center h-20"}
-                                               alt={item.name}
-                                               src={item.src}
+                                               alt={item.productName}
+                                               src={typeof item.productImgUrl === "object" ? URL.createObjectURL(Object(item.productImgUrl)) : item.productImgUrl}
                                 />
                             </div>
                             <div className="w-10/12 flex flex-col justify-between pl-3">
                                 <Typography variant={"small"}
                                             className={"font-bold text-sm"}>
-                                    {item.name}
+                                    {item.productName}
                                 </Typography>
                                 <div className="w-full flex justify-between">
                                     <Typography variant={"small"} className={"font-bold text-xs"}>
-                                        {item.price} sum
+                                        {item.productPrice} sum
                                     </Typography>
                                     <Typography variant={"small"} className={"font-medium text-xs"}>
-                                        Miqdori: {item.count} {item.measure}
+                                        Miqdori: {item.productQuantity} {item.productMeasure}
                                     </Typography>
                                 </div>
                             </div>

@@ -6,8 +6,9 @@ import {
     DebtorDataProps,
     InitialStateProps,
     MixedPayDataProps,
-    OrderDataProps
+    OrderDataProps, ProductsDataProps
 } from "../../interface/redux/variable.interface";
+import {toast} from "react-toastify";
 
 // export const login = createAsyncThunk('variables/login', async (data: authDataProps, {rejectWithValue}) => {
 //     try {
@@ -31,47 +32,47 @@ const initialState: InitialStateProps = {
     products: [
         {
             id: 1,
-            name: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
-            price: 89000,
-            count: 33,
-            src: "https://assets.asaxiy.uz/product/items/desktop/830f94c696251a0d3f27e1e3d80db2752022060312004999754V1ODsFDnNF.jpg.webp",
-            measure: "dona"
+            productName: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
+            productPrice: 89000,
+            productQuantity: 33,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/830f94c696251a0d3f27e1e3d80db2752022060312004999754V1ODsFDnNF.jpg.webp",
+            productMeasure: "dona"
 
         },
         {
             id: 2,
-            name: "Телевизор Moonx 43S800 Full HD Android TV",
-            price: 49000,
-            count: 2,
-            src: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
-            measure: "kg"
+            productName: "Телевизор Moonx 43S800 Full HD Android TV",
+            productPrice: 49000,
+            productQuantity: 2,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
+            productMeasure: "kg"
 
         },
         {
             id: 3,
-            name: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
-            price: 449000,
-            count: 56.2,
-            src: "https://assets.asaxiy.uz/product/items/desktop/03afdbd66e7929b125f8597834fa83a42023062311345416211AQjAgTedp4.jpg.webp",
-            measure: "kg"
+            productName: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
+            productPrice: 449000,
+            productQuantity: 56.2,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/03afdbd66e7929b125f8597834fa83a42023062311345416211AQjAgTedp4.jpg.webp",
+            productMeasure: "kg"
 
         },
         {
             id: 4,
-            name: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
-            price: 15979000,
-            count: 0,
-            src: "https://assets.asaxiy.uz/product/items/desktop/5e15bdd3e1a68.jpeg.webp",
-            measure: "litr"
+            productName: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
+            productPrice: 15979000,
+            productQuantity: 0,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/5e15bdd3e1a68.jpeg.webp",
+            productMeasure: "litr"
 
         },
         {
             id: 5,
-            name: "Беспроводная мышь T-Wolf Q4",
-            price: 249000,
-            count: 56.5,
-            src: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
-            measure: "kg"
+            productName: "Беспроводная мышь T-Wolf Q4",
+            productPrice: 249000,
+            productQuantity: 56.5,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
+            productMeasure: "kg"
 
         }
     ],
@@ -129,15 +130,6 @@ const reducers = {
         const baskets = state.baskets
         baskets[baskets.findIndex(item => item.id === Number(action.payload?.id))].amount = String(action.payload?.amount)
     },
-    // decrementBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
-    //     const baskets = state.baskets
-    //     const crnInd = baskets.findIndex(item => item.id === action.payload)
-    //     baskets[crnInd].amount -= 1
-    //
-    //     if (baskets[crnInd].amount <= 0) {
-    //         state.baskets = baskets.filter(item => item.id !== baskets[crnInd].id)
-    //     }
-    // },
     removeBasket: (state: InitialStateProps, action: PayloadAction<number>) => {
         state.baskets = state.baskets.filter(item => item.id !== action.payload)
     },
@@ -158,13 +150,17 @@ const reducers = {
         if (action.payload.length === 0) {
             state.fltProduct = []
         } else {
-            state.fltProduct = products.filter(item => item.name.match(action.payload))
-                .concat(products.filter(item => item.price >= Number(action.payload)))
+            state.fltProduct = products.filter(item => item.productName.match(action.payload))
+                .concat(products.filter(item => item.productPrice >= Number(action.payload)))
         }
     },
     setMixedPayList: (state: InitialStateProps, action: PayloadAction<MixedPayDataProps[]>) => {
         state.mixedPay = action.payload
     },
+    addProduct: (state: InitialStateProps, action: PayloadAction<ProductsDataProps>) => {
+        state.products = [...state.products, action.payload]
+        toast.success("Mahsulot qo'shildi")
+    }
 }
 
 export const variableSlice = createSlice({
@@ -180,6 +176,6 @@ export const {
     // decrementBasket,
     setDiscountBasket, setDebtorData,
     setOrder, filterProduct,
-    setMixedPayList
+    setMixedPayList, addProduct
 } = variableSlice.actions;
 export default variableSlice.reducer

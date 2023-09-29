@@ -26,8 +26,8 @@ export default function ViewProduct() {
     const increment = (text: string) => {
         if (currentProduct !== null) {
             if (baskets.find(item => item.id === Number(id))) {
-                if (Number(text) > currentProduct?.count) {
-                    toast.error(`Xozirda ${currentProduct?.count + currentProduct?.measure} mahsulot mavjud`)
+                if (Number(text) > currentProduct?.productQuantity) {
+                    toast.error(`Xozirda ${currentProduct?.productQuantity + currentProduct?.productMeasure} mahsulot mavjud`)
                 } else {
                     dispatch(incrementBasket({id, amount: text}))
                 }
@@ -45,17 +45,17 @@ export default function ViewProduct() {
                         <div className="w-4/12 xl:h-36 sm:h-40 h-36">
                             <LazyLoadImage effect={"black-and-white"}
                                            className={"object-cover object-center xl:h-36 sm:h-40 h-36"}
-                                           alt={currentProduct?.name}
-                                           src={currentProduct?.src}
+                                           alt={currentProduct?.productName}
+                                           src={typeof currentProduct?.productImgUrl === "object" ? URL.createObjectURL(Object(currentProduct?.productImgUrl)) : currentProduct?.productImgUrl}
                             />
                         </div>
                         <div className="w-8/12 flex flex-col pl-3">
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {currentProduct?.name}
+                                {currentProduct?.productName}
                             </Typography>
                             <Typography variant={"small"} className={"font-medium text-base"}>
-                                Miqdori: {currentProduct?.count} {currentProduct?.measure}
+                                Miqdori: {currentProduct?.productQuantity} {currentProduct?.productMeasure}
                             </Typography>
                             <div
                                 className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
@@ -92,7 +92,7 @@ export default function ViewProduct() {
                                 <div className="">
                                     <Typography variant={"h2"}
                                                 className={"font-bold text-base"}>
-                                        {currentProduct !== null && currentAmount !== "0" ? `${(currentProduct?.price - currentDiscount) * Number(currentAmount)} sum` : currentProduct?.price + " sum"}
+                                        {currentProduct !== null && currentAmount !== "0" ? `${(currentProduct?.productPrice - currentDiscount) * Number(currentAmount)} sum` : currentProduct?.productPrice + " sum"}
                                     </Typography>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@ export default function ViewProduct() {
                         </div>
                         <Typography variant={"h2"}
                                     className={"font-bold text-base"}>
-                            {currentProduct !== null && currentAmount !== "0" ? `${(currentProduct?.price - currentDiscount) * Number(currentAmount)} sum` : currentProduct?.price + " sum"}
+                            {currentProduct !== null && currentAmount !== "0" ? `${(currentProduct?.productPrice - currentDiscount) * Number(currentAmount)} sum` : currentProduct?.productPrice + " sum"}
                         </Typography>
                     </div>
                 </Card>
@@ -136,12 +136,12 @@ export default function ViewProduct() {
                         <div className="w-full mb-3 py-2 border-b border-dashed">
                             <Typography variant={"h2"}
                                         className={"font-bold text-xl"}>
-                                {currentProduct?.price} sum
+                                {currentProduct?.productPrice} sum
                             </Typography>
                         </div>
                         <div className="flex flex-col gap-2 mt-12">
                             <Button className={"w-full flex justify-center items-center gap-2"}
-                                    disabled={currentProduct?.count === 0} color={"blue"}
+                                    disabled={currentProduct?.productQuantity === 0} color={"blue"}
                                     onClick={() => {
                                         increment("1")
                                         navigate("/seller/baskets")
@@ -153,7 +153,7 @@ export default function ViewProduct() {
                             </Button>
                             <Button onClick={() => increment("1")}
                                     className={"flex justify-center items-center  gap-2"}
-                                    disabled={currentProduct?.count === 0}
+                                    disabled={currentProduct?.productQuantity === 0}
                                     color={'light-green'}><SlBasket
                                 className={'text-lg'}/> Korzinkaga qo'shish</Button>
                         </div>

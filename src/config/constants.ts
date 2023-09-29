@@ -4,6 +4,7 @@ import Basket from "../view/baket";
 import ViewProduct from "../view/products/view.tsx";
 import Debtors from "../view/debtors";
 import Profile from "../view/profile";
+import AddProduct from "../view/products/add.tsx";
 
 
 export const routes = [
@@ -38,9 +39,15 @@ export const routes = [
         component: Debtors
     },
     {
-        id: 5,
+        id: 6,
         name: 'view-debtors',
         path: '/seller/profile',
         component: Profile
+    },
+    {
+        id: 7,
+        name: 'add-product',
+        path: '/seller/add-product',
+        component: AddProduct
     }
 ]

@@ -19,12 +19,12 @@ export default function ProductList() {
                         return (
                             <ProductBox
                                 key={ind}
-                                name={item.name}
-                                src={item.src}
+                                productName={item.productName}
+                                productPrice={item.productPrice}
                                 id={item.id}
-                                price={item.price}
-                                measure={item.measure}
-                                count={item.count}
+                                productImgUrl={item.productImgUrl}
+                                productMeasure={item.productMeasure}
+                                productQuantity={item.productQuantity}
                             />
                         )
                 })

@@ -11,7 +11,10 @@ export default function MagazineBox(props: MagazinesDataProps) {
 
     return (
         <Card shadow color={"white"} className={'md:w-72 sm:w-64 w-60 md:h-72 sm:h-64 h-60 cursor-pointer'}
-              onClick={() => navigate(`/seller/products/${id}`)}>
+              onClick={() => {
+                  navigate(`/seller/products/${id}`)
+                  localStorage.setItem("mgId", String(id))
+              }}>
             <CardBody>
                 <LazyLoadImage effect={"black-and-white"}
                                className={"w-full md:h-40 sm:h-36 h-28 object-cover"} alt={name}

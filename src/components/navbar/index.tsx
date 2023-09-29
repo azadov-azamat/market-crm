@@ -21,6 +21,7 @@ import {PiUserSwitchLight} from "react-icons/pi";
 import SearchModal from "./search-modal.tsx";
 import {filterProduct} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
+import {MdOutlineBookmarkAdd} from "react-icons/md";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -138,21 +139,21 @@ export default function NavbarComponent(): JSX.Element {
                                         <div className="w-2/12 h-20">
                                             <LazyLoadImage effect={"black-and-white"}
                                                            className={"object-cover object-center h-20"}
-                                                           alt={item.name}
-                                                           src={item.src}
+                                                           alt={item.productName}
+                                                           src={typeof item.productImgUrl === "object" ? URL.createObjectURL(Object(item.productImgUrl)) : item.productImgUrl}
                                             />
                                         </div>
                                         <div className="w-10/12 flex flex-col justify-between pl-3">
                                             <Typography variant={"small"}
                                                         className={"font-bold text-sm"}>
-                                                {item.name}
+                                                {item.productName}
                                             </Typography>
                                             <div className="w-full flex justify-between">
                                                 <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                    {item.price} sum
+                                                    {item.productPrice} sum
                                                 </Typography>
                                                 <Typography variant={"small"} className={"font-medium text-xs"}>
-                                                    Miqdori: {item.count} {item.measure}
+                                                    Miqdori: {item.productQuantity} {item.productMeasure}
                                                 </Typography>
                                             </div>
                                         </div>
@@ -166,6 +167,9 @@ export default function NavbarComponent(): JSX.Element {
             <div className={"flex md:gap-5 gap-2 items-center"}>
                 <div className="block md:hidden ">
                     <BiSearch className={'text-xl cursor-pointer'} onClick={toggleModal}/>
+                </div>
+                <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/add-product")}>
+                    <MdOutlineBookmarkAdd className={'text-2xl '}/>
                 </div>
                 <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>
                     <PiUserSwitchLight className={'text-2xl '}/>

@@ -11,7 +11,7 @@ import * as InputComponent from "../inputs";
 
 export default function BasketBox(props: BasketsDataProps) {
 
-    const {name, src, id, price, measure, count} = props
+    const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id} = props
 
     const dispatch = useAppDispatch()
     const {baskets} = useAppSelector(state => state.variables)
@@ -21,8 +21,8 @@ export default function BasketBox(props: BasketsDataProps) {
 
     const increment = (text: string) => {
         if (baskets.find(item => item.id === id)) {
-            if (Number(text) > count) {
-                toast.error(`Xozirda ${count + measure} mahsulot mavjud`)
+            if (Number(text) > productQuantity) {
+                toast.error(`Xozirda ${productQuantity + productMeasure} mahsulot mavjud`)
             } else {
                 dispatch(incrementBasket({id, amount: text}))
             }
@@ -36,17 +36,18 @@ export default function BasketBox(props: BasketsDataProps) {
             <CardBody className={"flex justify-start"}>
                 <div className="w-4/12 xl:w-2/12 xl:h-36 sm:h-40 h-36">
                     <LazyLoadImage effect={"black-and-white"}
-                                   className={"object-cover object-center xl:h-36 sm:h-40 h-36"} alt={name}
-                                   src={src}
+                                   className={"object-cover object-center xl:h-36 sm:h-40 h-36"}
+                                   alt={productName}
+                                   src={typeof productImgUrl === "object" ? URL.createObjectURL(Object(productImgUrl)) : productImgUrl}
                     />
                 </div>
                 <div className="w-8/12 xl:w-4/12 flex flex-col pl-3">
                     <Typography variant={"h2"}
                                 className={"font-bold text-base"}>
-                        {name}
+                        {productName}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Miqdori: {count} {measure}
+                        Miqdori: {productQuantity} {productMeasure}
                     </Typography>
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
@@ -59,12 +60,6 @@ export default function BasketBox(props: BasketsDataProps) {
                                                      target: { value: string; };
                                                  }) => increment(handleNumberMask(e.target.value))}
                                                  label={"Miqdorini kiriting"}/>
-                            {/*<Input*/}
-                            {/*    label={"Miqdor kiriting"}*/}
-                            {/*    value={currentAmount}*/}
-                            {/*    crossOrigin={undefined}*/}
-                            {/*    onChange={(e) => increment(handleNumberMask(e.target.value))}*/}
-                            {/*/>*/}
                         </div>
                         <div className="z-10">
                             <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
@@ -88,7 +83,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         <div className="">
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {currentAmount !== "0" ? `${(price - currentDiscount) * Number(currentAmount)} sum` : price + " sum"}
+                                {currentAmount !== "0" ? `${(productPrice - currentDiscount) * Number(currentAmount)} sum` : productPrice + " sum"}
                             </Typography>
                         </div>
                     </div>
@@ -123,7 +118,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base"}>
-                    {currentAmount !== "0" ? `${(price - currentDiscount) * Number(currentAmount)} sum` : price + " sum"}
+                    {currentAmount !== "0" ? `${(productPrice - currentDiscount) * Number(currentAmount)} sum` : productPrice + " sum"}
                 </Typography>
             </div>
         </Card>

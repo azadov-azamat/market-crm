@@ -32,12 +32,14 @@ export interface DebtorDataProps {
 }
 
 export interface ProductsDataProps {
-    id: number;
-    name: string;
-    price: number;
-    count: number;
-    src: string;
-    measure: string;
+    id: number,
+    productName: string;
+    productModel?: string;
+    productOption?: string;
+    productPrice: number;
+    productQuantity: number;
+    productImgUrl: object |  string;
+    productMeasure: string;
 }
 
 export interface BasketsDataProps extends ProductsDataProps {
