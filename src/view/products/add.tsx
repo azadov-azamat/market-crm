@@ -90,7 +90,8 @@ export default function AddProduct() {
                             </select>
                         </div>
                         <div className={"flex gap-3 w-full justify-end mt-3"}>
-                            <Button type={"reset"} color={"red"}>Orqaga</Button>
+                            <Button type={"reset"} color={"red"}
+                                    onClick={() => navigate(`/seller/products/${getMgId()}`)}>Orqaga</Button>
                             <Button type={"submit"} color={"green"}>Saqlash</Button>
                         </div>
                     </form>
