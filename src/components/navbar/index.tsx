@@ -21,7 +21,7 @@ import {PiUserSwitchLight} from "react-icons/pi";
 import SearchModal from "./search-modal.tsx";
 import {filterProduct} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
-import {MdOutlineBookmarkAdd} from "react-icons/md";
+import {AiOutlineFileAdd} from "react-icons/ai";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -164,22 +164,22 @@ export default function NavbarComponent(): JSX.Element {
                     </Card>
                 </Collapse>
             </div>
-            <div className={"flex md:gap-5 gap-2 items-center"}>
+            <div className={"flex md:gap-3 gap-2 items-center"}>
                 <div className="block md:hidden ">
-                    <BiSearch className={'text-xl cursor-pointer'} onClick={toggleModal}/>
+                    <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
                 </div>
-                <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/add-product")}>
-                    <MdOutlineBookmarkAdd className={'text-2xl '}/>
+                <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/add-product")}>
+                    <AiOutlineFileAdd className={'text-2xl font-normal'}/> {/* === mahsulot qo'shish icon === */}
                 </div>
-                <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>
-                    <PiUserSwitchLight className={'text-2xl '}/>
+                <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>
+                    <PiUserSwitchLight className={'text-2xl '}/> {/* === qarzdorlar ro'yhati  icon === */}
                 </div>
                 {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
-                    <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
-                        <SlBasket className={'text-2xl '}/>
+                    <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                        <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
                     </div>
-                </Badge> : <div className="p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
-                    <SlBasket className={'text-2xl '}/>
+                </Badge> : <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                    <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
                 </div>}
                 <ProfileMenu/>
             </div>
