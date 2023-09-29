@@ -3,13 +3,17 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
-import {incrementBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
+import {incrementBasket, removeBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
 import {handleNumberMask} from "../../config/servise.ts";
 import {toast} from "react-toastify";
 import ProductList from "./list.tsx";
 import {SlBasket} from "react-icons/sl";
 import {LuShoppingBasket} from "react-icons/lu";
 import * as InputComponent from "../../components/inputs";
+import React from "react";
+import {FaTrash} from "react-icons/fa";
+import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
+import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 // import React from "react";
 
 export default function ViewProduct() {
@@ -17,8 +21,9 @@ export default function ViewProduct() {
     const {id} = useParams()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const {products, baskets} = useAppSelector(state => state.variables)
+    const {products, stores, baskets} = useAppSelector(state => state.variables)
 
+    const [isBasket, setIsBasket] = React.useState<boolean>(false)
     const currentProduct: ProductsDataProps | null = products.find(item => item.id === Number(id)) || null
     const currentAmount = baskets[baskets.findIndex(item => item.id === Number(id))]?.amount || "0";
     const currentDiscount = baskets[baskets.findIndex(item => item.id === Number(id))]?.discount || 0;
@@ -37,8 +42,31 @@ export default function ViewProduct() {
         }
     }
 
+    React.useEffect(() => {
+        if (baskets.find(item => item.id === Number(id))) setIsBasket(true)
+        else setIsBasket(false)
+    }, [baskets])
+
+    const breadCumbc: BreadCumbsDataProps[] = [
+        {
+            name: "Do'kon",
+            link: "/seller/magazines"
+        },
+        {
+            name: stores.find(item => item.id === currentProduct?.storeId)?.storeName || "",
+            link: `/seller/products/${currentProduct?.storeId}`
+        },
+        {
+            name: currentProduct?.productName || "",
+            link: `/seller/products/${currentProduct?.storeId}`
+        }
+    ]
+
     return (
         <div>
+            <div className="w-full overflow-ellipsis overflow-hidden">
+                <BreadcumbsComponent data={breadCumbc}/>
+            </div>
             <div className="flex flex-col md:flex-row gap-5 justify-between">
                 <Card shadow color={"white"} className={"border w-full md:w-6/12"}>
                     <CardBody className={"flex justify-start"}>
@@ -57,10 +85,13 @@ export default function ViewProduct() {
                             <Typography variant={"small"} className={"font-medium text-base"}>
                                 Miqdori: {currentProduct?.productQuantity} {currentProduct?.productMeasure}
                             </Typography>
+                            <Typography variant={"small"} className={"font-medium text-base"}>
+                                Narxi: {currentProduct?.productPrice} sum
+                            </Typography>
                             <div
                                 className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
                                 <div
-                                    className={"w-6/12 h-8 flex "}>
+                                    className={"w-full h-8 flex "}>
                                     <InputComponent.Text value={currentAmount}
                                                          name={"amount-item"}
                                                          placeholder={"Miqdorini kiriting"}
@@ -68,12 +99,6 @@ export default function ViewProduct() {
                                                              target: { value: string; };
                                                          }) => increment(handleNumberMask(e.target.value))}
                                                          label={"Miqdorini kiriting"}/>
-                                    {/*<Input*/}
-                                    {/*    label={"Miqdor kiriting"}*/}
-                                    {/*    value={currentAmount}*/}
-                                    {/*    crossOrigin={undefined}*/}
-                                    {/*    onChange={(e) => increment(handleNumberMask(e.target.value))}*/}
-                                    {/*/>*/}
                                 </div>
                             </div>
                         </div>
@@ -112,7 +137,7 @@ export default function ViewProduct() {
                         </div>
                     </CardBody>
                     <div className="w-full flex justify-between items-center  px-6 py-2">
-                        <div className="">
+                        <div className="w-2/3">
                             <InputComponent.Text value={currentDiscount}
                                                  name={"discount-item"}
                                                  disabled={!baskets.find(item => item.id === Number(id))}
@@ -125,8 +150,8 @@ export default function ViewProduct() {
                                                  }))}
                                                  label={"Chegirma qilasizmi?"}/>
                         </div>
-                        <Typography variant={"h2"}
-                                    className={"font-bold text-base"}>
+                        <Typography variant={"lead"}
+                                    className={"font-bold text-base mt-4"}>
                             {currentProduct !== null && currentAmount !== "0" ? `${(currentProduct?.productPrice - currentDiscount) * Number(currentAmount)} sum` : currentProduct?.productPrice + " sum"}
                         </Typography>
                     </div>
@@ -140,22 +165,47 @@ export default function ViewProduct() {
                             </Typography>
                         </div>
                         <div className="flex flex-col gap-2 mt-12">
-                            <Button className={"w-full flex justify-center items-center gap-2"}
-                                    disabled={currentProduct?.productQuantity === 0} color={"blue"}
-                                    onClick={() => {
-                                        increment("1")
-                                        navigate("/seller/baskets")
-                                    }}>
-                                <LuShoppingBasket className={'text-lg'}/>
-                                <Typography variant={"small"} className={"normal-case text-xs "}>
-                                    Bittada sotib olish
+                            <div className="">
+                                <Typography variant={"paragraph"}
+                                            className={"font-medium text-xs"}>
+                                    {currentProduct?.productModel}
                                 </Typography>
-                            </Button>
-                            <Button onClick={() => increment("1")}
-                                    className={"flex justify-center items-center  gap-2"}
-                                    disabled={currentProduct?.productQuantity === 0}
-                                    color={'light-green'}><SlBasket
-                                className={'text-lg'}/> Korzinkaga qo'shish</Button>
+                            </div>
+                            <div className="">
+                                <Typography variant={"paragraph"}
+                                            className={"font-medium text-xs"}>
+                                    {currentProduct?.productOption}
+                                </Typography>
+                            </div>
+                            {isBasket ? <>
+                                <Button className={"w-full flex justify-center items-center gap-2"}
+                                        color={"red"}
+                                        onClick={() => dispatch(removeBasket(Number(id)))}
+                                >
+                                    <FaTrash className={'text-lg'}/>
+                                    <Typography variant={"small"} className={"normal-case text-xs "}>
+                                        Korzinkadan olib tashlash
+                                    </Typography>
+                                </Button>
+                            </> : <>
+                                <Button className={"w-full flex justify-center items-center gap-2"}
+                                        disabled={currentProduct?.productQuantity === 0} color={"blue"}
+                                        onClick={() => {
+                                            increment("1")
+                                            navigate("/seller/baskets")
+                                        }}>
+                                    <LuShoppingBasket className={'text-lg'}/>
+                                    <Typography variant={"small"} className={"normal-case text-xs "}>
+                                        Bittada sotib olish
+                                    </Typography>
+                                </Button>
+                                <Button onClick={() => increment("1")}
+                                        className={"flex justify-center items-center normal-case  gap-2"}
+                                        disabled={currentProduct?.productQuantity === 0}
+                                        color={'light-green'}><SlBasket
+                                    className={'text-lg'}/> Korzinkaga qo'shish</Button>
+                            </>
+                            }
                         </div>
                     </CardBody>
                 </Card>
@@ -166,7 +216,7 @@ export default function ViewProduct() {
                     Boshqa mahsulotlar
                 </Typography>
             </div>
-            <ProductList/>
+            <ProductList isView />
         </div>
     );
 }

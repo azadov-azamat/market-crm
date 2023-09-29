@@ -7,14 +7,32 @@ import PageTitle from "../../components/page-title";
 import {Card, CardBody} from "@material-tailwind/react";
 import {DebtorSidebar} from "../baket/debtor-sidebar.tsx";
 import React from "react";
+import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
+import {getMgId} from "../../config/servise.ts";
+import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 
 export default function Debtors() {
 
-    const {debtors} = useAppSelector(state => state.variables)
+    const {debtors, stores} = useAppSelector(state => state.variables)
 
     const [userAmount, setUserAmount] = React.useState<DebtorDataProps | null>(null)
     const [isDebt, setDebt] = React.useState<boolean>(false)
     const toggleDebt = () => setDebt(!isDebt)
+
+    const breadCumbc: BreadCumbsDataProps[] = [
+        {
+            name: "Do'kon",
+            link: "/seller/magazines"
+        },
+        {
+            name: stores.find(item => item.id === Number(getMgId()))?.storeName || "",
+            link: `/seller/products/${getMgId()}`
+        },
+        {
+            name: "Qarzdorlar ro'yhati",
+            link: ``
+        }
+    ]
 
     const basicColumns: TableColumn<any>[] = [
         {
@@ -75,7 +93,9 @@ export default function Debtors() {
 
     return (
         <div>
-            <PageTitle title={"Qarzdorlar ro'yxati"}/>
+            <div className="w-full overflow-ellipsis overflow-hidden">
+                <BreadcumbsComponent data={breadCumbc}/>
+            </div>
             <Card>
                 <CardBody>
                     <TableComponent data={debtors}

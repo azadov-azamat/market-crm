@@ -13,18 +13,17 @@ import {
     Typography
 } from "@material-tailwind/react";
 import {BiChevronDown, BiSearch} from "react-icons/bi";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {SlBasket} from "react-icons/sl";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {LazyLoadImage} from "react-lazy-load-image-component";
-import {PiUserSwitchLight} from "react-icons/pi";
 import SearchModal from "./search-modal.tsx";
 import {filterProduct} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
-import {AiOutlineFileAdd} from "react-icons/ai";
 
 export default function NavbarComponent(): JSX.Element {
 
+    const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
@@ -39,12 +38,38 @@ export default function NavbarComponent(): JSX.Element {
         {
             label: "Mening profilim",
             onClick: () => navigate('/seller/profile')
-        },
-        {
-            label: "Chiqish",
-            onClick: () => navigate('/')
-        },
+        }
     ];
+
+    useEffect(() => {
+        const data = [
+            {
+                label: "Sotilganlar mahsulotlar",
+                onClick: () => navigate("/seller/sold-products")
+            },
+            {
+                label: "Mahsulot qo'shish",
+                onClick: () => navigate("/seller/add-product")
+            },
+            {
+                label: "Qarzdorlar",
+                onClick: () => navigate("/seller/debtors")
+            },
+            {
+                label: "Chiqish",
+                onClick: () => navigate('/')
+            },
+        ]
+
+        if (location.pathname !== '/seller/magazines') {
+            data.forEach(item => profileMenuItems.push(item))
+        } else {
+            profileMenuItems.push({
+                label: "Chiqish",
+                onClick: () => navigate('/')
+            })
+        }
+    }, [location]);
 
     useEffect(() => {
         if (search.length !== 0) {
@@ -117,7 +142,7 @@ export default function NavbarComponent(): JSX.Element {
             <Typography onClick={() => navigate("/seller/magazines")} variant={'paragraph'} className={"font-bold"}>
                 Lochin
             </Typography>
-            <div className="relative w-4/12 hidden md:block">
+            {location.pathname !== "/seller/magazines" && <div className="relative w-4/12 hidden md:block">
                 <InputComponent.Text value={search}
                                      name={"search-item"}
                                      placeholder={"Mahsulotlarni qidirish"}
@@ -163,24 +188,26 @@ export default function NavbarComponent(): JSX.Element {
                         </CardBody>
                     </Card>
                 </Collapse>
-            </div>
+            </div>}
             <div className={"flex md:gap-3 gap-2 items-center"}>
-                <div className="block md:hidden ">
-                    <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
-                </div>
-                <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/add-product")}>
-                    <AiOutlineFileAdd className={'text-2xl font-normal'}/> {/* === mahsulot qo'shish icon === */}
-                </div>
-                <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>
-                    <PiUserSwitchLight className={'text-2xl '}/> {/* === qarzdorlar ro'yhati  icon === */}
-                </div>
-                {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
-                    <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
-                        <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
+                {location.pathname !== "/seller/magazines" && <>
+                    <div className="block md:hidden ">
+                        <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
                     </div>
-                </Badge> : <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
-                    <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
-                </div>}
+                    {/*<div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/add-product")}>*/}
+                    {/*    <AiOutlineFileAdd className={'text-2xl font-normal'}/> /!* === mahsulot qo'shish icon === *!/*/}
+                    {/*</div>*/}
+                    {/*<div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>*/}
+                    {/*    <PiUserSwitchLight className={'text-2xl '}/> /!* === qarzdorlar ro'yhati  icon === *!/*/}
+                    {/*</div>*/}
+                    {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
+                        <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                            <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
+                        </div>
+                    </Badge> : <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                        <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
+                    </div>}
+                </>}
                 <ProfileMenu/>
             </div>
             <SearchModal open={isModal} toggle={toggleModal}/>

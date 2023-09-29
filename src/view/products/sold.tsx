@@ -1,12 +1,11 @@
-// import React from "react";
-import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
+// import React from 'react';
+
+import {useAppSelector} from "../../redux/hooks.ts";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
-import {useAppSelector} from "../../redux/hooks.ts";
+import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 
-
-export default function Profile() {
-
+export default function SoldProducts() {
     const {stores} = useAppSelector(state => state.variables)
 
     const breadCumbc: BreadCumbsDataProps[] = [
@@ -19,7 +18,7 @@ export default function Profile() {
             link: `/seller/products/${getMgId()}`
         },
         {
-            name: "Profil",
+            name: "Sotilgan mahsulotlar",
             link: ``
         }
     ]

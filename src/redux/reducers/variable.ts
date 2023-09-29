@@ -24,14 +24,15 @@ const initialState: InitialStateProps = {
     lang: localStorage.getItem('i18nextLng') || 'ru',
     loading: false,
     userData: null,
-    magazines: [
-        {id: 1, name: "Qurilish do'koni", src: "https://ishu.uz/uploads/objects/3216/lg-4817b6-1920x1147.jpg"},
-        {id: 2, name: "Maishiy texnika do'koni", src: "https://i.ytimg.com/vi/COXrvSGCeD4/maxresdefault.jpg"},
-        {id: 3, name: "Oziq-ovqat do'koni", src: "https://www.gazeta.uz/media/img/2019/07/26Nvbk15632795931476_b.jpg"}
+    stores: [
+        {id: 1, storeName: "Qurilish do'koni", storeImgUrl: "https://ishu.uz/uploads/objects/3216/lg-4817b6-1920x1147.jpg"},
+        {id: 2, storeName: "Maishiy texnika do'koni", storeImgUrl: "https://i.ytimg.com/vi/COXrvSGCeD4/maxresdefault.jpg"},
+        {id: 3, storeName: "Oziq-ovqat do'koni", storeImgUrl: "https://www.gazeta.uz/media/img/2019/07/26Nvbk15632795931476_b.jpg"}
     ],
     products: [
         {
             id: 1,
+            storeId: 1,
             productName: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
             productPrice: 89000,
             productQuantity: 33,
@@ -41,6 +42,7 @@ const initialState: InitialStateProps = {
         },
         {
             id: 2,
+            storeId: 1,
             productName: "Телевизор Moonx 43S800 Full HD Android TV",
             productPrice: 49000,
             productQuantity: 2,
@@ -50,28 +52,41 @@ const initialState: InitialStateProps = {
         },
         {
             id: 3,
+            storeId: 2,
             productName: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
             productPrice: 449000,
-            productQuantity: 56.2,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/03afdbd66e7929b125f8597834fa83a42023062311345416211AQjAgTedp4.jpg.webp",
+            productQuantity: 31.2,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
             productMeasure: "kg"
 
         },
         {
             id: 4,
+            storeId: 2,
             productName: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
             productPrice: 15979000,
             productQuantity: 0,
             productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/5e15bdd3e1a68.jpeg.webp",
-            productMeasure: "litr"
+            productMeasure: "dona"
 
         },
         {
             id: 5,
+            storeId: 3,
             productName: "Беспроводная мышь T-Wolf Q4",
             productPrice: 249000,
             productQuantity: 56.5,
             productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
+            productMeasure: "litr"
+
+        },
+        {
+            id: 6,
+            storeId: 3,
+            productName: "Беспроводная мышь T-Wolf Q4",
+            productPrice: 249000,
+            productQuantity: 23.2,
+            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
             productMeasure: "kg"
 
         }

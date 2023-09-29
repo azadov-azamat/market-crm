@@ -15,12 +15,23 @@ export default function SignIn() {
                     <Typography color="gray" className="mt-1 font-normal">
                         Ma'muriyat tomonidan berilgan ma'lumotlaringizni kiriting
                     </Typography>
-                    <form className="mt-8 mb-2 w-full max-w-screen-lg sm:w-96">
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault()
+                            const data = new FormData(e.currentTarget)
+                            const phone = data.get("sellerPhone")
+                            const password = data.get("sellerPassword")
+                            console.log(phone, password)
+                            navigate('/seller/magazines')
+                        }}
+                        className="mt-8 mb-2 w-full max-w-screen-lg sm:w-96">
                         <div className="mb-4 flex flex-col gap-6">
-                            <InputComponent.PhoneNumber/>
-                            <InputComponent.Password/>
+                            <InputComponent.PhoneNumber name={"sellerPhone"}/>
+                            <InputComponent.Password name={"sellerPassword"}/>
                         </div>
-                        <Button className="mt-6" fullWidth onClick={()=> navigate('/seller/magazines')}>
+                        <Button className="mt-6" type={"submit"} fullWidth
+                                // onClick={() => navigate('/seller/magazines')}
+                        >
                             Kirish
                         </Button>
                     </form>

@@ -2,7 +2,7 @@ export interface InitialStateProps {
     lang: string;
     loading: boolean;
     userData: userDataProps | null;
-    magazines: MagazinesDataProps[] | [];
+    stores: StoresDataProps[] | [];
     products: ProductsDataProps[] | [];
     fltProduct: ProductsDataProps[] | [];
     baskets: BasketsDataProps[] | [];
@@ -38,6 +38,7 @@ export interface ProductsDataProps {
     productOption?: string;
     productPrice: number;
     productQuantity: number;
+    storeId: number;
     productImgUrl: object |  string;
     productMeasure: string;
 }
@@ -47,10 +48,10 @@ export interface BasketsDataProps extends ProductsDataProps {
     discount?: number;
 }
 
-export interface MagazinesDataProps {
+export interface StoresDataProps {
     id: number;
-    name: string;
-    src: string;
+    storeName: string;
+    storeImgUrl: string;
 }
 
 export interface PortfolioDataProps {

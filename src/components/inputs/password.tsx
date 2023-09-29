@@ -3,12 +3,12 @@ import React from 'react';
 import {Input} from "@material-tailwind/react";
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 
-// interface PasswordProps {
-//     setState?: any;
-// }
+interface PasswordProps {
+    name: string
+}
 
 export default function Password(
-    // {setState}: PasswordProps
+    { name}: PasswordProps
 ) {
 
     const [isShow, setShow] = React.useState<boolean>(false)
@@ -17,10 +17,8 @@ export default function Password(
     return (
         <div className={"flex items-center relative"}>
             <Input type={isShow ? 'text' : 'password'} size="lg"
+                   name={name}
                    label="Parol" crossOrigin={undefined}
-                // onChange={event => {
-                //     setState(event.target.value)
-                // }}
             />
             <div className="absolute right-3 text-xl">
                 {

@@ -5,9 +5,17 @@ import ViewProduct from "../view/products/view.tsx";
 import Debtors from "../view/debtors";
 import Profile from "../view/profile";
 import AddProduct from "../view/products/add.tsx";
+import NotFound from "../view/error/not-found.tsx";
+import SoldProducts from "../view/products/sold.tsx";
 
 
 export const routes = [
+    {
+        id: 0,
+        name: 'not-found',
+        path: '*',
+        component: NotFound
+    },
     {
         id: 1,
         name: 'magazines',
@@ -49,5 +57,11 @@ export const routes = [
         name: 'add-product',
         path: '/seller/add-product',
         component: AddProduct
+    },
+    {
+        id: 8,
+        name: 'add-product',
+        path: '/seller/sold-products',
+        component: SoldProducts
     }
 ]

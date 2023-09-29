@@ -46,13 +46,16 @@ export default function BasketBox(props: BasketsDataProps) {
                                 className={"font-bold text-base"}>
                         {productName}
                     </Typography>
-                    <Typography variant={"small"} className={"font-medium text-base"}>
+                    <Typography variant={"small"} className={"font-medium text-base mt-1"}>
                         Miqdori: {productQuantity} {productMeasure}
                     </Typography>
+                    <Typography variant={"small"} className={"font-medium text-base"}>
+                        Narxi: {productPrice} sum
+                    </Typography>
                     <div
-                        className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
+                        className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-5 xl:mt-0">
                         <div
-                            className={"w-6/12 h-8 flex xl:hidden justify-between items-center"}>
+                            className={"w-9/12 h-8 flex xl:hidden justify-between items-center"}>
                             <InputComponent.Text value={currentAmount}
                                                  name={"amount"}
                                                  placeholder={"Miqdorini kiriting"}
@@ -61,7 +64,7 @@ export default function BasketBox(props: BasketsDataProps) {
                                                  }) => increment(handleNumberMask(e.target.value))}
                                                  label={"Miqdorini kiriting"}/>
                         </div>
-                        <div className="z-10">
+                        <div className="mt-4">
                             <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
                                 <FaTrash/>
                             </Button>
@@ -80,7 +83,7 @@ export default function BasketBox(props: BasketsDataProps) {
                                                  }) => increment(handleNumberMask(e.target.value))}
                                                  label={"Miqdorini kiriting"}/>
                         </div>
-                        <div className="">
+                        <div className="mt-5">
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
                                 {currentAmount !== "0" ? `${(productPrice - currentDiscount) * Number(currentAmount)} sum` : productPrice + " sum"}
@@ -117,7 +120,7 @@ export default function BasketBox(props: BasketsDataProps) {
                                          label={"Chegirma qilasizmi?"}/>
                 </div>
                 <Typography variant={"h2"}
-                            className={"font-bold text-base"}>
+                            className={"font-bold text-base mt-4"}>
                     {currentAmount !== "0" ? `${(productPrice - currentDiscount) * Number(currentAmount)} sum` : productPrice + " sum"}
                 </Typography>
             </div>
