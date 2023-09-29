@@ -1,11 +1,11 @@
 import React from 'react';
 
 interface TextInputProps {
-    type?: 'text' | 'number' | 'email' | 'password'
+    type?: 'text' | 'number' | 'email' | 'password' | 'date'
     label: string
     value?: string | number
     name: string
-    placeholder: string
+    placeholder?: string
     error?: boolean
     required?: boolean
     disabled?: boolean

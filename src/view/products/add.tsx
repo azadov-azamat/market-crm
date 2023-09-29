@@ -56,8 +56,8 @@ export default function AddProduct() {
                                     storeId: Number(getMgId()),
                                     productName: String(data.get("productName")),
                                     productModel: String(data.get("productModel")),
-                                    productPrice: Number(data.get("productPrice")),
-                                    productQuantity: Number(data.get("productQuantity")),
+                                    productPrice: Number(price),
+                                    productQuantity: Number(quantity),
                                     productMeasure: String(data.get("productMeasure")),
                                     productImgUrl: Object(data.get("productImgUrl"))
                                 }))

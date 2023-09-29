@@ -1,15 +1,14 @@
 import React from 'react';
 import SidebarModal from "../../components/modal/sidebar";
-import {Button, Input, Radio} from "@material-tailwind/react";
+import {Button, Radio} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
-import {useFormik} from "formik";
 import {DebtorDataProps} from "../../interface/redux/variable.interface.ts";
-import * as Yup from "yup"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {setDebtorData} from "../../redux/reducers/variable.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
+import {handleNumberMask} from "../../config/servise.ts";
 
-interface DebtorModalProps extends ModalInterfaceProps{
+interface DebtorModalProps extends ModalInterfaceProps {
     totalPrice: number;
     currentUser?: DebtorDataProps | null
 }
@@ -21,89 +20,109 @@ export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {
     const {debtor} = useAppSelector(state => state.variables)
 
     const [phone, setPhone] = React.useState("")
+    const [gvnPrice, setGvnPrice] = React.useState("")
 
-    const ValidateSchema = Yup.object().shape({
-        name: Yup.string().required(),
-        address: Yup.string().required(),
-        payType: Yup.string().required(),
-        phoneNumber: Yup.string().required(),
-        expDate: Yup.string().required()
-    })
+    // const ValidateSchema = Yup.object().shape({
+    //     name: Yup.string().required(),
+    //     address: Yup.string().required(),
+    //     payType: Yup.string().required(),
+    //     phoneNumber: Yup.string().required(),
+    //     expDate: Yup.string().required()
+    // })
 
-    const formik = useFormik<DebtorDataProps>({
-        initialValues: {
-            name: "",
-            address: "",
-            expDate: "",
-            givenSum: 0,
-            paidSum: 0,
-            payType: "",
-            phoneNumber: phone
-        },
-        validationSchema: ValidateSchema,
-        enableReinitialize: true,
-        onSubmit: (val, {resetForm}) => {
-            dispatch(setDebtorData(val))
-            resetForm({values: undefined})
-            toggle()
-        }
-    })
+    // const formik = useFormik<DebtorDataProps>({
+    //     initialValues: {
+    //         name: "",
+    //         address: "",
+    //         expDate: "",
+    //         givenSum: 0,
+    //         paidSum: 0,
+    //         payType: "",
+    //         phoneNumber: phone
+    //     },
+    //     validationSchema: ValidateSchema,
+    //     enableReinitialize: true,
+    //     onSubmit: (val, {resetForm}) => {
+    //         dispatch(setDebtorData(val))
+    //         resetForm({values: undefined})
+    //         toggle()
+    //     }
+    // })
 
     return (
         <SidebarModal title={"Qarz savdo"} open={open} toggle={toggle}>
-            <form onSubmit={formik.handleSubmit} className="flex flex-col gap-3">
-                <Input
+            <form onSubmit={(e) => {
+                e.preventDefault()
+                const data = new FormData(e.currentTarget)
+                const radio = data.get("debt-pay-type")
+                dispatch(setDebtorData({
+                    name: String(data.get("name")),
+                    address: String(data.get("address")),
+                    expDate: String(data.get("expDate")),
+                    givenSum: 0,
+                    paidSum: 0,
+                    payType: String(data.get("debt-pay-type")),
+                    phoneNumber: phone
+                }))
+                toggle()
+
+            }} className="flex flex-col gap-3">
+                <InputComponent.Text
                     name={"name"}
+                    required
+                    placeholder={"Qarzga oluvchi ism sharifi"}
                     label={"Qarzdor F.I.O"}
-                    defaultValue={debtor?.name}
-                    onChange={formik.handleChange}
-                    crossOrigin={undefined}
                 />
 
-                <Input
+                <InputComponent.Text
                     name={"address"}
-                    defaultValue={debtor?.address}
-                    onChange={formik.handleChange}
+                    required
+                    placeholder={"Qarzga oluvchi manzili"}
                     label={"Manzilni kiriting"}
-                    crossOrigin={undefined}
+                />
+                <InputComponent.Text
+                    name={"phone"}
+                    required
+                    value={phone}
+                    onChange={event => setPhone(handleNumberMask(event.target.value))}
+                    placeholder={"Qarzga oluvchi telefon raqami"}
+                    label={"Telefon kiriting"}
                 />
 
-                <InputComponent.PhoneNumber setState={setPhone}/>
+                {/*<InputComponent.PhoneNumber name={"phone"}/>*/}
 
-                <Input
+                <InputComponent.Text
                     name={"expDate"}
+                    required
                     type={"date"}
-                    defaultValue={debtor?.expDate}
-                    onChange={formik.handleChange}
+                    placeholder={"Qarz qaytarilish sanasi"}
                     label={"To'lov qilish sanasi"}
-                    crossOrigin={undefined}
                 />
 
-                <Input
+                <InputComponent.Text
                     name={"total_price"}
-                    label={"Umumiy narx"}
+                    required
                     value={totalPrice}
-                    crossOrigin={undefined}
+                    // placeholder={"Qarzga oluvchi manzili"}
+                    label={"Umumiy narx"}
                 />
 
-                <Input
+                {debtor && <InputComponent.Text
                     name={"given_price"}
                     label={"Oldin berilgan pul"}
                     value={"300 000 sum"}
-                    crossOrigin={undefined}
-                />
-                <Input
+                />}
+                <InputComponent.Text
                     name={"paidSum"}
+                    value={gvnPrice}
+                    onChange={e => setGvnPrice(handleNumberMask(e.target.value))}
+                    placeholder={"To'lov qilmoqchi bo'lgan summa"}
                     label={"Beriladigan pul"}
-                    defaultValue={debtor?.paidSum}
-                    onChange={formik.handleChange}
-                    crossOrigin={undefined}
                 />
                 <div className="">
                     <Radio name={"debt-pay-type"}
                            value={'transfer'}
                            defaultChecked={debtor !== null ? debtor?.payType === "transfer" : true}
-                           onChange={() => formik.setFieldValue('payType', 'transfer')}
                            label={<img
                                width={50}
                                src="https://olcha.uz/uploads/images/payments/8MgaV0UlK0rLi2sf3R1vtuhys1BKTEkE5VgM50Sk.jpeg"
@@ -112,7 +131,6 @@ export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {
                     <Radio name={"debt-pay-type"}
                            value={"naqd"}
                            defaultChecked={debtor?.payType === "naqd"}
-                           onChange={() => formik.setFieldValue('payType', 'naqd')}
                            label={<img
                                width={50}
                                className={"rounded-full"}
@@ -122,7 +140,6 @@ export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {
                     <Radio name={"debt-pay-type"}
                            value={"terminal"}
                            defaultChecked={debtor?.payType === "terminal"}
-                           onChange={() => formik.setFieldValue('payType', 'terminal')}
                            label={<img
                                width={50}
                                src="https://ru.ipakyulibank.uz/uploads/images/widget/2021/09/widget_1632922827_4049.png"
@@ -132,7 +149,8 @@ export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {
                 <div className="flex items-center justify-between mt-8">
                     <Button onClick={toggle} color={"red"}>Bekor qilish</Button>
                     <Button color={"orange"} type={"submit"}
-                            disabled={!formik.isValid || !formik.dirty}>Saqlash</Button>
+                        // disabled={!formik.isValid || !formik.dirty}
+                    >Saqlash</Button>
                 </div>
             </form>
         </SidebarModal>
