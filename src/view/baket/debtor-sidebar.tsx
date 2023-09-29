@@ -54,7 +54,6 @@ export function DebtorSidebar({open, toggle, totalPrice}: DebtorModalProps) {
             <form onSubmit={(e) => {
                 e.preventDefault()
                 const data = new FormData(e.currentTarget)
-                const radio = data.get("debt-pay-type")
                 dispatch(setDebtorData({
                     name: String(data.get("name")),
                     address: String(data.get("address")),

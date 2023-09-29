@@ -3,7 +3,6 @@ import TableComponent from "../../components/table";
 import {TableColumn} from "react-data-table-component";
 import {DebtorDataProps} from "../../interface/redux/variable.interface.ts";
 import {BiPencil} from "react-icons/bi";
-import PageTitle from "../../components/page-title";
 import {Card, CardBody} from "@material-tailwind/react";
 import {DebtorSidebar} from "../baket/debtor-sidebar.tsx";
 import React from "react";
