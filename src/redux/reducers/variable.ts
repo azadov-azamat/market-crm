@@ -135,7 +135,8 @@ const initialState: InitialStateProps = {
         {id: 1, adressName: 'Turtkul'},
         {id: 2, adressName: 'Urganch'},
         {id: 3, adressName: "Ellikqal'a"}
-    ]
+    ],
+    sales: []
 }
 
 const reducers = {

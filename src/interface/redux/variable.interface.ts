@@ -11,12 +11,31 @@ export interface InitialStateProps {
     mixedPay: MixedPayDataProps[] | [];
     debtors: DebtorDataProps[] | []
     adresses: AddressesDataProps[] | []
+    sales: SalesDataProps[] | []
 }
 
 export interface AddressesDataProps {
     id: number,
     adressName: string,
 }
+export interface SalesDataProps {
+    id: number;
+    storeId: number;
+    saleMainPrice: number; // asosiy narx
+    saleSoldPrice: number; // chegirma bn sotilgan narx
+    sellerId: number;
+    saleDebt: boolean;
+    comment?: string;
+    soldProducts?: SoldProductDataProps[];
+    payments?: MixedPayDataProps[]
+    client?: ClientDataProps
+}
+export interface SoldProductDataProps{
+    productId: number;
+    soldPrice: number;
+    soldQuantity: number;
+}
+
 export interface OrderDataProps {
     debtor: DebtorDataProps,
     baskets: BasketsDataProps,
@@ -60,26 +79,20 @@ export interface StoresDataProps {
     storeImgUrl: string;
 }
 
-export interface PortfolioDataProps {
-    id: number,
-    title: string,
-    desc: string,
-    src: string,
-    owner: string,
-    hash: string[],
-    position: string;
-    url: string;
-    start_date: string;
-    final_date: string;
-    manager: string;
-    status: boolean;
-}
-
 export interface userDataProps {
     full_name: string;
     birthdate: string;
     address: string;
     description: string;
     phone_number: string;
+
+}
+export interface ClientDataProps {
+    clientName: string;
+    clientAdress: string;
+    clientPaymentDate: string; // qarz qaytarish sanasi
+    clientPhone: number;
+    clientDebtAmount: number; // qarz summasi
+    clientPaidMoney: number; // to'langan summa
 
 }
