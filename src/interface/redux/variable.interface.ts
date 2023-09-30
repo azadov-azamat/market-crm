@@ -10,8 +10,13 @@ export interface InitialStateProps {
     orders: OrderDataProps[] | [];
     mixedPay: MixedPayDataProps[] | [];
     debtors: DebtorDataProps[] | []
+    adresses: AddressesDataProps[] | []
 }
 
+export interface AddressesDataProps {
+    id: number,
+    adressName: string,
+}
 export interface OrderDataProps {
     debtor: DebtorDataProps,
     baskets: BasketsDataProps,
@@ -39,6 +44,7 @@ export interface ProductsDataProps {
     productPrice: number;
     productQuantity: number;
     storeId: number;
+    adressId: number;
     productImgUrl: object |  string;
     productMeasure: string;
 }

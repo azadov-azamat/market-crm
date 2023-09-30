@@ -13,7 +13,7 @@ export default function AddProduct() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const {products, stores} = useAppSelector(state => state.variables)
+    const {products, stores, adresses} = useAppSelector(state => state.variables)
 
     const inputDiv = "my-2"
     const measureList = ["kg", "dona", "litr"]
@@ -59,6 +59,7 @@ export default function AddProduct() {
                                     productPrice: Number(price),
                                     productQuantity: Number(quantity),
                                     productMeasure: String(data.get("productMeasure")),
+                                    adressId: Number(data.get("addresses")),
                                     productImgUrl: Object(data.get("productImgUrl"))
                                 }))
                                 navigate(`/seller/products/${getMgId()}`)
@@ -109,6 +110,13 @@ export default function AddProduct() {
                                 <select name="productMeasure" id="productMeasure" required
                                         className={"outline-0 border border-black/50 rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
                                     {measureList.map((item, ind) => <option key={ind} value={item}>{item}</option>)}
+                                </select>
+                            </div>
+                            <div className={`${inputDiv} flex flex-col`}>
+                                <label htmlFor="addresses" className={"font-medium text-xs block mb-1"}>Mahsulot manzili *</label>
+                                <select name="addresses" id="addresses" required
+                                        className={"outline-0 border border-black/50 rounded-xl px-2 md:py-2.5 py-1.5"}>
+                                    {adresses.map((item, ind) => <option key={ind} value={item.id}>{item.adressName}</option>)}
                                 </select>
                             </div>
                             <div className={"flex gap-3 w-full justify-end mt-3"}>

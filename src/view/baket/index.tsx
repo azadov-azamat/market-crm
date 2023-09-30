@@ -91,6 +91,7 @@ export default function Basket() {
                                         productMeasure,
                                         productQuantity,
                                         id,
+                                        adressId,
                                         storeId
                                     }, ind) => (
                            <BasketBox
@@ -100,6 +101,7 @@ export default function Basket() {
                                productName={productName}
                                productPrice={productPrice}
                                id={id}
+                               adressId={adressId}
                                productImgUrl={productImgUrl}
                                productMeasure={productMeasure}
                                productQuantity={productQuantity}

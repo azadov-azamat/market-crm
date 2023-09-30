@@ -33,6 +33,7 @@ const initialState: InitialStateProps = {
         {
             id: 1,
             storeId: 1,
+            adressId: 1,
             productName: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
             productPrice: 89000,
             productQuantity: 33,
@@ -43,6 +44,7 @@ const initialState: InitialStateProps = {
         {
             id: 2,
             storeId: 1,
+            adressId: 1,
             productName: "Телевизор Moonx 43S800 Full HD Android TV",
             productPrice: 49000,
             productQuantity: 2,
@@ -53,6 +55,7 @@ const initialState: InitialStateProps = {
         {
             id: 3,
             storeId: 2,
+            adressId: 2,
             productName: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
             productPrice: 449000,
             productQuantity: 31.2,
@@ -63,6 +66,7 @@ const initialState: InitialStateProps = {
         {
             id: 4,
             storeId: 2,
+            adressId: 2,
             productName: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
             productPrice: 15979000,
             productQuantity: 0,
@@ -73,6 +77,7 @@ const initialState: InitialStateProps = {
         {
             id: 5,
             storeId: 3,
+            adressId: 3,
             productName: "Беспроводная мышь T-Wolf Q4",
             productPrice: 249000,
             productQuantity: 56.5,
@@ -83,6 +88,7 @@ const initialState: InitialStateProps = {
         {
             id: 6,
             storeId: 3,
+            adressId: 3,
             productName: "Беспроводная мышь T-Wolf Q4",
             productPrice: 249000,
             productQuantity: 23.2,
@@ -124,6 +130,11 @@ const initialState: InitialStateProps = {
             expDate: "20/01/2024",
             address: "Yangi Obof MFY"
         }
+    ],
+    adresses: [
+        {id: 1, adressName: 'Turtkul'},
+        {id: 2, adressName: 'Urganch'},
+        {id: 3, adressName: "Ellikqal'a"}
     ]
 }
 

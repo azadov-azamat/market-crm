@@ -57,7 +57,10 @@ export default function NavbarComponent(): JSX.Element {
             },
             {
                 label: "Chiqish",
-                onClick: () => navigate('/')
+                onClick: () => {
+                    navigate('/')
+                    localStorage.clear()
+                }
             },
         ]
 
@@ -66,7 +69,10 @@ export default function NavbarComponent(): JSX.Element {
         } else {
             profileMenuItems.push({
                 label: "Chiqish",
-                onClick: () => navigate('/')
+                onClick: () => {
+                    navigate('/')
+                    localStorage.clear()
+                }
             })
         }
     }, [location]);

@@ -46,6 +46,7 @@ export default function ProductList({isView}: Pr) {
                                     productName={item.productName}
                                     productPrice={item.productPrice}
                                     id={item.id}
+                                    adressId={item.adressId}
                                     productImgUrl={item.productImgUrl}
                                     productMeasure={item.productMeasure}
                                     productQuantity={item.productQuantity}
