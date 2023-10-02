@@ -34,49 +34,64 @@ export default function NavbarComponent(): JSX.Element {
 
     const toggleModal = () => setModal(!isModal)
 
-    const profileMenuItems = [
+    const [profileMenuItems, setProfileMenuItems] = React.useState([
         {
             label: "Mening profilim",
             onClick: () => navigate('/seller/profile')
         }
-    ];
+    ]);
 
     useEffect(() => {
-        const data = [
-            {
-                label: "Sotilganlar mahsulotlar",
-                onClick: () => navigate("/seller/sold-products")
-            },
-            {
-                label: "Mahsulot qo'shish",
-                onClick: () => navigate("/seller/add-product")
-            },
-            {
-                label: "Qarzdorlar",
-                onClick: () => navigate("/seller/debtors")
-            },
-            {
-                label: "Chiqish",
-                onClick: () => {
-                    dispatch(logoutFunc())
-                    navigate('/')
-                }
-            },
-        ]
 
         if (location.pathname === '/seller/magazines') {
-            profileMenuItems.push({
-                label: "Chiqish",
-                onClick: () => {
-                    dispatch(logoutFunc())
-                    navigate('/')
+            const data = [
+                {
+                    label: "Mening profilim",
+                    onClick: () => navigate('/seller/profile')
+                },
+                {
+                    label: "Chiqish",
+                    onClick: () => {
+                        dispatch(logoutFunc())
+                        navigate('/')
+                    }
                 }
-            })
+            ]
+           setProfileMenuItems(data)
+            // profileMenuItems.push({
+            //     label: "Chiqish",
+            //     onClick: () => {
+            //         dispatch(logoutFunc())
+            //         navigate('/')
+            //     }
+            // })
         } else {
-            for (const datum of data) {
-                profileMenuItems.push(datum)
-            }
-            // data.forEach(item => profileMenuItems.push(item))
+            const data = [
+                {
+                    label: "Mening profilim",
+                    onClick: () => navigate('/seller/profile')
+                },
+                {
+                    label: "Sotilganlar mahsulotlar",
+                    onClick: () => navigate("/seller/sold-products")
+                },
+                {
+                    label: "Mahsulot qo'shish",
+                    onClick: () => navigate("/seller/add-product")
+                },
+                {
+                    label: "Qarzdorlar",
+                    onClick: () => navigate("/seller/debtors")
+                },
+                {
+                    label: "Chiqish",
+                    onClick: () => {
+                        dispatch(logoutFunc())
+                        navigate('/')
+                    }
+                },
+            ]
+            setProfileMenuItems(data)
         }
     }, [location.pathname]);
 

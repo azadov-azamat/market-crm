@@ -5,7 +5,7 @@ export const baseUrl = "https://guzarpost.uz/api/v1"
 export const uri = "https://digitaldreamsbackend.uz/"
 export const getToken = () => localStorage.getItem(TOKEN)
 
-export const getAuthorizationHeader = (): string => `${getToken()}`;
+export const getAuthorizationHeader = (): string => `Bearer ${getToken()}`;
 
 export const http = axios.create({
     baseURL: baseUrl,
@@ -19,6 +19,6 @@ export const http_auth = axios.create({
     headers: {
         AccessControlAllowOrigin: "*",
         ContentType: "application/json",
-        authorization: getToken()
+        Authorization: getAuthorizationHeader()
     }
 })
