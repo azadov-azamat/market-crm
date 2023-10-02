@@ -1,12 +1,14 @@
 // import React from 'react';
 
 import ProductBox from "../../components/box/product-box.tsx";
-import {useAppSelector} from "../../redux/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useLocation} from "react-router-dom";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
+import React from "react";
+import {getProducts, getStores} from "../../redux/reducers/variable.ts";
 
 interface Pr {
     isView?: boolean
@@ -14,9 +16,19 @@ interface Pr {
 
 export default function ProductList({isView}: Pr) {
 
+    const dispatch = useAppDispatch()
     const {pathname} = useLocation()
 
     const {products, stores} = useAppSelector(state => state.variables)
+
+    React.useEffect(() => {
+        dispatch(getStores())
+    }, [])
+
+    React.useEffect(() => {
+        dispatch(getProducts())
+    }, [])
+
 
     const breadCumbc: BreadCumbsDataProps[] = [
         {
@@ -25,9 +37,10 @@ export default function ProductList({isView}: Pr) {
         },
         {
             name: stores.find(item => item.id === Number(getMgId()))?.storeName || "",
-            link: `/seller/products/${stores.find(item => item.id === Number(getMgId()))?.id}`
+            link: ``
         }
     ]
+
     return (
         <div
             className={"flex flex-col gap-2"}>

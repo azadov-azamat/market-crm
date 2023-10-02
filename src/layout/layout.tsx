@@ -1,7 +1,22 @@
 import {LayoutProps} from "./layout.props";
 import NavbarComponent from "../components/navbar";
+import {TOKEN} from "../config/api.ts";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {useEffect} from "react";
 
 function Layout({children}: LayoutProps): JSX.Element {
+
+    const navigate = useNavigate()
+
+    const token = localStorage.getItem(TOKEN) || null
+
+    useEffect(() => {
+        if (token === null) {
+            toast.error("Avtorizatsiyasiz ruhsat etilmaydi!")
+            navigate("/")
+        }
+    }, [token]);
 
     return (
         <div className={'flex w-full flex-col'}>

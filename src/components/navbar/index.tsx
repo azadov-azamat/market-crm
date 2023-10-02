@@ -18,7 +18,7 @@ import {SlBasket} from "react-icons/sl";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import SearchModal from "./search-modal.tsx";
-import {filterProduct} from "../../redux/reducers/variable.ts";
+import {filterProduct, logoutFunc} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
 
 export default function NavbarComponent(): JSX.Element {
@@ -58,24 +58,27 @@ export default function NavbarComponent(): JSX.Element {
             {
                 label: "Chiqish",
                 onClick: () => {
+                    dispatch(logoutFunc())
                     navigate('/')
-                    localStorage.clear()
                 }
             },
         ]
 
-        if (location.pathname !== '/seller/magazines') {
-            data.forEach(item => profileMenuItems.push(item))
-        } else {
+        if (location.pathname === '/seller/magazines') {
             profileMenuItems.push({
                 label: "Chiqish",
                 onClick: () => {
+                    dispatch(logoutFunc())
                     navigate('/')
-                    localStorage.clear()
                 }
             })
+        } else {
+            for (const datum of data) {
+                profileMenuItems.push(datum)
+            }
+            // data.forEach(item => profileMenuItems.push(item))
         }
-    }, [location]);
+    }, [location.pathname]);
 
     useEffect(() => {
         if (search.length !== 0) {
@@ -87,8 +90,6 @@ export default function NavbarComponent(): JSX.Element {
 
     function ProfileMenu() {
         const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-
-        // const closeMenu = () => setIsMenuOpen(false);
 
         return (
             <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">

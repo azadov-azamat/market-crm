@@ -14,10 +14,15 @@ export interface InitialStateProps {
     sales: SalesDataProps[] | []
 }
 
+export interface LoginDataProps {
+    sellerPassword: string;
+    sellerPhone: string;
+}
 export interface AddressesDataProps {
     id: number,
     adressName: string,
 }
+
 export interface SalesDataProps {
     id: number;
     storeId: number;
@@ -94,5 +99,4 @@ export interface ClientDataProps {
     clientPhone: number;
     clientDebtAmount: number; // qarz summasi
     clientPaidMoney: number; // to'langan summa
-
 }

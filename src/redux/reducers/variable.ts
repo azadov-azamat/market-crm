@@ -1,102 +1,115 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Dictionary} from "../../helpers/enumuration/dictionary";
 import i18n from "i18next";
 import {
     BasketsDataProps,
     DebtorDataProps,
-    InitialStateProps,
+    InitialStateProps, LoginDataProps,
     MixedPayDataProps,
     OrderDataProps, ProductsDataProps
 } from "../../interface/redux/variable.interface";
 import {toast} from "react-toastify";
+import {getMgId} from "../../config/servise.ts";
+import {http, http_auth, TOKEN} from "../../config/api.ts";
 
-// export const login = createAsyncThunk('variables/login', async (data: authDataProps, {rejectWithValue}) => {
-//     try {
-//         const response = await http.post(`/auth/login`, data)
-//         if (response.data === null) return rejectWithValue(response?.data)
-//         return response.data
-//     } catch (error) {
-//         return rejectWithValue(error)
-//     }
-// })
+export const login = createAsyncThunk('app/login', async (data: LoginDataProps) => {
+    const response = await http.post('/auth', data)
+    return response.data
+})
+
+export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/stores')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getProducts = createAsyncThunk('product/getProducts', async (_, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/products')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 
 const initialState: InitialStateProps = {
     lang: localStorage.getItem('i18nextLng') || 'ru',
     loading: false,
     userData: null,
-    stores: [
-        {id: 1, storeName: "Qurilish do'koni", storeImgUrl: "https://ishu.uz/uploads/objects/3216/lg-4817b6-1920x1147.jpg"},
-        {id: 2, storeName: "Maishiy texnika do'koni", storeImgUrl: "https://i.ytimg.com/vi/COXrvSGCeD4/maxresdefault.jpg"},
-        {id: 3, storeName: "Oziq-ovqat do'koni", storeImgUrl: "https://www.gazeta.uz/media/img/2019/07/26Nvbk15632795931476_b.jpg"}
-    ],
-    products: [
-        {
-            id: 1,
-            storeId: 1,
-            adressId: 1,
-            productName: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
-            productPrice: 89000,
-            productQuantity: 33,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/830f94c696251a0d3f27e1e3d80db2752022060312004999754V1ODsFDnNF.jpg.webp",
-            productMeasure: "dona"
-
-        },
-        {
-            id: 2,
-            storeId: 1,
-            adressId: 1,
-            productName: "Телевизор Moonx 43S800 Full HD Android TV",
-            productPrice: 49000,
-            productQuantity: 2,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
-            productMeasure: "kg"
-
-        },
-        {
-            id: 3,
-            storeId: 2,
-            adressId: 2,
-            productName: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
-            productPrice: 449000,
-            productQuantity: 31.2,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
-            productMeasure: "kg"
-
-        },
-        {
-            id: 4,
-            storeId: 2,
-            adressId: 2,
-            productName: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
-            productPrice: 15979000,
-            productQuantity: 0,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/5e15bdd3e1a68.jpeg.webp",
-            productMeasure: "dona"
-
-        },
-        {
-            id: 5,
-            storeId: 3,
-            adressId: 3,
-            productName: "Беспроводная мышь T-Wolf Q4",
-            productPrice: 249000,
-            productQuantity: 56.5,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
-            productMeasure: "litr"
-
-        },
-        {
-            id: 6,
-            storeId: 3,
-            adressId: 3,
-            productName: "Беспроводная мышь T-Wolf Q4",
-            productPrice: 249000,
-            productQuantity: 23.2,
-            productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
-            productMeasure: "kg"
-
-        }
-    ],
+    stores: [],
+    // products: [
+    //     {
+    //         id: 1,
+    //         storeId: 1,
+    //         adressId: 1,
+    //         productName: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
+    //         productPrice: 89000,
+    //         productQuantity: 33,
+    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/830f94c696251a0d3f27e1e3d80db2752022060312004999754V1ODsFDnNF.jpg.webp",
+    //         productMeasure: "dona"
+    //
+    //     },
+    //     {
+    //         id: 2,
+    //         storeId: 1,
+    //         adressId: 1,
+    //         productName: "Телевизор Moonx 43S800 Full HD Android TV",
+    //         productPrice: 49000,
+    //         productQuantity: 2,
+    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
+    //         productMeasure: "kg"
+    //
+    //     },
+    //     {
+    //         id: 3,
+    //         storeId: 2,
+    //         adressId: 2,
+    //         productName: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
+    //         productPrice: 449000,
+    //         productQuantity: 31.2,
+    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
+    //         productMeasure: "kg"
+    //
+    //     },
+    //     {
+    //         id: 4,
+    //         storeId: 2,
+    //         adressId: 2,
+    //         productName: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
+    //         productPrice: 15979000,
+    //         productQuantity: 0,
+    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/5e15bdd3e1a68.jpeg.webp",
+    //         productMeasure: "dona"
+    //
+    //     },
+    //     {
+    //         id: 5,
+    //         storeId: 3,
+    //         adressId: 3,
+    //         productName: "Беспроводная мышь T-Wolf Q4",
+    //         productPrice: 249000,
+    //         productQuantity: 56.5,
+    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
+    //         productMeasure: "litr"
+    //
+    //     },
+    //     {
+    //         id: 6,
+    //         storeId: 3,
+    //         adressId: 3,
+    //         productName: "Беспроводная мышь T-Wolf Q4",
+    //         productPrice: 249000,
+    //         productQuantity: 23.2,
+    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
+    //         productMeasure: "kg"
+    //
+    //     }
+    // ],
+    products: [],
     fltProduct: [],
     baskets: [],
     debtor: null,
@@ -150,8 +163,7 @@ const reducers = {
         localStorage.clear()
     },
     setBasket: (state: InitialStateProps, action: PayloadAction<BasketsDataProps>) => {
-        // @ts-ignore
-        state.baskets.push(action.payload)
+        state.baskets = [...state.baskets, action.payload]
     },
     incrementBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
@@ -169,15 +181,15 @@ const reducers = {
         state.debtor = action.payload
     },
     setOrder: (state: InitialStateProps, action: PayloadAction<OrderDataProps>) => {
-        // @ts-ignore
-        state.orders.push(action.payload)
+        state.orders = [...state.orders, action.payload]
     },
     filterProduct: (state: InitialStateProps, action: PayloadAction<string>) => {
         const products = state.products
         if (action.payload.length === 0) {
             state.fltProduct = []
         } else {
-            state.fltProduct = products.filter(item => item.productName.match(action.payload))
+            state.fltProduct = products.filter(item => item.storeId === Number(getMgId() || 1))
+                .filter(item => item.productName.match(action.payload))
                 .concat(products.filter(item => item.productPrice >= Number(action.payload)))
         }
     },
@@ -193,7 +205,43 @@ const reducers = {
 export const variableSlice = createSlice({
     name: 'variable',
     initialState,
-    reducers
+    reducers,
+    extraReducers: (builder) => {
+        builder.addCase(login.fulfilled, (state: InitialStateProps, action) => {
+            state.userData = action.payload?.data?.seller
+            localStorage.setItem(TOKEN, action.payload.data?.token)
+            state.loading = false
+        })
+        builder.addCase(login.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(login.rejected, (state: InitialStateProps) => {
+            toast.error("Login yoki parol noto'g'ri! iltimos qayta urinib ko'ting")
+            state.loading = false
+        })
+
+        builder.addCase(getStores.fulfilled, (state: InitialStateProps, action) => {
+            state.stores = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getStores.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getStores.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getProducts.fulfilled, (state: InitialStateProps, action) => {
+            state.products = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getProducts.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getProducts.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+    }
 })
 
 export const {
