@@ -6,11 +6,19 @@ import {login} from "../../redux/reducers/variable.ts";
 import {LoginDataProps} from "../../interface/redux/variable.interface.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
+import {useEffect} from "react";
+import {getToken} from "../../config/api.ts";
 
 export default function SignIn() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        if (getToken()) {
+            navigate("/seller/magazines")
+        }
+    }, [getToken]);
 
     return (
         <div className={'w-full h-screen flex justify-center items-center'}>

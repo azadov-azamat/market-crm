@@ -63,6 +63,8 @@ export default function ProductList({isView}: Pr) {
                                     productImgUrl={item.productImgUrl}
                                     productMeasure={item.productMeasure}
                                     productQuantity={item.productQuantity}
+                                    productModel={item.productModel}
+                                    productOption={item.productOption}
                                 />
                             )
                     })

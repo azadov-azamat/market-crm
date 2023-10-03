@@ -1,22 +1,37 @@
 import {LayoutProps} from "./layout.props";
 import NavbarComponent from "../components/navbar";
-import {TOKEN} from "../config/api.ts";
-import {useNavigate} from "react-router-dom";
+import {getToken} from "../config/api.ts";
+import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {useEffect} from "react";
+import {useAppDispatch} from "../redux/hooks.ts";
+import {getUserMe} from "../redux/reducers/variable.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
 
 function Layout({children}: LayoutProps): JSX.Element {
 
+    const {pathname} = useLocation()
     const navigate = useNavigate()
-
-    const token = localStorage.getItem(TOKEN) || null
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
-        if (token === null) {
+        if (getToken() === null) {
             toast.error("Avtorizatsiyasiz ruhsat etilmaydi!")
             navigate("/")
         }
-    }, [token]);
+    }, [navigate]);
+
+    useEffect(() => {
+        if (getToken() !== null && pathname !== "/seller/magazines") {
+            dispatch(getUserMe()).then(unwrapResult)
+                .catch(e => {
+                    if (e.response.status === 401) {
+                        toast.error("Avtorizatsiyasiz ruhsat etilmaydi!")
+                        navigate("/")
+                    }
+                })
+        }
+    }, [pathname]);
 
     return (
         <div className={'flex w-full flex-col'}>

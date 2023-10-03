@@ -17,6 +17,15 @@ export const login = createAsyncThunk('app/login', async (data: LoginDataProps) 
     return response.data
 })
 
+export const getUserMe = createAsyncThunk('app/getUserMe', async (_, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/sellers/me')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWithValue}) => {
     try {
         const response = await http_auth.get('/stores')
@@ -41,74 +50,6 @@ const initialState: InitialStateProps = {
     loading: false,
     userData: null,
     stores: [],
-    // products: [
-    //     {
-    //         id: 1,
-    //         storeId: 1,
-    //         adressId: 1,
-    //         productName: "Девид Николлс: Бир кун. Бир муҳаббат тарихи",
-    //         productPrice: 89000,
-    //         productQuantity: 33,
-    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/830f94c696251a0d3f27e1e3d80db2752022060312004999754V1ODsFDnNF.jpg.webp",
-    //         productMeasure: "dona"
-    //
-    //     },
-    //     {
-    //         id: 2,
-    //         storeId: 1,
-    //         adressId: 1,
-    //         productName: "Телевизор Moonx 43S800 Full HD Android TV",
-    //         productPrice: 49000,
-    //         productQuantity: 2,
-    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
-    //         productMeasure: "kg"
-    //
-    //     },
-    //     {
-    //         id: 3,
-    //         storeId: 2,
-    //         adressId: 2,
-    //         productName: "Смарт часы Green Lion Ultra Active чёрный. ХИТ",
-    //         productPrice: 449000,
-    //         productQuantity: 31.2,
-    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
-    //         productMeasure: "kg"
-    //
-    //     },
-    //     {
-    //         id: 4,
-    //         storeId: 2,
-    //         adressId: 2,
-    //         productName: "Планшет для детей CCIT KT100 Pro 1Gb/8Gb",
-    //         productPrice: 15979000,
-    //         productQuantity: 0,
-    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/5e15bdd3e1a68.jpeg.webp",
-    //         productMeasure: "dona"
-    //
-    //     },
-    //     {
-    //         id: 5,
-    //         storeId: 3,
-    //         adressId: 3,
-    //         productName: "Беспроводная мышь T-Wolf Q4",
-    //         productPrice: 249000,
-    //         productQuantity: 56.5,
-    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/c4ca4238a0b923820dcc509a6f75849b2022110316262130550KRisxVR7tC.jpg.webp",
-    //         productMeasure: "litr"
-    //
-    //     },
-    //     {
-    //         id: 6,
-    //         storeId: 3,
-    //         adressId: 3,
-    //         productName: "Беспроводная мышь T-Wolf Q4",
-    //         productPrice: 249000,
-    //         productQuantity: 23.2,
-    //         productImgUrl: "https://assets.asaxiy.uz/product/items/desktop/eea5369de0178e4d20e2756a7060d41d2023012922310923268UpQzTRhNBA.jpeg.webp",
-    //         productMeasure: "kg"
-    //
-    //     }
-    // ],
     products: [],
     fltProduct: [],
     baskets: [],
@@ -217,6 +158,17 @@ export const variableSlice = createSlice({
         })
         builder.addCase(login.rejected, (state: InitialStateProps) => {
             toast.error("Login yoki parol noto'g'ri! iltimos qayta urinib ko'ting")
+            state.loading = false
+        })
+
+        builder.addCase(getUserMe.fulfilled, (state: InitialStateProps, action) => {
+            state.userData = action.payload?.data
+            state.loading = false
+        })
+        builder.addCase(getUserMe.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getUserMe.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
 

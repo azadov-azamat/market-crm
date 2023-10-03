@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export const TOKEN = "magazine-seller"
-export const baseUrl = "https://guzarpost.uz/api/v1"
+// export const baseUrl = "https://guzarpost.uz/api/v1"
+export const baseUrl = "http://176.96.241.182:5000/api/v1"
 export const uri = "https://digitaldreamsbackend.uz/"
 export const getToken = () => localStorage.getItem(TOKEN)
 

@@ -77,7 +77,7 @@ export default function AddProduct() {
                                     label={"Nomi"}/>
                             </div>
                             <div className={inputDiv}>
-                                <InputComponent.Text
+                                <InputComponent.Textarea
                                     name={"productModel"}
                                     placeholder={"Mahsulot modelini kiriting"}
                                     label={"Modeli"}/>

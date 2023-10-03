@@ -13,7 +13,7 @@ import {BiXCircle} from "react-icons/bi";
 import * as InputComponent from "../inputs";
 
 export default function ProductBox(props: ProductsDataProps) {
-    const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id} = props
+    const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id, productModel, productOption} = props
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -39,7 +39,7 @@ export default function ProductBox(props: ProductsDataProps) {
             dispatch(setBasket({...props, amount: '1'}))
         }
     }
-
+    console.log(productImgUrl)
     return (
         <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
             <div className="w-full flex justify-end">
@@ -53,14 +53,23 @@ export default function ProductBox(props: ProductsDataProps) {
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">
                         <LazyLoadImage effect={"black-and-white"}
                                        className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={productName}
-                                       src={typeof productImgUrl === "object" ? URL.createObjectURL(Object(productImgUrl)) : productImgUrl}
+                                       // src={typeof productImgUrl === "object" ? URL.createObjectURL(Object(productImgUrl)) : productImgUrl}
+                                       src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
                         />
 
                     </div>
                     <div className="mt-3">
-                        <Typography variant={"small"} onClick={() => navigate(`/seller/product/${id}`)}
-                                    className={"h-10 overflow-ellipsis font-medium text-xs leading-6 cursor-pointer hover:underline"}>
+                        <Typography variant={"paragraph"} onClick={() => navigate(`/seller/product/${id}`)}
+                                    className={"h-10 overflow-ellipsis font-bold text-xs leading-6 cursor-pointer hover:underline"}>
                             {productName}
+                        </Typography>
+                        <Typography variant={"small"}
+                                    className={"der overflow-ellipsis font-medium text-xs"}>
+                            {productModel}
+                        </Typography>
+                        <Typography variant={"small"}
+                                    className={"der overflow-ellipsis font-medium text-xs"}>
+                            {productOption}
                         </Typography>
                     </div>
                 </div>

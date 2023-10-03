@@ -1,7 +1,5 @@
-import React from 'react';
 
 interface TextInputProps {
-    type?: 'text' | 'number' | 'email' | 'password' | 'date' | 'textarea'
     label: string
     value?: string | number
     name: string
@@ -9,11 +7,9 @@ interface TextInputProps {
     error?: boolean
     required?: boolean
     disabled?: boolean
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function TextInput({
-                                      type = "text",
+export default function TextareaInput({
                                       label,
                                       value,
                                       name,
@@ -21,21 +17,18 @@ export default function TextInput({
                                       error = false,
                                       required = false,
                                       disabled = false,
-                                      onChange,
                                   }: TextInputProps) {
     return (
         <div className="input-wrapper w-full">
             {label !== "" && <label htmlFor={label} className={"font-medium text-xs block mb-1"}>{label} {required && "*"}</label>}
-            <input
+            <textarea
                 className={"text-base font-normal w-full border border-black/50 rounded-xl px-2 md:py-2 py-1 " +
                     "placeholder:text-sm placeholder:font-normal focus:border-black/50 outline-0"}
-                type={type}
                 id={label}
                 required={required}
                 value={value}
                 name={name}
                 placeholder={placeholder}
-                onChange={onChange}
                 disabled={disabled}
             />
             {error && <p className="error text-red-500 text-xs font-normal mt-1 ml-3">Input filed can't be empty!</p>}
