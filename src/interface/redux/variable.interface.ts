@@ -35,7 +35,7 @@ export interface SaleDataProps extends DataProps {
     seller?: UserDataProps | null,
     store?: StoresDataProps | null
     client?: ClientDataProps | null
-    soldProducts: SoldProductDataProps[] | [];
+    soldproducts: SoldProductDataProps[] | [];
 }
 
 export interface SoldProductDataProps extends DataProps {
