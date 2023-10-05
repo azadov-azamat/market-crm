@@ -11,15 +11,16 @@ export interface InitialStateProps {
     orders: OrderDataProps[] | [];
     mixedPay: MixedPayDataProps[] | [];
     // debtors: DebtorDataProps[] | []
-    adresses: AddressesDataProps[] | []
-    sales: SaleDataProps[] | []
-    clients: ClientDataProps[] | []
-    client: ClientDataProps | null,
+    adresses: AddressesDataProps[] | [];
+    sales: SaleDataProps[] | [];
+    sale: SaleDataProps | null;
+    clients: ClientDataProps[] | [];
+    client: ClientDataProps | null;
 
-    currentPage: number,
-    pageCount: number,
-    limit: number,
-    totalCount: number
+    currentPage: number;
+    pageCount: number;
+    limit: number;
+    totalCount: number;
 }
 
 export interface SaleDataProps extends DataProps {

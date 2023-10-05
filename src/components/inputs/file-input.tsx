@@ -71,7 +71,7 @@ export default function FileInput({name}: FileInputProps) {
                     multiple={false}
                     onChange={handleImageChange}
                 />
-                <input type="text" value={image} style={{display: "none"}} name={name}/>
+                <input type="text" value={image} style={{display: "none"}} readOnly name={name}/>
                 {
                     image !== "" ? <div className={"relative w-32 h-32"}>
                             <img src={image} alt={image} className={"w-full object-center object-contain"}/>

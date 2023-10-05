@@ -59,6 +59,16 @@ export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWi
     }
 })
 
+export const getAddresses = createAsyncThunk('addresses/getAddresses', async (_, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/adresses')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const createSale = createAsyncThunk('sale/createSale', async (data: SaleDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.post('/sales', data)
@@ -151,11 +161,7 @@ const initialState: InitialStateProps = {
     debtor: null,
     orders: [],
     mixedPay: [],
-    adresses: [
-        {id: 1, adressName: 'Turtkul'},
-        {id: 2, adressName: 'Urganch'},
-        {id: 3, adressName: "Ellikqal'a"}
-    ],
+    adresses: [],
     sales: [],
     sale: null,
     clients: [],
@@ -297,6 +303,17 @@ export const variableSlice = createSlice({
             state.loading = false
         })
 
+        builder.addCase(getAddresses.fulfilled, (state: InitialStateProps, action) => {
+            state.adresses = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getAddresses.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getAddresses.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
         builder.addCase(getProducts.fulfilled, (state: InitialStateProps, action) => {
             state.products = action.payload.data
             state.loading = false
@@ -347,7 +364,6 @@ export const {
     setLang, logoutFunc,
     setBasket, removeBasket,
     incrementBasket,
-    // decrementBasket,
     setDiscountBasket, setDebtorData,
     setOrder, filterProduct,
     setMixedPayList, addProduct,

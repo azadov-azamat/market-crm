@@ -52,8 +52,6 @@ export default function ViewSales() {
             })
         }
     }, [id])
-
-    console.log(sale);
     
     return (
         <div className={"flex flex-col gap-2"}>
