@@ -150,7 +150,7 @@ export default function Basket() {
                                         console.log(err)
                                     })
                             }
-                            toast.success("Sotuv saqlandi!")
+                            // toast.success(/"Sotuv saqlandi!")
                         })
                         .catch(err => {
                             console.log(err)
