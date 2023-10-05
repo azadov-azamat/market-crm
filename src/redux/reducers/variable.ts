@@ -79,6 +79,16 @@ export const getSales = createAsyncThunk('sale/getSales', async (data: UrlParams
     }
 })
 
+export const getSaleById = createAsyncThunk('sale/getSaleById', async (data: string, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get(`/sales/${data}`)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const createDebt = createAsyncThunk('debts/createDebt', async (data: DebtorDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.post('/debts', data)
@@ -147,6 +157,7 @@ const initialState: InitialStateProps = {
         {id: 3, adressName: "Ellikqal'a"}
     ],
     sales: [],
+    sale: null,
     clients: [],
     client: null,
 
@@ -261,6 +272,17 @@ export const variableSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getSales.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getSaleById.fulfilled, (state: InitialStateProps, action) => {
+            state.sale = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getSaleById.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getSaleById.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
 
