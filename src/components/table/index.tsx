@@ -4,12 +4,12 @@ import qs from 'qs'
 import {useLocation, useNavigate} from "react-router-dom"
 import ReactPaginate from 'react-paginate'
 import {BiChevronUp} from "react-icons/bi"
-import {useState} from "react"
 
 export default function TableComponent({
                                            ref,
                                            data,
                                            totalCount,
+                                           currentPage,
                                            columns,
                                            totalPages,
                                            progressPending,
@@ -23,15 +23,14 @@ export default function TableComponent({
     const location = useLocation()
 
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
-    const [currentPage, setCurrentPage] = useState<number>(1)
 
-    const lastIndex = currentPage * (data.length < size ? data.length : size);
-    const startIndex = (lastIndex < size ? size : lastIndex) - size;
+    const startIndex = currentPage === 1 ? currentPage : (currentPage * 10)
+    const lastIndex = startIndex + (size - 1)
+
 
     const currentItems = data.slice(startIndex, lastIndex);
 
     const handlePaginate = (page: number) => {
-        setCurrentPage(page + 1)
         navigate({
             pathname: location.pathname,
             search: qs.stringify({

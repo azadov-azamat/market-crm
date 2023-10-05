@@ -3,10 +3,12 @@ import {Dictionary} from "../../helpers/enumuration/dictionary";
 import i18n from "i18next";
 import {
     BasketsDataProps,
-    DebtorDataProps,
-    InitialStateProps, LoginDataProps,
+    ClientDataProps, DebtorDataProps,
+    InitialStateProps,
+    LoginDataProps,
     MixedPayDataProps,
-    OrderDataProps, ProductsDataProps
+    OrderDataProps,
+    ProductsDataProps, SaleDataProps
 } from "../../interface/redux/variable.interface";
 import {toast} from "react-toastify";
 import {getMgId} from "../../config/servise.ts";
@@ -27,9 +29,59 @@ export const getUserMe = createAsyncThunk('app/getUserMe', async (_, {rejectWith
     }
 })
 
+export const createClient = createAsyncThunk('clients/createClient', async (data: ClientDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.post('/clients', data)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getClients = createAsyncThunk('clients/getClients', async (data: UrlParamsDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/clients', {
+            params: data
+        })
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWithValue}) => {
     try {
         const response = await http_auth.get('/stores')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const createSale = createAsyncThunk('sale/createSale', async (data: SaleDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.post('/sales', data)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getSales = createAsyncThunk('sale/getSales', async (data: UrlParamsDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/sales', {
+            params: data
+        })
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const createDebt = createAsyncThunk('debts/createDebt', async (data: DebtorDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.post('/debts', data)
         return response.data
     } catch (error) {
         return rejectWithValue(error)
@@ -89,41 +141,19 @@ const initialState: InitialStateProps = {
     debtor: null,
     orders: [],
     mixedPay: [],
-    debtors: [
-        {
-            name: "Azamat Azadov",
-            phoneNumber: "+998932052443",
-            payType: "naqd",
-            paidSum: 89000,
-            givenSum: 30000,
-            expDate: "20/01/2024",
-            address: "Yangi Obof MFY"
-        },
-        {
-            name: "Ivan Ivanov",
-            phoneNumber: "+998932052443",
-            payType: "transfer",
-            paidSum: 200000,
-            givenSum: 50000,
-            expDate: "20/01/2024",
-            address: "Yangi Obof MFY"
-        },
-        {
-            name: "Andrey Malaxov",
-            phoneNumber: "+998932052443",
-            payType: "terminal",
-            paidSum: 1500000,
-            givenSum: 100000,
-            expDate: "20/01/2024",
-            address: "Yangi Obof MFY"
-        }
-    ],
     adresses: [
         {id: 1, adressName: 'Turtkul'},
         {id: 2, adressName: 'Urganch'},
         {id: 3, adressName: "Ellikqal'a"}
     ],
-    sales: []
+    sales: [],
+    clients: [],
+    client: null,
+
+    currentPage: 0,
+    pageCount: 0,
+    limit: 0,
+    totalCount: 0
 }
 
 const reducers = {
@@ -139,6 +169,9 @@ const reducers = {
     setBasket: (state: InitialStateProps, action: PayloadAction<BasketsDataProps>) => {
         state.baskets = [...state.baskets, action.payload]
     },
+    setListBasket: (state: InitialStateProps, action: PayloadAction<BasketsDataProps[] | []>) => {
+        state.baskets = action.payload
+    },
     incrementBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
         baskets[baskets.findIndex(item => item.id === Number(action.payload?.id))].amount = String(action.payload?.amount)
@@ -151,8 +184,8 @@ const reducers = {
         const crnInd = baskets.findIndex(item => item.id === Number(action.payload?.id))
         baskets[crnInd].discount = Number(action.payload?.discount) || 0
     },
-    setDebtorData: (state: InitialStateProps, action: PayloadAction<DebtorDataProps>) => {
-        state.debtor = action.payload
+    setDebtorData: (state: InitialStateProps, action: PayloadAction<ClientDataProps | null>) => {
+        state.client = action.payload
     },
     setOrder: (state: InitialStateProps, action: PayloadAction<OrderDataProps>) => {
         state.orders = [...state.orders, action.payload]
@@ -202,6 +235,32 @@ export const variableSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getUserMe.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getClients.fulfilled, (state: InitialStateProps, action) => {
+            state.clients = action.payload.data
+            state.currentPage = action.payload?.currentPage
+            state.limit = action.payload?.limit
+            state.pageCount = action.payload?.pageCount
+            state.totalCount = action.payload?.totalCount
+            state.loading = false
+        })
+        builder.addCase(getClients.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getClients.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getSales.fulfilled, (state: InitialStateProps, action) => {
+            state.sales = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getSales.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getSales.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
 
@@ -269,6 +328,7 @@ export const {
     // decrementBasket,
     setDiscountBasket, setDebtorData,
     setOrder, filterProduct,
-    setMixedPayList, addProduct
+    setMixedPayList, addProduct,
+    setListBasket
 } = variableSlice.actions;
 export default variableSlice.reducer

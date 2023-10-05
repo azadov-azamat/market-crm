@@ -17,7 +17,7 @@ export default function BreadcumbsComponent({data}: BreadcumbsComponentProps) {
 
                     return (
                         <Typography key={ind} className={!isLast ? "opacity-60" : ""}
-                                    onClick={() => !isLast && navigate(item.link)}>
+                                    onClick={() => !isLast && navigate(item.link)} variant={"paragraph"}>
                             {item.name}
                         </Typography>
                     )

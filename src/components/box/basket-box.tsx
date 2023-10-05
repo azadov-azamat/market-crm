@@ -65,7 +65,7 @@ export default function BasketBox(props: BasketsDataProps) {
                                                  label={"Miqdorini kiriting"}/>
                         </div>
                         <div className="mt-4">
-                            <Button color={'red'} className={"p-3"} onClick={() => dispatch(removeBasket(id))}>
+                            <Button color={'red'} className={"p-3"} onClick={() => id && dispatch(removeBasket(id))}>
                                 <FaTrash/>
                             </Button>
                         </div>

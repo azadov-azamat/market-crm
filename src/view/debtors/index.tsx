@@ -1,20 +1,36 @@
-import {useAppSelector} from "../../redux/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import TableComponent from "../../components/table";
 import {TableColumn} from "react-data-table-component";
-import {DebtorDataProps} from "../../interface/redux/variable.interface.ts";
+import {ClientDataProps} from "../../interface/redux/variable.interface.ts";
 import {BiPencil} from "react-icons/bi";
 import {Card, CardBody} from "@material-tailwind/react";
-import {DebtorSidebar} from "../baket/debtor-sidebar.tsx";
+// import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
 import React from "react";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
+import {getClients, getStores} from "../../redux/reducers/variable.ts";
+import DateFormatComponent from "../../components/date-format";
+import {FaEye} from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
+import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
 
 export default function Debtors() {
 
-    const {debtors, stores} = useAppSelector(state => state.variables)
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
 
-    const [userAmount, setUserAmount] = React.useState<DebtorDataProps | null>(null)
+    const {
+        clients,
+        stores,
+        currentPage,
+        pageCount,
+        limit,
+        totalCount,
+        loading
+    } = useAppSelector(state => state.variables)
+
+    const [client, setClient] = React.useState<ClientDataProps | null>(null)
     const [isDebt, setDebt] = React.useState<boolean>(false)
     const toggleDebt = () => setDebt(!isDebt)
 
@@ -33,51 +49,52 @@ export default function Debtors() {
         }
     ]
 
+    React.useEffect(() => {
+        dispatch(getClients({}))
+        dispatch(getStores())
+    }, [])
+
     const basicColumns: TableColumn<any>[] = [
+        {
+            width: '50px',
+            wrap: true,
+            cell: (row: ClientDataProps) => (
+                <><FaEye className={"text-lg text-green-500 cursor-pointer"}
+                         onClick={() => navigate(`/seller/debtor/${row.id}`)}/></>
+            )
+        },
         {
             name: 'F.I.O',
             width: '150px',
             wrap: true,
-            selector: (row: DebtorDataProps) => row.name
+            selector: (row: ClientDataProps) => row.clientName
         },
         {
             name: "Telefon raqami",
             width: '150px',
             wrap: true,
-            selector: (row: DebtorDataProps) => row.phoneNumber
-        },
-        {
-            name: 'Berilgan summa',
-            width: '120px',
-            wrap: true,
-            selector: (row: DebtorDataProps) => row.givenSum
-        },
-        {
-            name: 'Umumiy summa',
-            wrap: true,
-            width: '120px',
-            selector: (row: DebtorDataProps) => row.paidSum
+            selector: (row: ClientDataProps) => row.clientPhone
         },
         {
             name: 'Qaytarish sanasi',
             wrap: true,
             width: '150px',
-            selector: (row: DebtorDataProps) => row.expDate
+            cell: (row: ClientDataProps) => <DateFormatComponent currentDate={row.clientPaymentDate}/>
         },
         {
             name: 'Manzili',
             wrap: true,
             width: '150px',
-            selector: (row: DebtorDataProps) => row.address
+            selector: (row: ClientDataProps) => row.clientAdress
         },
         {
             name: 'Holat',
             width: '100px',
-            cell: (row: DebtorDataProps) => (
+            cell: (row: ClientDataProps) => (
                 <div className={'flex gap-2'}>
                     <BiPencil width={30} className={"cursor-pointer text-orange-500 text-base"}
                               onClick={() => {
-                                  setUserAmount(row)
+                                  setClient(row)
                                   toggleDebt()
                               }}
                     />
@@ -87,9 +104,6 @@ export default function Debtors() {
         }
     ]
 
-    const total_count = debtors.length;
-    const count_item = 10
-
     return (
         <div>
             <div className="w-full overflow-ellipsis overflow-hidden">
@@ -97,19 +111,27 @@ export default function Debtors() {
             </div>
             <Card>
                 <CardBody>
-                    <TableComponent data={debtors}
-                        // progressPending={isLoading}
-                                    columns={basicColumns}
-                                    progressPending={false}
-                        // totalPages={Math.ceil(total_count / (!query ? 15 : query.count))}
-                                    totalPages={Math.ceil(total_count / count_item)}
-                                    size={count_item}
-                                    totalCount={total_count}
+                    <TableComponent
+                        data={clients}
+                        size={clients.length}
+                        limit={limit}
+                        columns={basicColumns}
+                        progressPending={loading}
+                        totalPages={pageCount}
+                        currentPage={currentPage}
+                        totalCount={totalCount}
                     />
                 </CardBody>
             </Card>
-            <DebtorSidebar open={isDebt} toggle={toggleDebt} currentUser={userAmount}
-                           totalPrice={userAmount?.paidSum || 0}/>
+            <DebtorSidebar totalPrice={1000} open={isDebt} toggle={toggleDebt} debtUser={client}/>
         </div>
     );
 }
+
+// const ModalDebt = ({open, toggle, data}: ModalInterfaceProps) => {
+//     return (
+//         <DialogModal open={open} toggle={toggle}>
+//
+//         </DialogModal>
+//     )
+// }

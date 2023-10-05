@@ -9,6 +9,7 @@ interface TextInputProps {
     error?: boolean
     required?: boolean
     disabled?: boolean
+    readOnly?: boolean
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -21,6 +22,7 @@ export default function TextInput({
                                       error = false,
                                       required = false,
                                       disabled = false,
+                                      readOnly = false,
                                       onChange,
                                   }: TextInputProps) {
     return (
@@ -31,6 +33,7 @@ export default function TextInput({
                     "placeholder:text-sm placeholder:font-normal focus:border-black/50 outline-0"}
                 type={type}
                 id={label}
+                readOnly={readOnly}
                 required={required}
                 value={value}
                 name={name}

@@ -27,7 +27,7 @@ export default function SignIn() {
                     <Typography variant="h4" color="blue-gray">
                         Xush kelibsiz
                     </Typography>
-                    <Typography color="gray" className="mt-1 font-normal">
+                    <Typography color="gray" className="mt-1 font-normal" variant={"paragraph"}>
                         Ma'muriyat tomonidan berilgan ma'lumotlaringizni kiriting
                     </Typography>
                     <form

@@ -1,11 +1,15 @@
 // import React from 'react';
 
-import {useAppSelector} from "../../redux/hooks.ts";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
+import {useEffect} from "react";
+import {getSales, getStores} from "../../redux/reducers/variable.ts";
 
 export default function SoldProducts() {
+
+    const dispatch = useAppDispatch()
     const {stores} = useAppSelector(state => state.variables)
 
     const breadCumbc: BreadCumbsDataProps[] = [
@@ -22,6 +26,11 @@ export default function SoldProducts() {
             link: ``
         }
     ]
+
+    useEffect(() => {
+        dispatch(getSales({}))
+        dispatch(getStores())
+    }, [])
 
     return (
         <div>

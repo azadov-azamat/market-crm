@@ -1,6 +1,6 @@
 import Magazine from "../view/magazines/magazine.tsx";
 import ProductList from "../view/products/list.tsx";
-import Basket from "../view/baket";
+import Basket from "../view/basket";
 import ViewProduct from "../view/products/view.tsx";
 import Debtors from "../view/debtors";
 import Profile from "../view/profile";
