@@ -13,7 +13,7 @@ export interface InitialStateProps {
     // debtors: DebtorDataProps[] | []
     adresses: AddressesDataProps[] | [];
     sales: SaleDataProps[] | [];
-    sale: SaleDataProps | null;
+    sale: SaleDataProps;
     clients: ClientDataProps[] | [];
     client: ClientDataProps | null;
 
