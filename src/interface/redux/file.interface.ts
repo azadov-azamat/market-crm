@@ -1,18 +1,5 @@
-export interface InitialStateProps {
-    lang: string;
+export interface FileInitialProps {
     loading: boolean;
-    userData: userDataProps | null;
-    stores: StoresDataProps[] | [];
-    products: ProductsDataProps[] | [];
-    product: ProductsDataProps | null;
-    fltProduct: ProductsDataProps[] | [];
-    baskets: BasketsDataProps[] | [];
-    debtor: DebtorDataProps | null;
-    orders: OrderDataProps[] | [];
-    mixedPay: MixedPayDataProps[] | [];
-    debtors: DebtorDataProps[] | []
-    adresses: AddressesDataProps[] | []
-    sales: SalesDataProps[] | []
 }
 
 export interface LoginDataProps {
@@ -105,7 +92,7 @@ export interface ClientDataProps {
 }
 
 export interface DataProps {
-    id?: number;
+    id: number;
     createdAt?: string;
     updatedAt?: string;
 }

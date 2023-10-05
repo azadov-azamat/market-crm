@@ -15,7 +15,7 @@ export default function MagazineBox(props: StoresDataProps) {
                   navigate(`/seller/products/${id}`)
                   localStorage.setItem("mgId", String(id))
               }}>
-            <CardBody>
+            <CardBody className={"flex flex-col justify-center items-center"}>
                 <LazyLoadImage effect={"black-and-white"}
                                className={"w-full md:h-40 sm:h-36 h-28 object-cover"} alt={storeName}
                                src={storeImgUrl}

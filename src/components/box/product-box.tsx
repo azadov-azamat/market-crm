@@ -39,7 +39,7 @@ export default function ProductBox(props: ProductsDataProps) {
             dispatch(setBasket({...props, amount: '1'}))
         }
     }
-    console.log(productImgUrl)
+
     return (
         <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
             <div className="w-full flex justify-end">
@@ -53,8 +53,8 @@ export default function ProductBox(props: ProductsDataProps) {
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">
                         <LazyLoadImage effect={"black-and-white"}
                                        className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={productName}
-                                       // src={typeof productImgUrl === "object" ? URL.createObjectURL(Object(productImgUrl)) : productImgUrl}
-                                       src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
+                                       src={productImgUrl}
+                                       // src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
                         />
 
                     </div>

@@ -11,6 +11,7 @@ import {
 import {toast} from "react-toastify";
 import {getMgId} from "../../config/servise.ts";
 import {http, http_auth, TOKEN} from "../../config/api.ts";
+import {UrlParamsDataProps} from "../../interface/search/search.interface.ts";
 
 export const login = createAsyncThunk('app/login', async (data: LoginDataProps) => {
     const response = await http.post('/auth', data)
@@ -35,9 +36,40 @@ export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWi
     }
 })
 
-export const getProducts = createAsyncThunk('product/getProducts', async (_, {rejectWithValue}) => {
+export const createProduct = createAsyncThunk('product/createProduct', async (data: ProductsDataProps, {rejectWithValue}) => {
     try {
-        const response = await http_auth.get('/products')
+        const response = await http_auth.post('/products', data)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getProducts = createAsyncThunk('product/getProducts', async (data: UrlParamsDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/products', {
+            params: data
+        })
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getProductById = createAsyncThunk('product/getProductById', async (data: string, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get(`/products/${data}`)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getProductsSearch = createAsyncThunk('product/getProductsSearch', async (data: UrlParamsDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/products', {
+            params: data
+        })
         return response.data
     } catch (error) {
         return rejectWithValue(error)
@@ -51,6 +83,7 @@ const initialState: InitialStateProps = {
     userData: null,
     stores: [],
     products: [],
+    product: null,
     fltProduct: [],
     baskets: [],
     debtor: null,
@@ -191,6 +224,39 @@ export const variableSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getProducts.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getProductById.fulfilled, (state: InitialStateProps, action) => {
+            state.product = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getProductById.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getProductById.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getProductsSearch.fulfilled, (state: InitialStateProps, action) => {
+            state.fltProduct = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getProductsSearch.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getProductsSearch.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(createProduct.fulfilled, (state: InitialStateProps, action) => {
+            addProduct(action.payload.data)
+            state.loading = false
+        })
+        builder.addCase(createProduct.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(createProduct.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
     }

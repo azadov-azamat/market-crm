@@ -4,7 +4,7 @@ import {Button, Card, CardBody} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {getMgId, handleNumberMask} from "../../config/servise.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {addProduct} from "../../redux/reducers/variable.ts";
+import {createProduct, getStores} from "../../redux/reducers/variable.ts";
 import {useNavigate} from "react-router-dom";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
@@ -13,13 +13,17 @@ export default function AddProduct() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const {products, stores, adresses} = useAppSelector(state => state.variables)
+    const {stores, adresses} = useAppSelector(state => state.variables)
 
     const inputDiv = "my-2"
-    const measureList = ["kg", "dona", "litr"]
+    const measureList = ["kg", "dona", "litr", "metr", "metrkv"]
 
     const [price, setPrice] = React.useState<string>("")
     const [quantity, setQuantity] = React.useState<string>("")
+
+    React.useEffect(() => {
+        dispatch(getStores())
+    }, [])
 
     const breadCumbc: BreadCumbsDataProps[] = [
         {
@@ -50,9 +54,8 @@ export default function AddProduct() {
                             onSubmit={(e) => {
                                 e.preventDefault()
                                 const data = new FormData(e.currentTarget)
-
-                                dispatch(addProduct({
-                                    id: products.length + 1,
+                                dispatch(createProduct({
+                                    productOption: String(data.get("productOption")),
                                     storeId: Number(getMgId()),
                                     productName: String(data.get("productName")),
                                     productModel: String(data.get("productModel")),
@@ -60,7 +63,7 @@ export default function AddProduct() {
                                     productQuantity: Number(quantity),
                                     productMeasure: String(data.get("productMeasure")),
                                     adressId: Number(data.get("addresses")),
-                                    productImgUrl: Object(data.get("productImgUrl"))
+                                    productImgUrl: String(data.get("productImgUrl"))
                                 }))
                                 navigate(`/seller/products/${getMgId()}`)
                             }}>
@@ -113,16 +116,20 @@ export default function AddProduct() {
                                 </select>
                             </div>
                             <div className={`${inputDiv} flex flex-col`}>
-                                <label htmlFor="addresses" className={"font-medium text-xs block mb-1"}>Mahsulot manzili *</label>
+                                <label htmlFor="addresses" className={"font-medium text-xs block mb-1"}>Mahsulot manzili
+                                    *</label>
                                 <select name="addresses" id="addresses" required
                                         className={"outline-0 border border-black/50 rounded-xl px-2 md:py-2.5 py-1.5"}>
-                                    {adresses.map((item, ind) => <option key={ind} value={item.id}>{item.adressName}</option>)}
+                                    {adresses.map((item, ind) => <option key={ind}
+                                                                         value={item.id}>{item.adressName}</option>)}
                                 </select>
                             </div>
                             <div className={"flex gap-3 w-full justify-end mt-3"}>
                                 <Button type={"reset"} color={"red"}
-                                        onClick={() => navigate(`/seller/products/${getMgId()}`)} className={"normal-case text-xs "}>Orqaga</Button>
-                                <Button type={"submit"} color={"green"} className={"normal-case text-xs "}>Saqlash</Button>
+                                        onClick={() => navigate(`/seller/products/${getMgId()}`)}
+                                        className={"normal-case text-xs "}>Orqaga</Button>
+                                <Button type={"submit"} color={"green"}
+                                        className={"normal-case text-xs "}>Saqlash</Button>
                             </div>
                         </form>
                     </CardBody>

@@ -18,8 +18,10 @@ import {SlBasket} from "react-icons/sl";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import SearchModal from "./search-modal.tsx";
-import {filterProduct, logoutFunc} from "../../redux/reducers/variable.ts";
+import {filterProduct, getProductsSearch, logoutFunc} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
+import {getMgId} from "../../config/servise.ts";
+import qs from "qs";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -31,7 +33,7 @@ export default function NavbarComponent(): JSX.Element {
 
     const [search, setSearch] = React.useState<string>("")
     const [isModal, setModal] = React.useState<boolean>(false)
-
+    const query = qs.parse(location.search, {ignoreQueryPrefix: true})
     const toggleModal = () => setModal(!isModal)
 
     const [profileMenuItems, setProfileMenuItems] = React.useState([
@@ -57,7 +59,7 @@ export default function NavbarComponent(): JSX.Element {
                     }
                 }
             ]
-           setProfileMenuItems(data)
+            setProfileMenuItems(data)
             // profileMenuItems.push({
             //     label: "Chiqish",
             //     onClick: () => {
@@ -97,11 +99,27 @@ export default function NavbarComponent(): JSX.Element {
 
     useEffect(() => {
         if (search.length !== 0) {
-            dispatch(filterProduct(search))
+            navigate({
+                search: qs.stringify({
+                    filter: JSON.stringify({
+                        storeId: getMgId()
+                    }),
+                    search: search
+                })
+            })
         } else {
+            navigate({
+                search: ""
+            })
             dispatch(filterProduct(""))
         }
     }, [search])
+
+    useEffect(() => {
+        if (search.length !== 0) {
+            dispatch(getProductsSearch({...query}))
+        }
+    }, [location.search]);
 
     function ProfileMenu() {
         const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -187,7 +205,7 @@ export default function NavbarComponent(): JSX.Element {
                                             <LazyLoadImage effect={"black-and-white"}
                                                            className={"object-cover object-center h-20"}
                                                            alt={item.productName}
-                                                           src={typeof item.productImgUrl === "object" ? URL.createObjectURL(Object(item.productImgUrl)) : item.productImgUrl}
+                                                           src={item.productImgUrl}
                                             />
                                         </div>
                                         <div className="w-10/12 flex flex-col justify-between pl-3">

@@ -1,6 +1,10 @@
 import React from 'react';
 import {AiOutlineFileImage} from "react-icons/ai";
 import {BiXCircle} from "react-icons/bi";
+import {useAppDispatch} from "../../redux/hooks.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {uploadFileServer} from "../../redux/reducers/file.ts";
+import {toast} from "react-toastify";
 
 interface FileInputProps {
     // label: string
@@ -14,7 +18,8 @@ interface FileInputProps {
 
 export default function FileInput({name}: FileInputProps) {
 
-    const [image, setImage] = React.useState<string | null>(null)
+    const dispatch = useAppDispatch()
+    const [image, setImage] = React.useState<string>("")
     const [fileSelected, setFileSelected] = React.useState<File>() // also tried <string | Blob>
 
     const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
@@ -23,7 +28,16 @@ export default function FileInput({name}: FileInputProps) {
         if (!fileList) return;
 
         setFileSelected(fileList[0]);
-        setImage(URL.createObjectURL(fileList[0]));
+        const data = new FormData()
+        data.append("file", fileList[0])
+        dispatch(uploadFileServer(data)).then(unwrapResult)
+            .then(e => {
+                setImage(e?.url);
+            })
+            .catch(err => {
+                console.log(err)
+                toast.error("Yuklashda xatolik, qayta urinib ko'ring")
+            })
     };
 
     const uploadFile = function (
@@ -32,7 +46,16 @@ export default function FileInput({name}: FileInputProps) {
         if (fileSelected) {
             const formData = new FormData();
             formData.append("image", fileSelected, fileSelected.name);
-            setImage(URL.createObjectURL(fileSelected))
+            const data = new FormData()
+            data.append("file", fileSelected)
+            dispatch(uploadFileServer(data)).then(unwrapResult)
+                .then(e => {
+                    setImage(e?.url);
+                })
+                .catch(err => {
+                    console.log(err)
+                    toast.error("Yuklashda xatolik, qayta urinib ko'ring")
+                })
         }
     };
 
@@ -43,17 +66,17 @@ export default function FileInput({name}: FileInputProps) {
                     accept="image/*"
                     style={{display: "none"}}
                     id="photo"
-                    name={name}
+                    // name={name}
                     type="file"
                     multiple={false}
                     onChange={handleImageChange}
                 />
-                <input type="text" value={String(image)} style={{display: "none"}} name={name} />
+                <input type="text" value={image} style={{display: "none"}} name={name}/>
                 {
-                    image !== null ? <div className={"relative w-32 h-32"}>
+                    image !== "" ? <div className={"relative w-32 h-32"}>
                             <img src={image} alt={image} className={"w-full object-center object-contain"}/>
                             <BiXCircle onClick={() => {
-                                setImage(null)
+                                setImage("")
                             }}
                                        className={"text-2xl absolute -top-2 -right-2 text-red-500 cursor-pointer"}/>
                         </div>
