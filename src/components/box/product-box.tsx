@@ -44,7 +44,7 @@ export default function ProductBox(props: ProductsDataProps) {
         <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
             <div className="w-full flex justify-end">
                 {isBasket && <BiXCircle onClick={() => {
-                    dispatch(removeBasket(id))
+                    dispatch(removeBasket(Number(id)))
                     setIsBasket(false)
                 }} className={"text-2xl absolute -top-2 -right-2 text-red-500 cursor-pointer"}/>}
             </div>
