@@ -92,7 +92,7 @@ export default function ViewSales() {
             <Card className='px-4 py-3 md:w-9/12 w-full'>
                 <CardBody className='p-0'>
                 {
-                            sale.soldProducts?.length > 0 &&   <div className="sold-product my-2">
+                           sale && sale.soldProducts?.length > 0 ?   <div className="sold-product my-2">
                             <Typography variant="paragraph">Sotilgan mahsulotlar: </Typography>
                            <div className="flex ">
                                 <div className="w-1/3 text-base font-bold">Nomi</div>
@@ -118,15 +118,14 @@ export default function ViewSales() {
                                     })
                                 }
                            </div>
-                        </div>
+                        </div> : ""
                            }  
                            </CardBody>
             </Card>
             <Card className='px-4 py-3 md:w-9/12 w-full'>
                 <CardBody className='p-0'>
-
-                              {
-                            sale.payments?.length > 0 &&   <div className="sold-product my-2">
+                        {
+                            sale && sale.payments?.length > 0 ?   <div className="sold-product my-2">
                             <Typography variant="paragraph">To'lovlar: </Typography>
                            <div className="flex ">
                                 <div className="w-1/12 text-base font-bold">#</div>
@@ -146,7 +145,7 @@ export default function ViewSales() {
                                     })
                                 }
                            </div>
-                        </div>
+                        </div> : ""
                            }   
                            </CardBody>
             </Card>
