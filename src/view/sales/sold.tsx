@@ -74,7 +74,7 @@ export default function SoldProducts() {
                            <Typography variant="small" className="text-base"><DateFormatClockComponent currentDate={item?.createdAt}/></Typography>
                            </div>
                            {
-                            item?.soldproducts?.length > 0 &&   <div className="sold-product my-2">
+                            item?.soldProducts?.length > 0 &&   <div className="sold-product my-2">
                             <Typography variant="paragraph">Sotilgan mahsulotlar: </Typography>
                            <div className="flex ">
                                 <div className="w-1/3 text-base font-bold">Nomi</div>
@@ -83,12 +83,12 @@ export default function SoldProducts() {
                            </div>
                            <div className="">
                                 {
-                                    item?.soldproducts?.map((pr, ip)=> {
+                                    item.soldProducts.map((pr, ip)=> {
                                         return (
                                             <div className="flex" key={ip}>
-                                                  <div className="w-1/3">{pr.soldProductName}</div>
-                                                   <div className="w-1/3">{pr.soldPrice} sum</div>
-                                                <div className="w-1/3">{pr.soldQuantity}</div>
+                                                  <div className="w-1/3">{pr?.soldProductName}</div>
+                                                   <div className="w-1/3">{pr?.soldPrice} sum</div>
+                                                <div className="w-1/3">{pr?.soldQuantity}</div>
                                             </div> 
                                         )
                                     })
