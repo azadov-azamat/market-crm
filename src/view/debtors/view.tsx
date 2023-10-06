@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../../redux/hooks'
 import { BreadCumbsDataProps } from '../../interface/modal/modal.interface'
 import { getMgId } from '../../config/servise'
@@ -13,7 +13,6 @@ export default function ViewDebtor() {
 
     const {id} = useParams()
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
     const {stores, client} = useAppSelector(state => state.variables)
     const [active, setActive] = React.useState<string>('1')
 
