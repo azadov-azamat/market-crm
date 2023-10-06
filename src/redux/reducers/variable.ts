@@ -49,6 +49,15 @@ export const getClients = createAsyncThunk('clients/getClients', async (data: Ur
     }
 })
 
+export const getClientById = createAsyncThunk('clients/getClientById', async (data: string, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get(`/clients/${data}`)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 
 export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWithValue}) => {
     try {
@@ -58,6 +67,16 @@ export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWi
         return rejectWithValue(error)
     }
 })
+
+export const getAddresses = createAsyncThunk('addresses/getAddresses', async (_, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/adresses')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 
 export const createSale = createAsyncThunk('sale/createSale', async (data: SaleDataProps, {rejectWithValue}) => {
     try {
@@ -79,9 +98,30 @@ export const getSales = createAsyncThunk('sale/getSales', async (data: UrlParams
     }
 })
 
+export const getSaleById = createAsyncThunk('sale/getSaleById', async (data: string, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get(`/sales/${data}`)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const createDebt = createAsyncThunk('debts/createDebt', async (data: DebtorDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.post('/debts', data)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const getDebtList = createAsyncThunk('debts/getDebtList', async (data: UrlParamsDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/debts', {
+            params: data
+        })
         return response.data
     } catch (error) {
         return rejectWithValue(error)
@@ -138,15 +178,13 @@ const initialState: InitialStateProps = {
     product: null,
     fltProduct: [],
     baskets: [],
+    debts: [],
     debtor: null,
     orders: [],
     mixedPay: [],
-    adresses: [
-        {id: 1, adressName: 'Turtkul'},
-        {id: 2, adressName: 'Urganch'},
-        {id: 3, adressName: "Ellikqal'a"}
-    ],
+    adresses: [],
     sales: [],
+    sale: null,
     clients: [],
     client: null,
 
@@ -253,6 +291,18 @@ export const variableSlice = createSlice({
             state.loading = false
         })
 
+        builder.addCase(getClientById.fulfilled, (state: InitialStateProps, action) => {
+            debugger
+            state.client = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getClientById.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getClientById.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
         builder.addCase(getSales.fulfilled, (state: InitialStateProps, action) => {
             state.sales = action.payload.data
             state.loading = false
@@ -264,6 +314,17 @@ export const variableSlice = createSlice({
             state.loading = false
         })
 
+        builder.addCase(getSaleById.fulfilled, (state: InitialStateProps, action) => {
+            state.sale = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getSaleById.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getSaleById.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
         builder.addCase(getStores.fulfilled, (state: InitialStateProps, action) => {
             state.stores = action.payload.data
             state.loading = false
@@ -272,6 +333,17 @@ export const variableSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getStores.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getAddresses.fulfilled, (state: InitialStateProps, action) => {
+            state.adresses = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getAddresses.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getAddresses.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
 
@@ -318,6 +390,21 @@ export const variableSlice = createSlice({
         builder.addCase(createProduct.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
+
+        builder.addCase(getDebtList.fulfilled, (state: InitialStateProps, action) => {
+            state.debts = action.payload.data
+            state.currentPage = action.payload?.currentPage
+            state.limit = action.payload?.limit
+            state.pageCount = action.payload?.pageCount
+            state.totalCount = action.payload?.totalCount
+            state.loading = false
+        })
+        builder.addCase(getDebtList.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getDebtList.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
     }
 })
 
@@ -325,7 +412,6 @@ export const {
     setLang, logoutFunc,
     setBasket, removeBasket,
     incrementBasket,
-    // decrementBasket,
     setDiscountBasket, setDebtorData,
     setOrder, filterProduct,
     setMixedPayList, addProduct,

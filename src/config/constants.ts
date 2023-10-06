@@ -6,8 +6,9 @@ import Debtors from "../view/debtors";
 import Profile from "../view/profile";
 import AddProduct from "../view/products/add.tsx";
 import NotFound from "../view/error/not-found.tsx";
-import SoldProducts from "../view/products/sold.tsx";
-
+import SoldProducts from "../view/sales/sold.tsx";
+import ViewSales from "../view/sales/view.tsx";
+import ViewDebtor from "../view/debtors/view.tsx";
 
 export const routes = [
     {
@@ -42,13 +43,13 @@ export const routes = [
     },
     {
         id: 5,
-        name: 'view-debtors',
+        name: 'list-debtors',
         path: '/seller/debtors',
         component: Debtors
     },
     {
         id: 6,
-        name: 'view-debtors',
+        name: 'view-profile',
         path: '/seller/profile',
         component: Profile
     },
@@ -60,8 +61,20 @@ export const routes = [
     },
     {
         id: 8,
-        name: 'add-product',
+        name: 'sold-product',
         path: '/seller/sold-products',
         component: SoldProducts
+    },
+    {
+        id: 9,
+        name: 'view-sale',
+        path: '/seller/sold-product/:id',
+        component: ViewSales
+    },
+    {
+        id: 10,
+        name: 'view-debtors',
+        path: '/seller/debtor/:id',
+        component: ViewDebtor
     }
 ]

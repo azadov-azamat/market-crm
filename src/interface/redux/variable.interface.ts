@@ -7,19 +7,21 @@ export interface InitialStateProps {
     product: ProductsDataProps | null;
     fltProduct: ProductsDataProps[] | [];
     baskets: BasketsDataProps[] | [];
+    debts: DebtorDataProps[] | []
     debtor: ClientDataProps | null;
     orders: OrderDataProps[] | [];
     mixedPay: MixedPayDataProps[] | [];
     // debtors: DebtorDataProps[] | []
-    adresses: AddressesDataProps[] | []
-    sales: SaleDataProps[] | []
-    clients: ClientDataProps[] | []
-    client: ClientDataProps | null,
+    adresses: AddressesDataProps[] | [];
+    sales: SaleDataProps[] | [];
+    sale: SaleDataProps | null;
+    clients: ClientDataProps[] | [];
+    client: ClientDataProps | null;
 
-    currentPage: number,
-    pageCount: number,
-    limit: number,
-    totalCount: number
+    currentPage: number;
+    pageCount: number;
+    limit: number;
+    totalCount: number;
 }
 
 export interface SaleDataProps extends DataProps {
@@ -34,7 +36,7 @@ export interface SaleDataProps extends DataProps {
     seller?: UserDataProps | null,
     store?: StoresDataProps | null
     client?: ClientDataProps | null
-    soldProducts: SoldProductDataProps[] | [];
+    soldproducts: SoldProductDataProps[] | [];
 }
 
 export interface SoldProductDataProps extends DataProps {
@@ -44,7 +46,7 @@ export interface SoldProductDataProps extends DataProps {
     soldProductName: string;
 }
 
-export interface DebtorDataProps {
+export interface DebtorDataProps extends DataProps{
     debt: number;
     clientId: number;
     saleId?: number;
@@ -112,6 +114,9 @@ export interface ClientDataProps extends DataProps {
     clientAdress: string;
     clientPaymentDate: string; // qarz qaytarish sanasi
     clientPhone: number;
+    payments?: MixedPayDataProps[] | []
+    sales?: SaleDataProps[] | [];
+    debts?: DebtorDataProps[] |[];
 }
 
 export interface DataProps {

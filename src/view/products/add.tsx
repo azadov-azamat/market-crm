@@ -4,7 +4,7 @@ import {Button, Card, CardBody} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {getMgId, handleNumberMask} from "../../config/servise.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {createProduct, getStores} from "../../redux/reducers/variable.ts";
+import {createProduct, getAddresses, getStores} from "../../redux/reducers/variable.ts";
 import {useNavigate} from "react-router-dom";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
@@ -23,6 +23,7 @@ export default function AddProduct() {
 
     React.useEffect(() => {
         dispatch(getStores())
+        dispatch(getAddresses())
     }, [])
 
     const breadCumbc: BreadCumbsDataProps[] = [
