@@ -1,7 +1,7 @@
 import BasketBox from "../../components/box/basket-box.tsx";
 import {Button, Card, CardBody, Radio, Typography} from "@material-tailwind/react";
 import React from "react";
-import {getCheckFile, getMgId, handleSwitchPayType} from "../../config/servise.ts";
+import {getMgId, handleSwitchPayType} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {DebtorSidebar} from "./debtor-sidebar.tsx";
@@ -150,14 +150,18 @@ export default function Basket() {
                                         console.log(err)
                                     })
                             }
-                            getCheckFile(String(res.data.id))
+                            // getCheckFile(String(res.data.id))
+                            dispatch(setListBasket([]))
                             toast.success("Sotuv saqlandi!")
+                            navigate(`/seller/sold-product/${res.data?.id}`)
                         })
                         .catch(err => {
                             console.log(err)
+                            if (err.response.status === 404) {
+                                return toast.error("Iltimos barcha maydonlar to'ldirilganligini tekshiring")
+                            }
+                            toast.error("Savdoni saqlashda xatolik, iltimos qayta urinib ko'ring")
                         })
-                    dispatch(setListBasket([]))
-                    navigate(`/seller/sold-products`)
                     // navigate(`/seller/products/${getMgId()}`)
                 }}
                 className={"flex flex-col md:flex-row w-full h-auto gap-5"}>

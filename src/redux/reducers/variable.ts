@@ -292,7 +292,6 @@ export const variableSlice = createSlice({
         })
 
         builder.addCase(getClientById.fulfilled, (state: InitialStateProps, action) => {
-            debugger
             state.client = action.payload.data
             state.loading = false
         })

@@ -151,7 +151,10 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                         label={"Umumiy narx"}
                     />
                 </> : <>
-                <div className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{debtUser?.clientName} uchun to'lov</div>
+                    <div
+                        className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{debtUser?.clientName} uchun
+                        to'lov
+                    </div>
                 </>
                 }
 

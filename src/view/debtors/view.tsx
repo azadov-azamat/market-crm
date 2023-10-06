@@ -1,14 +1,14 @@
 import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../redux/hooks'
-import { BreadCumbsDataProps } from '../../interface/modal/modal.interface'
-import { getMgId, handleSwitchPayType } from '../../config/servise'
-import { getClientById, getStores } from '../../redux/reducers/variable'
+import {useNavigate, useParams} from 'react-router-dom'
+import {useAppDispatch, useAppSelector} from '../../redux/hooks'
+import {BreadCumbsDataProps} from '../../interface/modal/modal.interface'
+import {getMgId, handleSwitchPayType} from '../../config/servise'
+import {getClientById, getStores} from '../../redux/reducers/variable'
 import BreadcumbsComponent from '../../components/page-title/breadcumbs'
-import { Card, CardBody, Typography } from '@material-tailwind/react'
+import {Card, CardBody, Typography} from '@material-tailwind/react'
 import SoldProducts from '../sales/sold'
 import DebtsList from './list'
-import { MixedPayDataProps } from '../../interface/redux/variable.interface'
+import {MixedPayDataProps} from '../../interface/redux/variable.interface'
 import DateFormatClockComponent from '../../components/date-format/oclock'
 
 export default function ViewDebtor() {
@@ -20,11 +20,11 @@ export default function ViewDebtor() {
     const {stores, client} = useAppSelector(state => state.variables)
     const [active, setActive] = React.useState<string>('1')
 
-    const toggleActive =(id: string)=>{
+    const toggleActive = (id: string) => {
         setActive(id)
-navigate({
-    search: ""
-})
+        navigate({
+            search: ""
+        })
     }
 
     const breadCumbc: BreadCumbsDataProps[] = [
@@ -45,15 +45,15 @@ navigate({
             link: ``
         }
     ]
-    
-    React.useEffect(()=>{
+
+    React.useEffect(() => {
         dispatch(getStores())
     }, [])
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         dispatch(getClientById(String(id)))
 
-        return ()=> {
+        return () => {
             dispatch({
                 type: "clients/getClientById/fulfilled",
                 payload: {
@@ -62,7 +62,7 @@ navigate({
             })
         }
     }, [id])
-    
+
     return (
         <div className={"flex flex-col gap-2"}>
             <div className="w-full overflow-ellipsis overflow-hidden">
@@ -70,17 +70,23 @@ navigate({
             </div>
             <Card className='my-3'>
                 <CardBody className='flex md:flex-row flex-col gap-8 justify-center text-center'>
-                    <Typography onClick={()=> toggleActive("1")} variant='paragraph' className={`md:text-base cursor-pointer text-sm ${active === "1" && "border-b-2 border-black"}`}>Savdo bo'limi</Typography>
-                    <Typography onClick={()=> toggleActive("2")} variant='paragraph' className={`md:text-base cursor-pointer text-sm ${active === "2" && "border-b-2 border-black"}`}>Qarzlar bo'limi</Typography>
-                    <Typography onClick={()=> toggleActive("3")} variant='paragraph' className={`md:text-base cursor-pointer text-sm ${active === "3" && "border-b-2 border-black"}`}>To'lovlar bo'limi</Typography>
+                    <Typography onClick={() => toggleActive("1")} variant='paragraph'
+                                className={`md:text-base cursor-pointer text-sm ${active === "1" && "border-b-2 border-black"}`}>Savdo
+                        bo'limi</Typography>
+                    <Typography onClick={() => toggleActive("2")} variant='paragraph'
+                                className={`md:text-base cursor-pointer text-sm ${active === "2" && "border-b-2 border-black"}`}>Qarzlar
+                        bo'limi</Typography>
+                    <Typography onClick={() => toggleActive("3")} variant='paragraph'
+                                className={`md:text-base cursor-pointer text-sm ${active === "3" && "border-b-2 border-black"}`}>To'lovlar
+                        bo'limi</Typography>
                 </CardBody>
             </Card>
 
-        {active === "1" && <SoldProducts/>}
+            {active === "1" && <SoldProducts/>}
 
-        {active === "2" && <DebtsList/>}
+            {active === "2" && <DebtsList/>}
 
-        {active === "3" && <PaymentComponent payments={client?.payments || []}/>}
+            {active === "3" && <PaymentComponent payments={client?.payments || []}/>}
         </div>
     )
 }
@@ -88,31 +94,38 @@ navigate({
 interface PaymentComponentDataProps {
     payments: MixedPayDataProps[] | []
 }
-const PaymentComponent =({payments}: PaymentComponentDataProps)=>{
+
+const PaymentComponent = ({payments}: PaymentComponentDataProps) => {
     return (
         <div className="">
-     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 ">
-            {
-                payments.map((item, ind) => (
-                    <Card key={ind}>
-                        <CardBody className='py-2 px-3 flex flex-col gap-1'>
-                           <div className="flex md:flex-row flex-col">
-                           <Typography variant="small" className="text-base font-bold">O'tkazilgan narx: &nbsp;</Typography>
-                           <Typography variant="small" className="md:text-base text-sm">{item?.paymentAmount} sum</Typography>
-                           </div>
-                           <div className="flex md:flex-row flex-col">
-                           <Typography variant="small" className="text-base font-bold">To'lov turi: &nbsp;</Typography>
-                           <Typography variant="small" className="md:text-base text-sm">{handleSwitchPayType(item?.paymentType)}</Typography>
-                           </div>
-                           <div className="flex md:flex-row flex-col">
-                           <Typography variant="small" className="text-base font-bold">To'lov sanasi: &nbsp;</Typography>
-                           <Typography variant="small" className="md:text-base text-sm"> <DateFormatClockComponent currentDate={item?.createdAt}/></Typography>
-                           </div>
-                        </CardBody>
-                    </Card>
-                ))  
-            }
-        </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 ">
+                {
+                    payments.map((item, ind) => (
+                        <Card key={ind}>
+                            <CardBody className='py-2 px-3 flex flex-col gap-1'>
+                                <div className="flex md:flex-row flex-col">
+                                    <Typography variant="small" className="text-base font-bold">O'tkazilgan
+                                        narx: &nbsp;</Typography>
+                                    <Typography variant="small"
+                                                className="md:text-base text-sm">{item?.paymentAmount} sum</Typography>
+                                </div>
+                                <div className="flex md:flex-row flex-col">
+                                    <Typography variant="small" className="text-base font-bold">To'lov
+                                        turi: &nbsp;</Typography>
+                                    <Typography variant="small"
+                                                className="md:text-base text-sm">{handleSwitchPayType(item?.paymentType)}</Typography>
+                                </div>
+                                <div className="flex md:flex-row flex-col">
+                                    <Typography variant="small" className="text-base font-bold">To'lov
+                                        sanasi: &nbsp;</Typography>
+                                    <Typography variant="small" className="md:text-base text-sm">
+                                        <DateFormatClockComponent currentDate={item?.createdAt}/></Typography>
+                                </div>
+                            </CardBody>
+                        </Card>
+                    ))
+                }
+            </div>
         </div>
     )
 }

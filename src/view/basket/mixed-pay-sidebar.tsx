@@ -20,7 +20,7 @@ export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps
     const {mixedPay} = useAppSelector(state => state.variables)
 
     const [isAdd, setAdd] = React.useState<boolean>(false)
-    const [inputFields, setInputFields] = React.useState<MixedPayDataProps[]>(mixedPay.length > 1? mixedPay :[
+    const [inputFields, setInputFields] = React.useState<MixedPayDataProps[]>(mixedPay.length > 1 ? mixedPay : [
         {paymentAmount: totalPrice, paymentType: "transfer"}
     ]);
 
