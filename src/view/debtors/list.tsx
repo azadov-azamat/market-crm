@@ -71,7 +71,7 @@ export default function DebtsList() {
                            </div>
                         </CardBody>
                     </Card>
-                ))
+                ))  
             }
         </div>
         <div className="flex">

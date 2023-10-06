@@ -1,7 +1,7 @@
 import BasketBox from "../../components/box/basket-box.tsx";
 import {Button, Card, CardBody, Radio, Typography} from "@material-tailwind/react";
 import React from "react";
-import {getMgId, handleSwitchPayType} from "../../config/servise.ts";
+import {getCheckFile, getMgId, handleSwitchPayType} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {DebtorSidebar} from "./debtor-sidebar.tsx";
@@ -150,6 +150,7 @@ export default function Basket() {
                                         console.log(err)
                                     })
                             }
+                            getCheckFile(String(res.data.id))
                             toast.success("Sotuv saqlandi!")
                         })
                         .catch(err => {

@@ -2,13 +2,14 @@
 
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
-import {getMgId} from "../../config/servise.ts";
+import {getCheckFile, getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {useEffect} from "react";
 import {getSales, getStores} from "../../redux/reducers/variable.ts";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import DateFormatClockComponent from "../../components/date-format/oclock.tsx";
+import {HiQrCode} from 'react-icons/hi2'
 import qs from "qs";
 
 export default function SoldProducts() {
@@ -75,11 +76,10 @@ export default function SoldProducts() {
             {
                 sales.map((item, ind)=>{
                     return (
-                        <Card key={ind} 
-                        onClick={()=> navigate(`/seller/sold-product/${item?.id}`)}
-                        className="cursor-pointer relative"
+                        <Card key={ind}
+                        className="relative"
                         >
-                           <CardBody>
+                           <CardBody onClick={()=> navigate(`/seller/sold-product/${item?.id}`)} className="cursor-pointer">
                                 <div className="">
                                     <Typography variant="paragraph" className="text-base font-bold">#{ind + 1} {item?.store?.storeName}</Typography>
                                 </div>
@@ -131,6 +131,9 @@ export default function SoldProducts() {
                            </div>
                            </CardBody>
                            {item?.saleDebt && <div className="absolute text-xs px-2 bg-red-500 text-white rounded right-1 top-1">qarz-savdo</div>}
+                           <div className="absolute text-3xl cursor-pointer bottom-2 right-2">
+                           <HiQrCode onClick={()=> getCheckFile(String(item?.id))} />
+                           </div>
                         </Card>
                     )
                 })

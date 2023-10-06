@@ -58,7 +58,7 @@ export interface LoginDataProps {
     sellerPhone: string;
 }
 
-export interface AddressesDataProps extends DataProps {
+export interface AddrpaymentAmountessesDataProps extends DataProps {
     adressName: string,
 }
 
@@ -114,6 +114,9 @@ export interface ClientDataProps extends DataProps {
     clientAdress: string;
     clientPaymentDate: string; // qarz qaytarish sanasi
     clientPhone: number;
+    payments?: MixedPayDataProps[] | []
+    sales?: SaleDataProps[] | [];
+    debts?: DebtorDataProps[] |[];
 }
 
 export interface DataProps {

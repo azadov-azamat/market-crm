@@ -1,3 +1,6 @@
+import axios from "axios";
+import { baseUrl, getAuthorizationHeader } from "./api";
+
 export function handleNumberMask(text: string) {
     return text.replace(/[^0-9.]/g, '');
 }
@@ -19,3 +22,13 @@ export function handleSwitchPayType(text: string): string {
 }
 
 export const getMgId = () => localStorage.getItem("mgId")
+
+export const getCheckFile =(id: string)=>{
+    axios.get(baseUrl + `/sales/file/${id}`, {
+        headers: {
+            AccessControlAllowOrigin: "*",
+            ContentType: "application/json",
+            Authorization: getAuthorizationHeader()
+        }          
+    })
+}
