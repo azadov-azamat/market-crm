@@ -58,7 +58,7 @@ export interface LoginDataProps {
     sellerPhone: string;
 }
 
-export interface AddrpaymentAmountessesDataProps extends DataProps {
+export interface AddressesDataProps extends DataProps {
     adressName: string,
 }
 
