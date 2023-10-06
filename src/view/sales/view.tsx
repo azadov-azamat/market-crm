@@ -166,7 +166,7 @@ export default function ViewSales() {
                            }  
 </CardBody>
 {sale?.saleDebt && <div className="absolute -right-1 -top-1">
-    <FiExternalLink className="text-green-500 text-xl cursor-pointer"/>
+    <FiExternalLink className="text-green-500 text-xl cursor-pointer" onClick={()=> navigate(`/seller/debtor/${sale?.client?.id}}`)}/>
 </div>}
             </Card>
           </div>

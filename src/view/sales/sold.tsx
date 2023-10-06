@@ -7,15 +7,18 @@ import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {useEffect} from "react";
 import {getSales, getStores} from "../../redux/reducers/variable.ts";
 import { Card, CardBody, Typography } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DateFormatClockComponent from "../../components/date-format/oclock.tsx";
+import qs from "qs";
 
 export default function SoldProducts() {
 
     const navigate = useNavigate()
+    const location = useLocation()
     const dispatch = useAppDispatch()
 
-    const {stores, sales} = useAppSelector(state => state.variables)
+    const {stores, sales, client} = useAppSelector(state => state.variables)
+    const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
     const breadCumbc: BreadCumbsDataProps[] = [
         {
@@ -33,15 +36,41 @@ export default function SoldProducts() {
     ]
 
     useEffect(() => {
-        dispatch(getSales({}))
+        if(client){
+            navigate({
+                search: qs.stringify({
+                    filter: JSON.stringify({clientId: client?.id})
+                })
+            })
+        }
+    }, [client])
+
+    useEffect(()=>{
+        if(location.search){
+            dispatch(getSales({...query}))
+        } else {
+            dispatch(getSales({}))
+        }
+    }, [location.search])
+
+    useEffect(() => {
         dispatch(getStores())
+
+        return ()=>{
+            dispatch({
+                type: "sale/getSales/fulfilled",
+                payload: {
+                    data: []
+                }
+            })
+        }
     }, [])
 
     return (
         <div>
-            <div className="w-full overflow-ellipsis overflow-hidden">
+           {!client && <div className="w-full overflow-ellipsis overflow-hidden">
                 <BreadcumbsComponent data={breadCumbc}/>
-            </div>
+            </div>}
             <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">
             {
                 sales.map((item, ind)=>{
@@ -74,7 +103,7 @@ export default function SoldProducts() {
                            <Typography variant="small" className="text-base"><DateFormatClockComponent currentDate={item?.createdAt}/></Typography>
                            </div>
                            {
-                            item?.soldProducts?.length > 0 &&   <div className="sold-product my-2">
+                            item?.soldproducts?.length > 0 &&   <div className="sold-product my-2">
                             <Typography variant="paragraph">Sotilgan mahsulotlar: </Typography>
                            <div className="flex ">
                                 <div className="w-1/3 text-base font-bold">Nomi</div>
@@ -83,7 +112,7 @@ export default function SoldProducts() {
                            </div>
                            <div className="">
                                 {
-                                    item.soldProducts.map((pr, ip)=> {
+                                    item.soldproducts.map((pr, ip)=> {
                                         return (
                                             <div className="flex" key={ip}>
                                                   <div className="w-1/3">{pr?.soldProductName}</div>

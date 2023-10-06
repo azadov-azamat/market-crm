@@ -83,7 +83,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                   className="flex flex-col gap-3"
             >
 
-                {!debtUser && <>
+                {!debtUser ? <>
                     {isOther ? <>
                             <div className="text-sm text-center text-white bg-black/20 py-0.5 rounded-xl cursor-pointer"
                                  onClick={() => setOther(false)}>
@@ -150,6 +150,8 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                         readOnly
                         label={"Umumiy narx"}
                     />
+                </> : <>
+                <div className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{debtUser?.clientName} uchun to'lov</div>
                 </>
                 }
 
@@ -158,7 +160,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                     value={gvnPrice}
                     onChange={e => {
                         const num = e.target.value
-                        if (debtUser !== null) {
+                        if (debtUser) {
                             setGvnPrice(handleNumberMask(num))
                         } else {
                             if (totalPrice >= Number(num)) {

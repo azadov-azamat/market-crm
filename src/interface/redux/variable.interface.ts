@@ -7,6 +7,7 @@ export interface InitialStateProps {
     product: ProductsDataProps | null;
     fltProduct: ProductsDataProps[] | [];
     baskets: BasketsDataProps[] | [];
+    debts: DebtorDataProps[] | []
     debtor: ClientDataProps | null;
     orders: OrderDataProps[] | [];
     mixedPay: MixedPayDataProps[] | [];
@@ -45,7 +46,7 @@ export interface SoldProductDataProps extends DataProps {
     soldProductName: string;
 }
 
-export interface DebtorDataProps {
+export interface DebtorDataProps extends DataProps{
     debt: number;
     clientId: number;
     saleId?: number;

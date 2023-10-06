@@ -49,6 +49,15 @@ export const getClients = createAsyncThunk('clients/getClients', async (data: Ur
     }
 })
 
+export const getClientById = createAsyncThunk('clients/getClientById', async (data: string, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get(`/clients/${data}`)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 
 export const getStores = createAsyncThunk('store/getStores', async (_, {rejectWithValue}) => {
     try {
@@ -108,6 +117,17 @@ export const createDebt = createAsyncThunk('debts/createDebt', async (data: Debt
     }
 })
 
+export const getDebtList = createAsyncThunk('debts/getDebtList', async (data: UrlParamsDataProps, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get('/debts', {
+            params: data
+        })
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 export const createProduct = createAsyncThunk('product/createProduct', async (data: ProductsDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.post('/products', data)
@@ -158,6 +178,7 @@ const initialState: InitialStateProps = {
     product: null,
     fltProduct: [],
     baskets: [],
+    debts: [],
     debtor: null,
     orders: [],
     mixedPay: [],
@@ -270,6 +291,17 @@ export const variableSlice = createSlice({
             state.loading = false
         })
 
+        builder.addCase(getClientById.fulfilled, (state: InitialStateProps, action) => {
+            state.client = action.payload.data
+            state.loading = false
+        })
+        builder.addCase(getClientById.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getClientById.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
         builder.addCase(getSales.fulfilled, (state: InitialStateProps, action) => {
             state.sales = action.payload.data
             state.loading = false
@@ -355,6 +387,21 @@ export const variableSlice = createSlice({
             state.loading = true
         })
         builder.addCase(createProduct.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getDebtList.fulfilled, (state: InitialStateProps, action) => {
+            state.debts = action.payload.data
+            state.currentPage = action.payload?.currentPage
+            state.limit = action.payload?.limit
+            state.pageCount = action.payload?.pageCount
+            state.totalCount = action.payload?.totalCount
+            state.loading = false
+        })
+        builder.addCase(getDebtList.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getDebtList.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
     }

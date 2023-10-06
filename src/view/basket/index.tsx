@@ -121,7 +121,7 @@ export default function Basket() {
                     const formData = new FormData(e.currentTarget)
 
                     const data: SaleDataProps = {
-                        soldProducts: setSolProduct() || [],
+                        soldproducts: setSolProduct() || [],
                         storeId: Number(getMgId()),
                         saleMainPrice: totalPrice,
                         saleSoldPrice: totalAfterDiscount,
