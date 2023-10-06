@@ -38,9 +38,10 @@ export default function DebtsList() {
     React.useEffect(() => {
         if (location.search) {
             dispatch(getDebtList({...query}))
-        } else {
-            dispatch(getDebtList({}))
         }
+        // else {
+        //     dispatch(getDebtList({}))
+        // }
     }, [location.search])
 
     React.useEffect(() => {

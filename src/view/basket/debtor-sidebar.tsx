@@ -124,7 +124,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             required={!isOther}
                             label={"Mijozlar"}
                             placeholder="Mijozlardan birini tanlang..."
-                            options={[...clients, {id: null, clientName: "Boshqa"}]}
+                            options={[{id: null, clientName: "Boshqa"}, ...clients]}
                             optionLabel={"clientName"}
                             optionValue={"id"}
                             onFocus={() => {
