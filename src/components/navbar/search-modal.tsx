@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {useNavigate} from "react-router-dom";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
+import {formatter} from "../../config/servise.ts";
 
 export default function SearchModal({toggle, open}: ModalInterfaceProps) {
 
@@ -58,7 +59,7 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
                                 </Typography>
                                 <div className="w-full flex justify-between">
                                     <Typography variant={"small"} className={"font-bold text-xs"}>
-                                        {item.productPrice} sum
+                                        {formatter.format(item.productPrice)}
                                     </Typography>
                                     <Typography variant={"small"} className={"font-medium text-xs"}>
                                         Miqdori: {item.productQuantity} {item.productMeasure}

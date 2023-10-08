@@ -20,7 +20,7 @@ import {LazyLoadImage} from "react-lazy-load-image-component";
 import SearchModal from "./search-modal.tsx";
 import {filterProduct, getProductsSearch, logoutFunc} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
-import {getMgId} from "../../config/servise.ts";
+import {formatter, getMgId} from "../../config/servise.ts";
 import qs from "qs";
 import {noIMG} from "../../config/api.ts";
 
@@ -216,7 +216,7 @@ export default function NavbarComponent(): JSX.Element {
                                             </Typography>
                                             <div className="w-full flex justify-between">
                                                 <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                    {item.productPrice} sum
+                                                    {formatter.format(item.productPrice)}
                                                 </Typography>
                                                 <Typography variant={"small"} className={"font-medium text-xs"}>
                                                     Miqdori: {item.productQuantity} {item.productMeasure}

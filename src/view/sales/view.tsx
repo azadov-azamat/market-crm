@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 import {getSaleById, getStores} from '../../redux/reducers/variable'
 import {BreadCumbsDataProps} from '../../interface/modal/modal.interface'
-import {getMgId, handleSwitchPayType} from '../../config/servise'
+import {formatter, getMgId, handleSwitchPayType} from '../../config/servise'
 import BreadcumbsComponent from '../../components/page-title/breadcumbs'
 import {Card, CardBody, Typography} from '@material-tailwind/react'
 import DateFormatClockComponent from '../../components/date-format/oclock'
@@ -73,14 +73,14 @@ export default function ViewSales() {
                                 <Typography variant="small" className="text-base font-bold">Umumiy
                                     narxi: &nbsp;</Typography>
                                 <Typography variant="small"
-                                            className="text-base"> {sale?.saleMainPrice} sum</Typography>
+                                            className="text-base"> {formatter.format(sale?.saleMainPrice || 0)}</Typography>
                             </div>
 
                             <div className="flex">
                                 <Typography variant="small" className="text-base font-bold">Sotilgan
                                     narxi: &nbsp;</Typography>
                                 <Typography variant="small"
-                                            className="text-base"> {sale?.saleSoldPrice} sum</Typography>
+                                            className="text-base"> {formatter.format(sale?.saleSoldPrice || 0)}</Typography>
                             </div>
 
                             <div className="flex">
@@ -121,7 +121,7 @@ export default function ViewSales() {
                                                 return (
                                                     <div className="flex relative" key={ip}>
                                                         <div className="w-1/3">{pr.soldProductName}</div>
-                                                        <div className="w-1/3">{pr.soldPrice} sum</div>
+                                                        <div className="w-1/3">{formatter.format(pr.soldPrice)}</div>
                                                         <div className="w-1/3">{pr.soldQuantity}</div>
                                                         <div className="absolute right-0">
                                                             <FiExternalLink
@@ -156,7 +156,7 @@ export default function ViewSales() {
                                                 return (
                                                     <div className="flex" key={ip}>
                                                         <div className="w-1/12">{ip + 1}</div>
-                                                        <div className="w-4/12">{pr.paymentAmount} sum</div>
+                                                        <div className="w-4/12">{formatter.format(pr.paymentAmount)}</div>
                                                         <div
                                                             className="w-7/12">{handleSwitchPayType(pr.paymentType)}</div>
                                                     </div>

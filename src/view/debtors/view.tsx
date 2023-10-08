@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import {useAppDispatch, useAppSelector} from '../../redux/hooks'
 import {BreadCumbsDataProps} from '../../interface/modal/modal.interface'
-import {getMgId, handleSwitchPayType} from '../../config/servise'
+import {formatter, getMgId, handleSwitchPayType} from '../../config/servise'
 import {getClientById, getStores} from '../../redux/reducers/variable'
 import BreadcumbsComponent from '../../components/page-title/breadcumbs'
 import {Card, CardBody, Typography} from '@material-tailwind/react'
@@ -107,7 +107,7 @@ const PaymentComponent = ({payments}: PaymentComponentDataProps) => {
                                     <Typography variant="small" className="text-base font-bold">O'tkazilgan
                                         narx: &nbsp;</Typography>
                                     <Typography variant="small"
-                                                className="md:text-base text-sm">{item?.paymentAmount} sum</Typography>
+                                                className="md:text-base text-sm">{formatter.format(item?.paymentAmount)}</Typography>
                                 </div>
                                 <div className="flex md:flex-row flex-col">
                                     <Typography variant="small" className="text-base font-bold">To'lov

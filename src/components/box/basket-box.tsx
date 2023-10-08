@@ -2,7 +2,7 @@ import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {toast} from "react-toastify";
 import {FaTrash} from "react-icons/fa";
-import {handleNumberMask} from "../../config/servise.ts";
+import {formatter, handleNumberMask} from "../../config/servise.ts";
 import {BasketsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
@@ -51,7 +51,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         Miqdori: {productQuantity} {productMeasure}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Narxi: {productPrice} sum
+                        Narxi: {formatter.format(productPrice)}
                     </Typography>
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-5 xl:mt-0">
@@ -87,7 +87,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         <div className="mt-5">
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {currentAmount !== "0" ? `${(productPrice - currentDiscount) * Number(currentAmount)} sum` : productPrice + " sum"}
+                                {formatter.format(currentAmount !== "0" ? (productPrice - currentDiscount) * Number(currentAmount) : productPrice)}
                             </Typography>
                         </div>
                     </div>
@@ -122,7 +122,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base mt-4"}>
-                    {currentAmount !== "0" ? `${(productPrice - currentDiscount) * Number(currentAmount)} sum` : productPrice + " sum"}
+                    {formatter.format(currentAmount !== "0" ? (productPrice - currentDiscount) * Number(currentAmount) : productPrice)}
                 </Typography>
             </div>
         </Card>

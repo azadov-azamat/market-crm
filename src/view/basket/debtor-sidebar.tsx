@@ -6,7 +6,7 @@ import {ClientDataProps, DebtorDataProps} from "../../interface/redux/variable.i
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {createClient, createDebt, getClients, setDebtorData, setMixedPayList} from "../../redux/reducers/variable.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
-import {getMgId, handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
+import {formatter, getMgId, handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
 import {toast} from "react-toastify";
 import {MixedPaySidebar} from "./mixed-pay-sidebar.tsx";
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -84,6 +84,9 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
             >
 
                 {!debtUser ? <>
+                    <div
+                        className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{formatter.format(totalPrice)}
+                    </div>
                     {isOther ? <>
                             <div className="text-sm text-center text-white bg-black/20 py-0.5 rounded-xl cursor-pointer"
                                  onClick={() => setOther(false)}>
@@ -144,12 +147,12 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             }
                         />
                     }
-                    <InputComponent.Text
-                        name={"total_price"}
-                        value={totalPrice}
-                        readOnly
-                        label={"Umumiy narx"}
-                    />
+                    {/*<InputComponent.Text*/}
+                    {/*    name={"total_price"}*/}
+                    {/*    value={formatter.format(totalPrice)}*/}
+                    {/*    readOnly*/}
+                    {/*    label={"Umumiy narx"}*/}
+                    {/*/>*/}
                 </> : <>
                     <div
                         className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{debtUser?.clientName} uchun
@@ -233,7 +236,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             mixedPay.map((item, ind) => <div
                                 className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                 <div className={"text-sm w-1/12`"}>{ind + 1}</div>
-                                <div className={"text-sm pl-5 w-5/12"}>{item.paymentAmount} sum</div>
+                                <div className={"text-sm pl-5 w-5/12"}>{formatter.format(item.paymentAmount)}</div>
                                 <div
                                     className={"text-sm w-6/12"}>{handleSwitchPayType(item.paymentType)}</div>
                             </div>)

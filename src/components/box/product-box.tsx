@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket} from "../../redux/reducers/variable.ts";
-import {handleNumberMask} from "../../config/servise.ts";
+import {formatter, handleNumberMask} from "../../config/servise.ts";
 import {BiXCircle} from "react-icons/bi";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
@@ -76,7 +76,7 @@ export default function ProductBox(props: ProductsDataProps) {
                 </div>
                 <div className="my-3 sm:my-0">
                     <Typography variant={"small"} className={"font-bold text-lg"}>
-                        {productPrice} sum
+                        {formatter.format(productPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
                         Miqdori: {productQuantity} {productMeasure}

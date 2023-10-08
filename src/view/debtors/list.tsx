@@ -5,6 +5,7 @@ import {getDebtList} from '../../redux/reducers/variable'
 import qs from "qs";
 import {Card, CardBody, Typography} from '@material-tailwind/react';
 import DateFormatClockComponent from '../../components/date-format/oclock';
+import {formatter} from "../../config/servise.ts";
 
 export default function DebtsList() {
 
@@ -72,7 +73,7 @@ export default function DebtsList() {
                                 <div className="flex md:flex-row flex-col">
                                     <Typography variant="small"
                                                 className="text-base font-bold">Summa: &nbsp;</Typography>
-                                    <Typography variant="small" className="text-base">{item?.debt} sum</Typography>
+                                    <Typography variant="small" className="text-base">{formatter.format(item?.debt)}</Typography>
                                 </div>
                             </CardBody>
                         </Card>
@@ -84,7 +85,7 @@ export default function DebtsList() {
                     <CardBody className='py-2 px-3 flex flex-col gap-2'>
                         <div className="flex justify-between">
                             <Typography variant="small" className="text-base font-bold">Jami: &nbsp;</Typography>
-                            <Typography variant="small" className="text-base"> {amount} sum</Typography>
+                            <Typography variant="small" className="text-base"> {formatter.format(amount)}</Typography>
                         </div>
                     </CardBody>
                     {amount < 0 && <div

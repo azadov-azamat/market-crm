@@ -2,7 +2,7 @@
 
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
-import {getMgId} from "../../config/servise.ts";
+import {formatter, getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {useEffect} from "react";
 import {getSales, getStores} from "../../redux/reducers/variable.ts";
@@ -103,14 +103,14 @@ export default function SoldProducts() {
                                         <Typography variant="small" className="text-base font-bold">Umumiy
                                             narxi: &nbsp;</Typography>
                                         <Typography variant="small"
-                                                    className="text-base"> {item?.saleMainPrice} sum</Typography>
+                                                    className="text-base"> {formatter.format(item?.saleMainPrice)}</Typography>
                                     </div>
 
                                     <div className="flex">
                                         <Typography variant="small" className="text-base font-bold">Sotilgan
                                             narxi: &nbsp;</Typography>
                                         <Typography variant="small"
-                                                    className="text-base"> {item?.saleSoldPrice} sum</Typography>
+                                                    className="text-base"> {formatter.format(item?.saleSoldPrice)}</Typography>
                                     </div>
 
                                     <div className="flex">
@@ -133,7 +133,7 @@ export default function SoldProducts() {
                                                         return (
                                                             <div className="flex" key={ip}>
                                                                 <div className="w-1/3">{pr?.soldProductName}</div>
-                                                                <div className="w-1/3">{pr?.soldPrice} sum</div>
+                                                                <div className="w-1/3">{formatter.format(pr?.soldPrice)}</div>
                                                                 <div className="w-1/3">{pr?.soldQuantity}</div>
                                                             </div>
                                                         )

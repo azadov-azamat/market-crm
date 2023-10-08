@@ -1,7 +1,7 @@
 import BasketBox from "../../components/box/basket-box.tsx";
 import {Button, Card, CardBody, Radio, Typography} from "@material-tailwind/react";
 import React from "react";
-import {getMgId, handleSwitchPayType} from "../../config/servise.ts";
+import {formatter, getMgId, handleSwitchPayType} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {DebtorSidebar} from "./debtor-sidebar.tsx";
@@ -274,15 +274,14 @@ export default function Basket() {
                                 <Typography variant={"small"} className={"font-bold text-base"}>Jami
                                     (chegirma): </Typography>
                                 <Typography variant={"small"}
-                                            className={"font-bold text-base"}>{totalAfterDiscount}&nbsp;sum</Typography>
+                                            className={"font-bold text-base"}>{formatter.format(totalAfterDiscount)}</Typography>
                             </div>
                             <div className="">
                                 <ul>
                                     <li className={"w-full flex items-center justify-between my-2"}>
                                         <Typography variant={"small"} className={"font-bold text-sm"}>Umumiy
                                             narx: </Typography>
-                                        <Typography variant={"small"} className={"font-bold text-sm"}>{totalPrice}&nbsp;
-                                            sum</Typography>
+                                        <Typography variant={"small"} className={"font-bold text-sm"}>{formatter.format(totalPrice)}</Typography>
                                     </li>
                                     {baskets.map((item, ind) => (
                                         <li key={ind} className={"w-full flex items-center justify-between my-2"}>
@@ -290,7 +289,7 @@ export default function Basket() {
                                                 mahsulotdan
                                                 chegirma: </Typography>
                                             <Typography variant={"small"}
-                                                        className={"font-bold text-sm"}>{item?.discount || 0}&nbsp;sum</Typography>
+                                                        className={"font-bold text-sm"}>{formatter.format(Number(item?.discount) || 0)}</Typography>
                                         </li>))}
                                     <li className={"w-full flex items-center justify-between my-2"}>
                                         <Typography variant={"small"} className={"font-bold text-sm"}>To'lov
@@ -335,7 +334,7 @@ export default function Basket() {
                                                 mixedPay.map((item, ind) => <div
                                                     className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                                     <div className={"text-sm w-1/12`"}>{ind + 1}</div>
-                                                    <div className={"text-sm pl-5 w-5/12"}>{item.paymentAmount} sum</div>
+                                                    <div className={"text-sm pl-5 w-5/12"}>{formatter.format(item.paymentAmount)}</div>
                                                     <div
                                                         className={"text-sm w-6/12"}>{handleSwitchPayType(item.paymentType)}</div>
                                                 </div>)

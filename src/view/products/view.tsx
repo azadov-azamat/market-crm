@@ -9,7 +9,7 @@ import {
     setBasket,
     setDiscountBasket
 } from "../../redux/reducers/variable.ts";
-import {handleNumberMask} from "../../config/servise.ts";
+import {formatter, handleNumberMask} from "../../config/servise.ts";
 import {toast} from "react-toastify";
 import ProductList from "./list.tsx";
 import {SlBasket} from "react-icons/sl";
@@ -96,7 +96,7 @@ export default function ViewProduct() {
                                 Miqdori: {product?.productQuantity} {product?.productMeasure}
                             </Typography>
                             <Typography variant={"small"} className={"font-medium text-base"}>
-                                Narxi: {product?.productPrice} sum
+                                Narxi: {formatter.format(Number(product?.productPrice) || 0)}
                             </Typography>
                             <div
                                 className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
@@ -127,7 +127,7 @@ export default function ViewProduct() {
                                 <div className="">
                                     <Typography variant={"h2"}
                                                 className={"font-bold text-base"}>
-                                        {product !== null && currentAmount !== "0" ? `${(product?.productPrice - currentDiscount) * Number(currentAmount)} sum` : product?.productPrice + " sum"}
+                                        {product !== null && formatter.format(currentAmount !== "0" ? (product?.productPrice - currentDiscount) * Number(currentAmount) : product?.productPrice)}
                                     </Typography>
                                 </div>
                             </div>
@@ -162,7 +162,7 @@ export default function ViewProduct() {
                         </div>
                         <Typography variant={"lead"}
                                     className={"font-bold text-base mt-4"}>
-                            {product !== null && currentAmount !== "0" ? `${(product?.productPrice - currentDiscount) * Number(currentAmount)} sum` : product?.productPrice + " sum"}
+                            {product !== null && formatter.format(currentAmount !== "0" ? (product?.productPrice - currentDiscount) * Number(currentAmount) : product?.productPrice)}
                         </Typography>
                     </div>
                 </Card>
@@ -171,7 +171,7 @@ export default function ViewProduct() {
                         <div className="w-full mb-3 py-2 border-b border-dashed">
                             <Typography variant={"h2"}
                                         className={"font-bold text-xl"}>
-                                {product?.productPrice} sum
+                                {formatter.format(product?.productPrice || 0)}
                             </Typography>
                         </div>
                         <div className="flex flex-col gap-2 mt-12">
