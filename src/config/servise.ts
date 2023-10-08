@@ -7,31 +7,23 @@ export function handleSwitchPayType(text: string): string {
         case "debt-pay":
             return "Qarz to'lovi"
         case "terminal":
-            return "Terminal orqali (Uzcard/Humo)"
+            return "Terminal orqali"
         case "naqd":
-            return "Naxd to'lov"
+            return "Naqd to'lov"
         case "mixed-pay":
             return "Aralash to'lov"
         case "transfer":
         default:
-            return "Online to'lov (click)"
+            return "Online to'lov"
     }
 }
 
 export const getMgId = () => localStorage.getItem("mgId")
 
-// export const moneyFormatter = (sum: number) => {
-//
-// }
-
 export const formatter = new Intl.NumberFormat('uz-UZ', {
     style: 'currency',
     currency: 'Sum',
     minimumFractionDigits: 0
-
-    // These options are needed to round to whole numbers if that's what you want.
-    //minimumFractionDigits: 0, // (this suffices for whole numbers, but will print 2500.10 as $2,500.1)
-    //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
 export const getCheckFile = () => {
