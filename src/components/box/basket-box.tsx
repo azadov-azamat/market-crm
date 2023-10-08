@@ -7,6 +7,7 @@ import {BasketsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
+import {noIMG} from "../../config/api.ts";
 // import React from "react";
 
 export default function BasketBox(props: BasketsDataProps) {
@@ -38,7 +39,7 @@ export default function BasketBox(props: BasketsDataProps) {
                     <LazyLoadImage effect={"black-and-white"}
                                    className={"object-cover object-center xl:h-36 sm:h-40 h-36"}
                                    alt={productName}
-                                   src={typeof productImgUrl === "object" ? URL.createObjectURL(Object(productImgUrl)) : productImgUrl}
+                                   src={productImgUrl || noIMG}
                     />
                 </div>
                 <div className="w-8/12 xl:w-4/12 flex flex-col pl-3">

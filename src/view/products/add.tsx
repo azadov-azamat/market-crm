@@ -81,13 +81,13 @@ export default function AddProduct() {
                                     label={"Nomi"}/>
                             </div>
                             <div className={inputDiv}>
-                                <InputComponent.Textarea
+                                <InputComponent.Text
                                     name={"productModel"}
                                     placeholder={"Mahsulot modelini kiriting"}
                                     label={"Modeli"}/>
                             </div>
                             <div className={inputDiv}>
-                                <InputComponent.Text
+                                <InputComponent.Textarea
                                     name={"productOption"}
                                     placeholder={"Mahsulot option kiriting"}
                                     label={"Option"}/>

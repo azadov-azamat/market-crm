@@ -19,6 +19,7 @@ import React from "react";
 import {FaTrash} from "react-icons/fa";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
+import {noIMG} from "../../config/api.ts";
 // import React from "react";
 
 export default function ViewProduct() {
@@ -83,7 +84,7 @@ export default function ViewProduct() {
                             <LazyLoadImage effect={"black-and-white"}
                                            className={"object-cover object-center xl:h-36 sm:h-40 h-36"}
                                            alt={product?.productName}
-                                           src={product?.productImgUrl}
+                                           src={product?.productImgUrl || noIMG}
                             />
                         </div>
                         <div className="w-8/12 flex flex-col pl-3">

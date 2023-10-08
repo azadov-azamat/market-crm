@@ -22,6 +22,7 @@ import {filterProduct, getProductsSearch, logoutFunc} from "../../redux/reducers
 import * as InputComponent from "../inputs";
 import {getMgId} from "../../config/servise.ts";
 import qs from "qs";
+import {noIMG} from "../../config/api.ts";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -205,7 +206,7 @@ export default function NavbarComponent(): JSX.Element {
                                             <LazyLoadImage effect={"black-and-white"}
                                                            className={"object-cover object-center h-20"}
                                                            alt={item.productName}
-                                                           src={item.productImgUrl}
+                                                           src={item.productImgUrl || noIMG}
                                             />
                                         </div>
                                         <div className="w-10/12 flex flex-col justify-between pl-3">

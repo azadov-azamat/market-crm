@@ -4,6 +4,7 @@ import {Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {useNavigate} from "react-router-dom";
 import {StoresDataProps} from "../../interface/redux/variable.interface.ts";
+import {noIMG} from "../../config/api.ts";
 
 export default function MagazineBox(props: StoresDataProps) {
     const {storeName, storeImgUrl, id} = props
@@ -18,7 +19,7 @@ export default function MagazineBox(props: StoresDataProps) {
             <CardBody className={"flex flex-col justify-center items-center"}>
                 <LazyLoadImage effect={"black-and-white"}
                                className={"w-full md:h-40 sm:h-36 h-28 object-cover"} alt={storeName}
-                               src={storeImgUrl}
+                               src={storeImgUrl || noIMG}
                 />
                 <Typography variant={"small"} className={"text-center font-bold text-lg mt-3"}>
                     {storeName}

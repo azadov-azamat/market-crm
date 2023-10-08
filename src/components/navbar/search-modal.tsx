@@ -7,6 +7,7 @@ import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {useNavigate} from "react-router-dom";
 import * as InputComponent from "../inputs";
+import {noIMG} from "../../config/api.ts";
 
 export default function SearchModal({toggle, open}: ModalInterfaceProps) {
 
@@ -47,7 +48,7 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
                                 <LazyLoadImage effect={"black-and-white"}
                                                className={"object-cover object-center h-20"}
                                                alt={item.productName}
-                                               src={typeof item.productImgUrl === "object" ? URL.createObjectURL(Object(item.productImgUrl)) : item.productImgUrl}
+                                               src={item.productImgUrl || noIMG}
                                 />
                             </div>
                             <div className="w-10/12 flex flex-col justify-between pl-3">

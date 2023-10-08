@@ -11,6 +11,7 @@ import {incrementBasket, removeBasket, setBasket} from "../../redux/reducers/var
 import {handleNumberMask} from "../../config/servise.ts";
 import {BiXCircle} from "react-icons/bi";
 import * as InputComponent from "../inputs";
+import {noIMG} from "../../config/api.ts";
 
 export default function ProductBox(props: ProductsDataProps) {
     const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id, productModel, productOption} = props
@@ -53,7 +54,7 @@ export default function ProductBox(props: ProductsDataProps) {
                     <div className="w-full md:h-36 sm:h-40 h-36 flex justify-center">
                         <LazyLoadImage effect={"black-and-white"}
                                        className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={productName}
-                                       src={productImgUrl}
+                                       src={productImgUrl || noIMG}
                                        // src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
                         />
 
