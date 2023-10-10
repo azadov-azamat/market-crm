@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useLayoutEffect} from "react";
 import {
     Avatar,
     Badge,
@@ -44,9 +44,19 @@ export default function NavbarComponent(): JSX.Element {
         }
     ]);
 
-    useEffect(() => {
-
-        if (location.pathname === '/seller/magazines' || !getMgId()) {
+    useLayoutEffect(() => {
+        if (!getMgId()) {
+            const data = [
+                {
+                    label: "Chiqish",
+                    onClick: () => {
+                        dispatch(logoutFunc())
+                        navigate('/')
+                    }
+                }
+            ]
+            setProfileMenuItems(data)
+        } else if (location.pathname === '/seller/magazines') {
             const data = [
                 {
                     label: "Mening profilim",
@@ -61,13 +71,6 @@ export default function NavbarComponent(): JSX.Element {
                 }
             ]
             setProfileMenuItems(data)
-            // profileMenuItems.push({
-            //     label: "Chiqish",
-            //     onClick: () => {
-            //         dispatch(logoutFunc())
-            //         navigate('/')
-            //     }
-            // })
         } else {
             const data = [
                 {
@@ -235,12 +238,6 @@ export default function NavbarComponent(): JSX.Element {
                     <div className="block md:hidden ">
                         <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
                     </div>
-                    {/*<div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/add-product")}>*/}
-                    {/*    <AiOutlineFileAdd className={'text-2xl font-normal'}/> /!* === mahsulot qo'shish icon === *!/*/}
-                    {/*</div>*/}
-                    {/*<div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/debtors")}>*/}
-                    {/*    <PiUserSwitchLight className={'text-2xl '}/> /!* === qarzdorlar ro'yhati  icon === *!/*/}
-                    {/*</div>*/}
                     {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
                         <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
                             <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
