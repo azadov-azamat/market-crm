@@ -22,7 +22,7 @@ export default function SignIn() {
 
     return (
         <div className={'w-full h-screen flex justify-center items-center'}>
-            <Card color="white" shadow={true}>
+            <Card color="white" shadow={true}  className={"mx-4 md:mx-0"}>
                 <CardBody>
                     <Typography variant="h4" color="blue-gray">
                         Xush kelibsiz
