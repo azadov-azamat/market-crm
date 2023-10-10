@@ -46,7 +46,7 @@ export default function NavbarComponent(): JSX.Element {
 
     useEffect(() => {
 
-        if (location.pathname === '/seller/magazines') {
+        if (location.pathname === '/seller/magazines' || !getMgId()) {
             const data = [
                 {
                     label: "Mening profilim",

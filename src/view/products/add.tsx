@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Button, Card, CardBody} from "@material-tailwind/react";
+import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {getMgId, handleNumberMask} from "../../config/servise.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
@@ -41,6 +41,24 @@ export default function AddProduct() {
             link: ``
         }
     ]
+
+    if (!getMgId()) {
+        return (
+            <div>
+                <div className="w-full overflow-ellipsis overflow-hidden">
+                    <BreadcumbsComponent data={breadCumbc}/>
+                </div>
+                <div className={"w-full h-[80vh] flex justify-center items-center"}>
+                    <div className="flex flex-col items-center gap-3">
+                        <Typography variant={"h4"}>
+                           Do'kon mavjud emas
+                        </Typography>
+                        <Button className={"normal-case"} onClick={() => navigate(`/seller/magazines`)}>Do'konlar</Button>
+                    </div>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div>
