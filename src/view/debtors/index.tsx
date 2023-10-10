@@ -12,13 +12,15 @@ import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {getClients, getStores} from "../../redux/reducers/variable.ts";
 import DateFormatComponent from "../../components/date-format";
 import {FaEye} from "react-icons/fa";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
+import qs from "qs";
 
 export default function Debtors() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const location = useLocation()
 
     const {
         clients,
@@ -29,6 +31,8 @@ export default function Debtors() {
         totalCount,
         loading
     } = useAppSelector(state => state.variables)
+
+    const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
     const [client, setClient] = React.useState<ClientDataProps | null>(null)
     const [isDebt, setDebt] = React.useState<boolean>(false)
@@ -50,7 +54,14 @@ export default function Debtors() {
     ]
 
     React.useEffect(() => {
-        dispatch(getClients({}))
+        if (location.search) {
+            dispatch(getClients({...query}))
+        } else {
+            dispatch(getClients({}))
+        }
+    }, [location])
+
+    React.useEffect(() => {
         dispatch(getStores())
     }, [])
 

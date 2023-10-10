@@ -4,7 +4,7 @@ import {Button, Radio} from "@material-tailwind/react";
 import {MixedPayDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {setMixedPayList} from "../../redux/reducers/variable.ts";
-import {handleNumberMask} from "../../config/servise.ts";
+import {getMgId, handleNumberMask} from "../../config/servise.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import * as InputComponent from "../../components/inputs";
 import {BiX} from "react-icons/bi";
@@ -21,7 +21,7 @@ export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps
 
     const [isAdd, setAdd] = React.useState<boolean>(false)
     const [inputFields, setInputFields] = React.useState<MixedPayDataProps[]>(mixedPay.length > 1 ? mixedPay : [
-        {paymentAmount: totalPrice, paymentType: "transfer"}
+        {paymentAmount: totalPrice, paymentType: "transfer", storeId: getMgId()}
     ]);
 
     React.useEffect(() => {
@@ -76,7 +76,8 @@ export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps
 
         list.push({
             paymentType: '',
-            paymentAmount: totalPrice - amount
+            paymentAmount: totalPrice - amount,
+            storeId: getMgId()
         })
         setInputFields(list)
     }

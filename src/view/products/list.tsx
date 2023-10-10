@@ -71,6 +71,7 @@ export default function ProductList({isView}: Pr) {
                                 <ProductBox
                                     key={ind}
                                     storeId={item.storeId}
+                                    productMainPrice={item.productMainPrice}
                                     productName={item.productName}
                                     productPrice={item.productPrice}
                                     id={item.id}

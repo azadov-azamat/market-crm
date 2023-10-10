@@ -32,14 +32,14 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
     const setArrayToggle = (payTy: string) => {
         toggleMixed(false)
         dispatch(setMixedPayList([
-            {paymentAmount: Number(gvnPrice), paymentType: payTy}
+            {paymentAmount: Number(gvnPrice), paymentType: payTy, storeId: getMgId()}
         ]))
     }
 
     useEffect(() => {
         if (gvnPrice !== "") {
             dispatch(setMixedPayList([
-                {paymentAmount: Number(gvnPrice), paymentType: "transfer"}
+                {paymentAmount: Number(gvnPrice), paymentType: "transfer", storeId: getMgId()}
             ]))
         }
     }, [gvnPrice]);

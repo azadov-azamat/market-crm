@@ -178,6 +178,12 @@ export default function ViewProduct() {
                             <div className="">
                                 <Typography variant={"paragraph"}
                                             className={"font-medium text-xs"}>
+                                   Asosiy marxi: {formatter.format(product?.productMainPrice || 0)}
+                                </Typography>
+                            </div>
+                            <div className="">
+                                <Typography variant={"paragraph"}
+                                            className={"font-medium text-xs"}>
                                     {product?.productModel}
                                 </Typography>
                             </div>

@@ -18,7 +18,7 @@ export function handleSwitchPayType(text: string): string {
     }
 }
 
-export const getMgId = () => localStorage.getItem("mgId")
+export const getMgId = () => localStorage.getItem("mgId") || ""
 
 export const formatter = new Intl.NumberFormat('uz-UZ', {
     style: 'currency',

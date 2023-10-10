@@ -44,7 +44,7 @@ export default function Basket() {
 
     React.useEffect(() => {
         dispatch(setMixedPayList([
-            {paymentAmount: totalAfterDiscount, paymentType: "transfer"}
+            {paymentAmount: totalAfterDiscount, paymentType: "transfer", storeId: getMgId()}
         ]))
         return () => {
             dispatch(setMixedPayList([]))
@@ -70,7 +70,7 @@ export default function Basket() {
     const setArrayToggle = (payTy: string) => {
         toggleMixed(false)
         dispatch(setMixedPayList([
-            {paymentAmount: totalAfterDiscount, paymentType: payTy}
+            {paymentAmount: totalAfterDiscount, paymentType: payTy, storeId: getMgId()}
         ]))
     }
 
@@ -176,11 +176,13 @@ export default function Basket() {
                                          productQuantity,
                                          id,
                                          adressId,
-                                         storeId
+                                         storeId,
+                                         productMainPrice
                                      }, ind) => (
                             <BasketBox
                                 storeId={storeId}
                                 key={ind}
+                                productMainPrice={productMainPrice}
                                 amount={amount}
                                 productName={productName}
                                 productPrice={productPrice}

@@ -12,7 +12,7 @@ import {noIMG} from "../../config/api.ts";
 
 export default function BasketBox(props: BasketsDataProps) {
 
-    const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id} = props
+    const {productName, productImgUrl, productPrice, productMainPrice, productMeasure, productQuantity, id} = props
 
     const dispatch = useAppDispatch()
     const {baskets} = useAppSelector(state => state.variables)
@@ -52,6 +52,9 @@ export default function BasketBox(props: BasketsDataProps) {
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
                         Narxi: {formatter.format(productPrice)}
+                    </Typography>
+                    <Typography variant={"small"} className={"font-medium text-base"}>
+                        Asosiy narxi: {formatter.format(productMainPrice)}
                     </Typography>
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-5 xl:mt-0">

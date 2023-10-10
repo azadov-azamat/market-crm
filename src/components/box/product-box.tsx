@@ -14,7 +14,7 @@ import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
 
 export default function ProductBox(props: ProductsDataProps) {
-    const {productName, productImgUrl, productPrice, productMeasure, productQuantity, id, productModel, productOption} = props
+    const {productName, productImgUrl, productPrice, productMainPrice, productMeasure, productQuantity, id, productModel, productOption} = props
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -77,6 +77,9 @@ export default function ProductBox(props: ProductsDataProps) {
                 <div className="my-3 sm:my-0">
                     <Typography variant={"small"} className={"font-bold text-lg"}>
                         {formatter.format(productPrice)}
+                    </Typography>
+                    <Typography variant={"small"} className={"font-medium text-base"}>
+                        Asosiy narxi: {productMainPrice}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
                         Miqdori: {productQuantity} {productMeasure}

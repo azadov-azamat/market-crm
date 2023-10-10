@@ -19,6 +19,7 @@ export default function AddProduct() {
     const measureList = ["kg", "dona", "litr", "metr", "metrkv"]
 
     const [price, setPrice] = React.useState<string>("")
+    const [mainPrice, setMainPrice] = React.useState<string>("")
     const [quantity, setQuantity] = React.useState<string>("")
 
     React.useEffect(() => {
@@ -64,6 +65,7 @@ export default function AddProduct() {
                                     productQuantity: Number(quantity),
                                     productMeasure: String(data.get("productMeasure")),
                                     adressId: Number(data.get("addresses")),
+                                    productMainPrice: Number(mainPrice),
                                     productImgUrl: String(data.get("productImgUrl"))
                                 }))
                                 navigate(`/seller/products/${getMgId()}`)
@@ -100,6 +102,16 @@ export default function AddProduct() {
                                     label={"Narxi"}
                                     value={price}
                                     onChange={e => setPrice(handleNumberMask(e.target.value))}
+                                />
+                            </div>
+                            <div className={inputDiv}>
+                                <InputComponent.Text
+                                    required
+                                    name={"productMainPrice"}
+                                    placeholder={"Mahsulot narxini kiriting"}
+                                    label={"Narxi"}
+                                    value={mainPrice}
+                                    onChange={e => setMainPrice(handleNumberMask(e.target.value))}
                                 />
                             </div>
                             <div className={`${inputDiv} flex items-center gap-2`}>

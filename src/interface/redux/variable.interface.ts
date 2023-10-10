@@ -72,6 +72,7 @@ export interface OrderDataProps {
 export interface MixedPayDataProps extends DataProps {
     paymentType: string;
     paymentAmount: number;
+    storeId: string;
 }
 
 // export interface DebtorDataProps {
@@ -84,6 +85,7 @@ export interface ProductsDataProps extends DataProps {
     productOption?: string;
     productPrice: number;
     productQuantity: number;
+    productMainPrice: number;
     storeId: number;
     adressId: number;
     productImgUrl: string;
