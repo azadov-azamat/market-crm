@@ -44,6 +44,7 @@ export interface SoldProductDataProps extends DataProps {
     soldPrice: number;
     soldQuantity: number;
     soldProductName: string;
+    soldProductMeasure: string;
 }
 
 export interface DebtorDataProps extends DataProps{

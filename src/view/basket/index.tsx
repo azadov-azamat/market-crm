@@ -85,7 +85,8 @@ export default function Basket() {
                 productId: basket.id || 0,
                 soldPrice: basket.productPrice - Number(basket.discount),
                 soldQuantity: Number(basket.amount),
-                soldProductName: basket.productName
+                soldProductName: basket.productName,
+                soldProductMeasure: basket.productMeasure
             })
         }
         return sold

@@ -134,7 +134,7 @@ export default function SoldProducts() {
                                                             <div className="flex" key={ip}>
                                                                 <div className="w-1/3">{pr?.soldProductName}</div>
                                                                 <div className="w-1/3">{formatter.format(pr?.soldPrice)}</div>
-                                                                <div className="w-1/3">{pr?.soldQuantity}</div>
+                                                                <div className="w-1/3">{pr?.soldQuantity} {pr?.soldProductMeasure}</div>
                                                             </div>
                                                         )
                                                     })
