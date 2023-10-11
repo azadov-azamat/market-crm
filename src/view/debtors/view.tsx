@@ -50,7 +50,7 @@ export default function ViewDebtor() {
         dispatch(getStores())
     }, [])
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         dispatch(getClientById(String(id)))
 
         return () => {
