@@ -28,7 +28,7 @@ export default function TableComponent({
     const lastIndex = startIndex + (size - 1)
 
 
-    const currentItems = data.slice(startIndex, lastIndex);
+    // const currentItems = data.slice(startIndex, lastIndex);
 
     const handlePaginate = (page: number) => {
         navigate({
@@ -75,7 +75,7 @@ export default function TableComponent({
                 {...rest}
                 noHeader
                 actions={ref}
-                data={currentItems}
+                data={data}
                 // onSort={handleSort}
                 columns={columns}
                 selectableRows={selectableRows}

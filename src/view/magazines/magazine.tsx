@@ -12,7 +12,7 @@ export default function Magazine() {
     const dispatch = useAppDispatch()
     const {stores} = useAppSelector(state => state.variables)
 
-    React.useEffect(() => {
+    React.useLayoutEffect(() => {
         dispatch(getStores())
     }, [])
 

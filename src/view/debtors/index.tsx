@@ -138,11 +138,3 @@ export default function Debtors() {
         </div>
     );
 }
-
-// const ModalDebt = ({open, toggle, data}: ModalInterfaceProps) => {
-//     return (
-//         <DialogModal open={open} toggle={toggle}>
-//
-//         </DialogModal>
-//     )
-// }
