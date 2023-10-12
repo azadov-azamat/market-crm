@@ -27,6 +27,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
     const [isOther, setOther] = React.useState<boolean>(false)
     const [isMixed, setMixed] = React.useState<boolean>(false)
 
+    const uz = '+998'
     const toggleMixed = (bool: boolean) => setMixed(bool)
 
     const setArrayToggle = (payTy: string) => {
@@ -69,7 +70,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                         const client: ClientDataProps = {
                             clientName: String(data.get("clientName")),
                             clientAdress: String(data.get("clientAdress")),
-                            clientPhone: Number(data.get("clientPhone")),
+                            clientPhone: uz + phone,
                             clientPaymentDate: String(data.get("clientPaymentDate")),
                         }
                         dispatch(createClient(client)).then(unwrapResult)
@@ -108,6 +109,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             <InputComponent.Text
                                 name={"clientPhone"}
                                 required={isOther}
+                                type={'phone'}
                                 value={phone}
                                 onChange={event => setPhone(handleNumberMask(event.target.value))}
                                 placeholder={"Qarzga oluvchi telefon raqami"}
@@ -147,12 +149,6 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             }
                         />
                     }
-                    {/*<InputComponent.Text*/}
-                    {/*    name={"total_price"}*/}
-                    {/*    value={formatter.format(totalPrice)}*/}
-                    {/*    readOnly*/}
-                    {/*    label={"Umumiy narx"}*/}
-                    {/*/>*/}
                 </> : <>
                     <div
                         className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{debtUser?.clientName} uchun

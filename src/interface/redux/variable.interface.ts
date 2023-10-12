@@ -116,7 +116,7 @@ export interface ClientDataProps extends DataProps {
     clientName: string;
     clientAdress: string;
     clientPaymentDate: string; // qarz qaytarish sanasi
-    clientPhone: number;
+    clientPhone: string;
     payments?: MixedPayDataProps[] | []
     sales?: SaleDataProps[] | [];
     debts?: DebtorDataProps[] |[];
