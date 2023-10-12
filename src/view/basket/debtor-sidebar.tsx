@@ -20,7 +20,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
 
     const dispatch = useAppDispatch()
 
-    const {clients, mixedPay} = useAppSelector(state => state.variables)
+    const {clients, mixedPay, client} = useAppSelector(state => state.variables)
 
     const [phone, setPhone] = React.useState("")
     const [gvnPrice, setGvnPrice] = React.useState("")
@@ -88,6 +88,10 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                     <div
                         className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{formatter.format(totalPrice)}
                     </div>
+                    {gvnPrice !== "" && <div
+                        className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>Qarz
+                        qoldiq: {formatter.format(totalPrice - Number(gvnPrice))}
+                    </div>}
                     {isOther ? <>
                             <div className="text-sm text-center text-white bg-black/20 py-0.5 rounded-xl cursor-pointer"
                                  onClick={() => setOther(false)}>
@@ -224,25 +228,28 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                     <div className={"flex flex-col w-full"}>
                         <div className={"w-full flex justify-between items-center"}>
                             <div className={"text-sm font-bold w-1/12"}>№</div>
-                            <div className={"text-sm font-bold w-5/12"}>To'lov summasi</div>
-                            <div className={"text-sm font-bold w-6/12"}>To'lov turi</div>
+                            <div className={"text-sm font-bold w-7/12"}>To'lov summasi</div>
+                            <div className={"text-sm font-bold w-4/12"}>To'lov turi</div>
                         </div>
 
                         {
                             mixedPay.map((item, ind) => <div
                                 className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                 <div className={"text-sm w-1/12`"}>{ind + 1}</div>
-                                <div className={"text-sm pl-5 w-5/12"}>{formatter.format(item.paymentAmount)}</div>
                                 <div
-                                    className={"text-sm w-6/12"}>{handleSwitchPayType(item.paymentType)}</div>
+                                    className={"text-sm pl-5 w-7/12"}>{formatter.format(item.paymentAmount).toString()}</div>
+                                <div
+                                    className={"text-sm w-4/12"}>{handleSwitchPayType(item.paymentType)}</div>
                             </div>)
                         }
                     </div>
                 </div>}
                 <div className="flex items-center justify-between mt-8">
-                    <Button className={"normal-case"} onClick={toggle} color={"red"} type={"reset"}>Bekor
+                    <Button className={"normal-case"} onClick={toggle}
+                            color={"red"}
+                            type={"reset"}>Bekor
                         qilish</Button>
-                    <Button className={"normal-case"} color={"orange"} type={"submit"}>Saqlash</Button>
+                    <Button className={"normal-case"} disabled={!isOther ? !client : false} color={"orange"} type={"submit"}>Saqlash</Button>
                 </div>
             </form>
             {isMixed &&
