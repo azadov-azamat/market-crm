@@ -1,28 +1,47 @@
 import React, {useEffect} from 'react';
-import {filterProduct} from "../../redux/reducers/variable.ts";
+import {filterProduct, getProductsSearch} from "../../redux/reducers/variable.ts";
 import DialogModal from "../modal/dialog";
 import {Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
-import {formatter} from "../../config/servise.ts";
+import {formatter, getMgId} from "../../config/servise.ts";
+import qs from "qs";
 
 export default function SearchModal({toggle, open}: ModalInterfaceProps) {
 
+    const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {fltProduct} = useAppSelector(state => state.variables)
 
     const [search, setSearch] = React.useState<string>("")
+    const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
     useEffect(() => {
         if (search.length !== 0) {
-            dispatch(filterProduct(search))
+            navigate({
+                search: qs.stringify({
+                    filter: JSON.stringify({
+                        storeId: getMgId()
+                    }),
+                    search: search
+                })
+            })
         } else {
+            navigate({
+                search: ""
+            })
             dispatch(filterProduct(""))
+        }
+    }, [search])
+
+    useEffect(() => {
+        if (search.length !== 0) {
+            dispatch(getProductsSearch({...query}))
         }
     }, [search])
 
