@@ -83,7 +83,7 @@ export default function Basket() {
         for (const basket of baskets) {
             sold.push({
                 productId: basket.id || 0,
-                soldPrice: basket.productPrice - Number(basket.discount),
+                soldPrice: basket.productPrice - Number(basket?.discount || 0),
                 soldQuantity: Number(basket.amount),
                 soldProductName: basket.productName,
                 soldProductMeasure: basket.productMeasure
@@ -143,9 +143,8 @@ export default function Basket() {
                                     saleId: res.data?.id
                                 }
                                 dispatch(createDebt(debtData)).then(unwrapResult)
-                                    .then(res => {
+                                    .then(() => {
                                         toast.success("Sotuv saqlandi!")
-                                        console.log(res)
                                     })
                                     .catch(err => {
                                         console.log(err)

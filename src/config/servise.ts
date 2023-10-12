@@ -38,8 +38,6 @@ export const getCheckFile = (id: number) => {
             Authorization: getAuthorizationHeader(),
         }
     }).then((response) => {
-        // create file link in browser's memory
-        console.log(response)
         const href = URL.createObjectURL(response.data);
 
         // create "a" HTML element with href to file & click
