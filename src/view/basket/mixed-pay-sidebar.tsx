@@ -75,7 +75,7 @@ export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps
         }
 
         list.push({
-            paymentType: '',
+            paymentType: 'transfer',
             paymentAmount: totalPrice - amount,
             storeId: getMgId()
         })
