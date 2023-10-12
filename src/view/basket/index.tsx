@@ -328,17 +328,17 @@ export default function Basket() {
                                         mixedPay && <div className={"flex flex-col w-full"}>
                                             <div className={"w-full flex justify-between items-center"}>
                                                 <div className={"text-sm font-bold w-1/12"}>№</div>
-                                                <div className={"text-sm font-bold w-5/12"}>To'lov summasi</div>
-                                                <div className={"text-sm font-bold w-6/12"}>To'lov turi</div>
+                                                <div className={"text-sm font-bold w-7/12"}>To'lov summasi</div>
+                                                <div className={"text-sm font-bold w-5/12"}>To'lov turi</div>
                                             </div>
 
                                             {
                                                 mixedPay.map((item, ind) => <div
                                                     className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                                     <div className={"text-sm w-1/12`"}>{ind + 1}</div>
-                                                    <div className={"text-sm pl-5 w-5/12"}>{formatter.format(item.paymentAmount)}</div>
+                                                    <div className={"text-sm pl-5 w-7/12"}>{formatter.format(item.paymentAmount)}</div>
                                                     <div
-                                                        className={"text-sm w-6/12"}>{handleSwitchPayType(item.paymentType)}</div>
+                                                        className={"text-sm w-4/12"}>{handleSwitchPayType(item.paymentType)}</div>
                                                 </div>)
                                             }
                                         </div>
