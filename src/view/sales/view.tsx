@@ -3,13 +3,12 @@ import {useNavigate, useParams} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 import {getSaleById, getStores} from '../../redux/reducers/variable'
 import {BreadCumbsDataProps} from '../../interface/modal/modal.interface'
-import {formatter, getMgId, handleSwitchPayType} from '../../config/servise'
+import {formatter, getCheckFile, getMgId, handleSwitchPayType} from '../../config/servise'
 import BreadcumbsComponent from '../../components/page-title/breadcumbs'
 import {Card, CardBody, Typography} from '@material-tailwind/react'
 import DateFormatClockComponent from '../../components/date-format/oclock'
 import DateFormatComponent from '../../components/date-format'
 import {FiExternalLink} from 'react-icons/fi'
-import {baseUrl} from "../../config/api.ts";
 import {HiQrCode} from "react-icons/hi2";
 
 export default function ViewSales() {
@@ -100,9 +99,10 @@ export default function ViewSales() {
                         {sale?.saleDebt && <div
                             className="absolute text-xs px-2 bg-red-500 text-white rounded right-1 top-1">qarz-savdo</div>}
                         <div className="absolute text-3xl cursor-pointer bottom-2 right-2">
-                            <a href={baseUrl + `/sales/file/${sale?.id}`}>
-                                <HiQrCode/>
-                            </a>
+                            <HiQrCode onClick={() => getCheckFile(sale?.id || 0)}/>
+                            {/*<a href={baseUrl + `/sales/file/${sale?.id}`}>*/}
+                            {/*    <HiQrCode/>*/}
+                            {/*</a>*/}
                         </div>
                     </Card>
                     <Card className='px-4 py-3 md:w-9/12 w-full'>
@@ -156,7 +156,8 @@ export default function ViewSales() {
                                                 return (
                                                     <div className="flex" key={ip}>
                                                         <div className="w-1/12">{ip + 1}</div>
-                                                        <div className="w-4/12">{formatter.format(pr.paymentAmount)}</div>
+                                                        <div
+                                                            className="w-4/12">{formatter.format(pr.paymentAmount)}</div>
                                                         <div
                                                             className="w-7/12">{handleSwitchPayType(pr.paymentType)}</div>
                                                     </div>

@@ -2,16 +2,15 @@
 
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
-import {formatter, getMgId} from "../../config/servise.ts";
+import {formatter, getCheckFile, getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
-import {useEffect} from "react";
+import React from "react";
 import {getSales, getStores} from "../../redux/reducers/variable.ts";
 import {Card, CardBody, Typography} from "@material-tailwind/react";
 import {useLocation, useNavigate} from "react-router-dom";
 import DateFormatClockComponent from "../../components/date-format/oclock.tsx";
 import {HiQrCode} from 'react-icons/hi2'
 import qs from "qs";
-import {baseUrl} from "../../config/api.ts";
 
 export default function SoldProducts() {
 
@@ -37,14 +36,14 @@ export default function SoldProducts() {
         }
     ]
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (client) {
             navigate({
                 search: qs.stringify({
                     filter: JSON.stringify({clientId: client?.id})
                 })
             })
-        }else {
+        } else {
             navigate({
                 search: qs.stringify({
                     filter: JSON.stringify({sellerId: userData?.id})
@@ -53,7 +52,7 @@ export default function SoldProducts() {
         }
     }, [client])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (location.search) {
             dispatch(getSales({...query}))
         } else {
@@ -61,7 +60,7 @@ export default function SoldProducts() {
         }
     }, [location.search])
 
-    useEffect(() => {
+    React.useEffect(() => {
         dispatch(getStores())
 
         return () => {
@@ -133,8 +132,10 @@ export default function SoldProducts() {
                                                         return (
                                                             <div className="flex" key={ip}>
                                                                 <div className="w-1/3">{pr?.soldProductName}</div>
-                                                                <div className="w-1/3">{formatter.format(pr?.soldPrice)}</div>
-                                                                <div className="w-1/3">{pr?.soldQuantity} {pr?.soldProductMeasure}</div>
+                                                                <div
+                                                                    className="w-1/3">{formatter.format(pr?.soldPrice)}</div>
+                                                                <div
+                                                                    className="w-1/3">{pr?.soldQuantity} {pr?.soldProductMeasure}</div>
                                                             </div>
                                                         )
                                                     })
@@ -151,9 +152,10 @@ export default function SoldProducts() {
                                 {item?.saleDebt && <div
                                     className="absolute text-xs px-2 bg-red-500 text-white rounded right-1 top-1">qarz-savdo</div>}
                                 <div className="absolute text-3xl cursor-pointer bottom-2 right-2">
-                                    <a href={baseUrl + `/sales/file/${item?.id}`}>
-                                        <HiQrCode/>
-                                    </a>
+                                    <HiQrCode onClick={() => getCheckFile(item?.id || 0)}/>
+                                    {/*<a href={baseUrl + `/sales/file/${item?.id}`}>*/}
+                                    {/*    <HiQrCode/>*/}
+                                    {/*</a>*/}
                                 </div>
                             </Card>
                         )

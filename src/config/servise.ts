@@ -1,3 +1,6 @@
+import {baseUrl, getAuthorizationHeader} from "./api.ts";
+import axios from "axios";
+
 export function handleNumberMask(text: string) {
     return text.replace(/[^0-9.]/g, '');
 }
@@ -26,44 +29,28 @@ export const formatter = new Intl.NumberFormat('uz-UZ', {
     minimumFractionDigits: 0
 });
 
-export const getCheckFile = () => {
-    // axios.get(baseUrl + `/sales/file/${id}`, {
-    //     headers: {
-    //         AccessControlAllowOrigin: "*",
-    //         ContentType: "application/json",
-    //         Authorization: getAuthorizationHeader()
-    //     }
-    // })
-    // const uri = baseUrl + `/sales/file/${id}`
-    // fetch(uri, {
-    //     method: "GET",
-    //     dataType: "binary",
-    //     xhrFields: {
-    //         responseType: 'blob'
-    //     },
-    //     headers: {
-    //         AccessControlAllowOrigin: "*",
-    //         Authorization: getAuthorizationHeader()
-    //     },
-    //     processData: false
-    // })
-    //     .then(res => {
-    //         if (res?.status === 403) {
-    //             toast.error("pin-kod noto`g`ri!")
-    //         } else if (res?.status === 404) {
-    //             toast.error("siz izlagan fayl topilmadi!")
-    //         } else {
-    //             res.arrayBuffer().then(result => {
-    //                 console.log(result)
-    //                 const file = new Blob([result])
-    //
-    //                 const fileURL = URL.createObjectURL(file)
-    //                 const link = document.createElement('a')
-    //                 console.log(file)
-    //                 link.href = fileURL
-    //                 link.download = `file.pdf`
-    //                 link.click()
-    //             })
-    //         }
-    //     })
+export const getCheckFile = (id: number) => {
+    axios({
+        url: baseUrl + `/sales/file/${id}`, //your url
+        method: 'GET',
+        responseType: 'blob', // important
+        headers: {
+            Authorization: getAuthorizationHeader(),
+        }
+    }).then((response) => {
+        // create file link in browser's memory
+        console.log(response)
+        const href = URL.createObjectURL(response.data);
+
+        // create "a" HTML element with href to file & click
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', new Date().toISOString().substring(0, 10)); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+
+        // clean up "a" element & remove ObjectURL
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+    });
 }
