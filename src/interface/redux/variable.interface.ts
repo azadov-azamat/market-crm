@@ -50,6 +50,7 @@ export interface SoldProductDataProps extends DataProps {
 export interface DebtorDataProps extends DataProps{
     debt: number;
     clientId: number;
+    debtStatus?: 'active' | 'archive';
     saleId?: number;
     storeId?: number;
 }

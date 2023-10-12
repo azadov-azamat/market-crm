@@ -18,6 +18,17 @@ export default function DebtsList() {
 
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
+    const [active, setActive] = React.useState<string>('active')
+
+    const toggleActive = (id: string) => {
+        setActive(id)
+        navigate({
+            search: qs.stringify({
+                debtStatus: id
+            })
+        })
+    }
+
     React.useEffect(() => {
         let num = 0
         debts.forEach(item => {
@@ -58,6 +69,14 @@ export default function DebtsList() {
 
     return (
         <div className="w-full h-96 flex flex-col justify-between">
+            <Card className='my-3'>
+                <CardBody className='flex md:flex-row flex-col gap-8 justify-center text-center'>
+                    <Typography onClick={() => toggleActive("active")} variant='paragraph'
+                                className={`md:text-base cursor-pointer text-sm ${active === "active" && "border-b-2 border-black"}`}>Aktiv</Typography>
+                    <Typography onClick={() => toggleActive("archive")} variant='paragraph'
+                                className={`md:text-base cursor-pointer text-sm ${active === "archive" && "border-b-2 border-black"}`}>Arxiv</Typography>
+                </CardBody>
+            </Card>
             <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                 {
                     debts.map((item, ind) => (
@@ -73,7 +92,8 @@ export default function DebtsList() {
                                 <div className="flex md:flex-row flex-col">
                                     <Typography variant="small"
                                                 className="text-base font-bold">Summa: &nbsp;</Typography>
-                                    <Typography variant="small" className="text-base">{formatter.format(item?.debt)}</Typography>
+                                    <Typography variant="small"
+                                                className="text-base">{formatter.format(item?.debt)}</Typography>
                                 </div>
                             </CardBody>
                         </Card>
