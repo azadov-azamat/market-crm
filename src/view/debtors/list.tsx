@@ -6,6 +6,8 @@ import qs from "qs";
 import {Card, CardBody, Typography} from '@material-tailwind/react';
 import DateFormatClockComponent from '../../components/date-format/oclock';
 import {formatter} from "../../config/servise.ts";
+import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
+import {BiPlus} from "react-icons/bi";
 
 export default function DebtsList() {
 
@@ -19,12 +21,16 @@ export default function DebtsList() {
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
     const [active, setActive] = React.useState<string>('active')
+    const [isDebt, setDebt] = React.useState<boolean>(false)
+    const toggleDebt = () => setDebt(!isDebt)
 
     const toggleActive = (id: string) => {
         setActive(id)
         navigate({
             search: qs.stringify({
-                debtStatus: id
+                filter: JSON.stringify({
+                    debtStatus: id
+                })
             })
         })
     }
@@ -41,7 +47,10 @@ export default function DebtsList() {
         if (client) {
             navigate({
                 search: qs.stringify({
-                    filter: JSON.stringify({clientId: client?.id})
+                    filter: JSON.stringify({
+                        clientId: client?.id,
+                        debtStatus: "active"
+                    })
                 })
             })
         }
@@ -50,10 +59,13 @@ export default function DebtsList() {
     React.useEffect(() => {
         if (location.search) {
             dispatch(getDebtList({...query}))
+        } else {
+            dispatch(getDebtList({
+                filter: JSON.stringify({
+                    debtStatus: "active"
+                })
+            }))
         }
-        // else {
-        //     dispatch(getDebtList({}))
-        // }
     }, [location.search])
 
     React.useEffect(() => {
@@ -105,13 +117,19 @@ export default function DebtsList() {
                     <CardBody className='py-2 px-3 flex flex-col gap-2'>
                         <div className="flex justify-between">
                             <Typography variant="small" className="text-base font-bold">Jami: &nbsp;</Typography>
-                            <Typography variant="small" className="text-base"> {formatter.format(amount)}</Typography>
+                            <div className="flex gap-4 items-center">
+                                <Typography variant="small" className="text-base"> {formatter.format(amount)}</Typography>
+                                {active !== 'archive' && <div className={"border border-black/50 rounded p-1"}>
+                                    <BiPlus onClick={toggleDebt}/>
+                                </div>}
+                            </div>
                         </div>
                     </CardBody>
                     {amount < 0 && <div
                         className="absolute -right-2 -top-1 bg-red-500 text-white px-1 py-0 rounded text-xs">Qarzdor</div>}
                 </Card>
             </div>
+            <DebtorSidebar totalPrice={100} open={isDebt} toggle={toggleDebt} debtUser={client}/>
         </div>
     )
 }
