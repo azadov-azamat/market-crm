@@ -74,6 +74,7 @@ export interface MixedPayDataProps extends DataProps {
     paymentType: string;
     paymentAmount: number;
     storeId: string;
+    clientId?: number;
 }
 
 // export interface DebtorDataProps {

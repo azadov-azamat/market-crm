@@ -168,6 +168,14 @@ export const getProductsSearch = createAsyncThunk('product/getProductsSearch', a
     }
 })
 
+export const createPayment = createAsyncThunk('payment/createPayment', async (data: MixedPayDataProps[], {rejectWithValue}) => {
+    try {
+        const response = await http_auth.post('/payments', data)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
 
 const initialState: InitialStateProps = {
     lang: localStorage.getItem('i18nextLng') || 'ru',

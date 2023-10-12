@@ -4,7 +4,14 @@ import {Button, Radio} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {ClientDataProps, DebtorDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {createClient, createDebt, getClients, setDebtorData, setMixedPayList} from "../../redux/reducers/variable.ts";
+import {
+    createClient,
+    createDebt,
+    createPayment,
+    getClients,
+    setDebtorData,
+    setMixedPayList
+} from "../../redux/reducers/variable.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import {formatter, getMgId, handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
 import {toast} from "react-toastify";
@@ -33,17 +40,19 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
     const setArrayToggle = (payTy: string) => {
         toggleMixed(false)
         dispatch(setMixedPayList([
-            {paymentAmount: Number(gvnPrice), paymentType: payTy, storeId: getMgId()}
+            {paymentAmount: Number(gvnPrice), paymentType: payTy, storeId: getMgId(), clientId: debtUser?.id}
         ]))
     }
 
     useEffect(() => {
         if (gvnPrice !== "") {
             dispatch(setMixedPayList([
-                {paymentAmount: Number(gvnPrice), paymentType: "transfer", storeId: getMgId()}
+                {paymentAmount: Number(gvnPrice), paymentType: "transfer", storeId: getMgId(), clientId: debtUser?.id}
             ]))
         }
     }, [gvnPrice]);
+
+    console.log(mixedPay)
 
     return (
         <SidebarModal title={"Qarz savdo"} open={open} toggle={toggle}>
@@ -59,8 +68,14 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                     }
                     dispatch(createDebt(debtData)).then(unwrapResult)
                         .then(() => {
-                            toast.success("Saqlandi")
-                            toggle()
+                            dispatch(createPayment(mixedPay)).then(unwrapResult)
+                                .then(() => {
+                                    toast.success("Saqlandi")
+                                    toggle()
+                                })
+                                .catch(err => {
+                                    console.log(err)
+                                })
                         })
                         .catch(err => {
                             console.log(err)
@@ -249,7 +264,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             color={"red"}
                             type={"reset"}>Bekor
                         qilish</Button>
-                    <Button className={"normal-case"} disabled={!isOther ? !client : false} color={"orange"} type={"submit"}>Saqlash</Button>
+                    <Button className={"normal-case"} disabled={!isOther && !debtUser ? !client : false} color={"orange"} type={"submit"}>Saqlash</Button>
                 </div>
             </form>
             {isMixed &&

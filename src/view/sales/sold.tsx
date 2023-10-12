@@ -122,20 +122,20 @@ export default function SoldProducts() {
                                         item?.soldproducts?.length > 0 && <div className="sold-product my-2">
                                             <Typography variant="paragraph">Sotilgan mahsulotlar: </Typography>
                                             <div className="flex ">
-                                                <div className="w-1/3 text-base font-bold">Nomi</div>
-                                                <div className="w-1/3 text-base font-bold">Naxi</div>
-                                                <div className="w-1/3 text-base font-bold">Soni</div>
+                                                <div className="w-4/12 text-base font-bold">Nomi</div>
+                                                <div className="w-6/12 text-base font-bold">Naxi</div>
+                                                <div className="w-2/12 text-base font-bold">Soni</div>
                                             </div>
                                             <div className="">
                                                 {
                                                     item.soldproducts.map((pr, ip) => {
                                                         return (
                                                             <div className="flex" key={ip}>
-                                                                <div className="w-1/3">{pr?.soldProductName}</div>
+                                                                <div className="w-4/12">{pr?.soldProductName}</div>
                                                                 <div
-                                                                    className="w-1/3">{formatter.format(pr?.soldPrice)}</div>
+                                                                    className="w-5/12">{formatter.format(pr?.soldPrice)}</div>
                                                                 <div
-                                                                    className="w-1/3">{pr?.soldQuantity} {pr?.soldProductMeasure}</div>
+                                                                    className="w-3/12">{pr?.soldQuantity} {pr?.soldProductMeasure}</div>
                                                             </div>
                                                         )
                                                     })
