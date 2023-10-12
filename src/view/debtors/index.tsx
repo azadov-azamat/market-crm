@@ -3,7 +3,7 @@ import TableComponent from "../../components/table";
 import {TableColumn} from "react-data-table-component";
 import {ClientDataProps} from "../../interface/redux/variable.interface.ts";
 import {BiPencil} from "react-icons/bi";
-import {Card, CardBody} from "@material-tailwind/react";
+import {Button, Card, CardBody} from "@material-tailwind/react";
 // import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
 import React from "react";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
@@ -11,10 +11,11 @@ import {getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {getClients, getStores} from "../../redux/reducers/variable.ts";
 import DateFormatComponent from "../../components/date-format";
-import {FaEye} from "react-icons/fa";
+import {FaEye, FaFilter} from "react-icons/fa";
 import {useLocation, useNavigate} from "react-router-dom";
 import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
 import qs from "qs";
+import FilterDebts from "./filter.tsx";
 
 export default function Debtors() {
 
@@ -37,6 +38,9 @@ export default function Debtors() {
     const [client, setClient] = React.useState<ClientDataProps | null>(null)
     const [isDebt, setDebt] = React.useState<boolean>(false)
     const toggleDebt = () => setDebt(!isDebt)
+    const [filter, setFilter] = React.useState<boolean>(false)
+
+    const handleFilter = () => setFilter(!filter)
 
     const breadCumbc: BreadCumbsDataProps[] = [
         {
@@ -120,6 +124,11 @@ export default function Debtors() {
             <div className="w-full overflow-ellipsis overflow-hidden">
                 <BreadcumbsComponent data={breadCumbc}/>
             </div>
+            <div className="mb-3 flex justify-between">
+                <Button onClick={handleFilter} className="btn-icon">
+                    <FaFilter size={16}/>
+                </Button>
+            </div>
             <Card>
                 <CardBody>
                     <TableComponent
@@ -135,6 +144,7 @@ export default function Debtors() {
                 </CardBody>
             </Card>
             <DebtorSidebar totalPrice={1000} open={isDebt} toggle={toggleDebt} debtUser={client}/>
+            <FilterDebts open={filter} toggle={handleFilter}/>
         </div>
     );
 }
