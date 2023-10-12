@@ -11,14 +11,20 @@ export const getAuthorizationHeader = (): string => `Bearer ${getToken()}`;
 export const http = axios.create({
     baseURL: baseUrl,
     headers: {
-        Accept: "application/json"
+        Accept: "application/json",
+        AccessControlAllowOrigin: "*",
+        AccessControlAllowCredentials: true,
+        AccessControlAllowMethods: 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
     }
 })
 
 export const http_auth = axios.create({
     baseURL: baseUrl,
     headers: {
+        Accept: "application/json",
         AccessControlAllowOrigin: "*",
+        AccessControlAllowCredentials: true,
+        AccessControlAllowMethods: 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
         ContentType: "application/json",
         Authorization: getAuthorizationHeader()
     }
