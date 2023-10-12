@@ -14,7 +14,17 @@ import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
 
 export default function ProductBox(props: ProductsDataProps) {
-    const {productName, productImgUrl, productPrice, productMainPrice, productMeasure, productQuantity, id, productModel, productOption} = props
+    const {
+        productName,
+        productImgUrl,
+        productPrice,
+        productMainPrice,
+        productMeasure,
+        productQuantity,
+        id,
+        productModel,
+        productOption
+    } = props
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
@@ -41,8 +51,26 @@ export default function ProductBox(props: ProductsDataProps) {
         }
     }
 
+    function pieceItemIn() {
+        if (baskets.find(item => item.id === id)) {
+            if (Number(currentAmount) + 1 >= productQuantity) {
+                toast.error(`Xozirda ${productQuantity + productMeasure} mahsulot mavjud`)
+            } else {
+                dispatch(incrementBasket({id, amount: Number(currentAmount) + 1}))
+            }
+        } else {
+            dispatch(setBasket({...props, amount: "1"}))
+        }
+    }
+
+    function pieceItemDic() {
+        dispatch(incrementBasket({id, amount: Number(currentAmount) - 1}))
+        if ((Number(currentAmount) - 1) < 1) setIsBasket(false)
+    }
+
     return (
-        <Card shadow color={"white"} className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
+        <Card shadow color={"white"}
+              className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
             <div className="w-full flex justify-end">
                 {isBasket && <BiXCircle onClick={() => {
                     dispatch(removeBasket(Number(id)))
@@ -55,7 +83,7 @@ export default function ProductBox(props: ProductsDataProps) {
                         <LazyLoadImage effect={"black-and-white"}
                                        className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={productName}
                                        src={productImgUrl || noIMG}
-                                       // src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
+                            // src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
                         />
 
                     </div>
@@ -89,13 +117,20 @@ export default function ProductBox(props: ProductsDataProps) {
                     {
                         isBasket ? <div
                             className={"w-full h-8 rounded-lg flex mb-2"}>
-                            <InputComponent.Text value={currentAmount}
-                                                 name={"amount"}
-                                                 placeholder={"Miqdorini kiriting"}
-                                                 onChange={(e: {
-                                                     target: { value: string; };
-                                                 }) => increment(handleNumberMask(e.target.value))}
-                                                 label={""}/>
+                            {productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
+                                                                              name={"amount"}
+                                                                              placeholder={"Miqdorini kiriting"}
+                                                                              onChange={(e: {
+                                                                                  target: { value: string; };
+                                                                              }) => increment(handleNumberMask(e.target.value))}
+                                                                              label={""}/> : <div   className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                            onClick={pieceItemDic}>-</Typography>
+                                <Typography
+                                    variant={"small"}>{currentAmount}</Typography>
+                                <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                            onClick={pieceItemIn}>+</Typography>
+                            </div>}
                         </div> : <>
                             <Button className={"py-1.5 md:w-9/12"} disabled={productQuantity === 0} color={"blue"}
                                     onClick={() => {
