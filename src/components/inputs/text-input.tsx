@@ -5,7 +5,8 @@ interface TextInputProps {
     label: string
     value?: string | number
     name: string
-    placeholder?: string
+    placeholder?: string;
+    defaultValue?: string | number | undefined;
     error?: boolean
     required?: boolean
     disabled?: boolean
@@ -19,6 +20,7 @@ export default function TextInput({
                                       value,
                                       name,
                                       placeholder,
+    defaultValue,
                                       error = false,
                                       required = false,
                                       disabled = false,
@@ -39,6 +41,7 @@ export default function TextInput({
                     id={label}
                     readOnly={readOnly}
                     required={required}
+                    defaultValue={defaultValue}
                     value={value}
                     name={name}
                     placeholder={placeholder}

@@ -5,15 +5,16 @@ interface DialogModalProps {
     title?: string;
     open: boolean;
     children: ReactNode;
+    size?: "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
     toggle: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-export default function DialogModal({children, open, toggle}: DialogModalProps) {
+export default function DialogModal({children, open, toggle, size = 'xl'}: DialogModalProps) {
     return (
         <Dialog
             open={open}
-            size={"xl"}
-            className={"flex md:hidden"}
+            size={size}
+            className={"flex"}
             handler={toggle}
             animate={{
                 mount: {scale: 1, y: 0},

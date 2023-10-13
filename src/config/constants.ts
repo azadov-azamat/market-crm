@@ -9,6 +9,8 @@ import NotFound from "../view/error/not-found.tsx";
 import SoldProducts from "../view/sales/sold.tsx";
 import ViewSales from "../view/sales/view.tsx";
 import ViewDebtor from "../view/debtors/view.tsx";
+import Firms from "../view/firms";
+import FirmView from "../view/firms/view.tsx";
 
 export const routes = [
     {
@@ -76,5 +78,17 @@ export const routes = [
         name: 'view-debtors',
         path: '/seller/debtor/:id',
         component: ViewDebtor
+    },
+    {
+        id: 11,
+        name: 'firms',
+        path: '/seller/firms',
+        component: Firms
+    },
+    {
+        id: 12,
+        name: 'firms',
+        path: '/seller/firm/:id',
+        component: FirmView
     }
 ]

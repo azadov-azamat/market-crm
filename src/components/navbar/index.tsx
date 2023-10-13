@@ -90,6 +90,10 @@ export default function NavbarComponent(): JSX.Element {
                     onClick: () => navigate("/seller/debtors")
                 },
                 {
+                    label: "Korxonalar",
+                    onClick: () => navigate("/seller/firms")
+                },
+                {
                     label: "Chiqish",
                     onClick: () => {
                         dispatch(logoutFunc())

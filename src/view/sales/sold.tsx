@@ -6,11 +6,13 @@ import {formatter, getCheckFile, getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import React from "react";
 import {getSales, getStores} from "../../redux/reducers/variable.ts";
-import {Card, CardBody, Typography} from "@material-tailwind/react";
+import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {useLocation, useNavigate} from "react-router-dom";
 import DateFormatClockComponent from "../../components/date-format/oclock.tsx";
 import {HiQrCode} from 'react-icons/hi2'
 import qs from "qs";
+import FilterSales from "./filter.tsx";
+import {FaFilter} from "react-icons/fa";
 
 export default function SoldProducts() {
 
@@ -20,6 +22,9 @@ export default function SoldProducts() {
 
     const {stores, sales, client, userData} = useAppSelector(state => state.variables)
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
+
+    const [filter, setFilter] = React.useState<boolean>(false)
+    const handleFilter = () => setFilter(!filter)
 
     const breadCumbc: BreadCumbsDataProps[] = [
         {
@@ -78,6 +83,11 @@ export default function SoldProducts() {
             {!client && <div className="w-full overflow-ellipsis overflow-hidden">
                 <BreadcumbsComponent data={breadCumbc}/>
             </div>}
+            <div className="mb-3 flex justify-between">
+                <Button onClick={handleFilter} className="btn-icon hidden">
+                    <FaFilter size={16}/>
+                </Button>
+            </div>
             <div className="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-3">
                 {
                     sales.map((item, ind) => {
@@ -162,6 +172,7 @@ export default function SoldProducts() {
                     })
                 }
             </div>
+            <FilterSales open={filter} toggle={handleFilter}/>
         </div>
     );
 }
