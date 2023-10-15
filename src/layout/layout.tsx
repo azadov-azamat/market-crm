@@ -3,7 +3,7 @@ import NavbarComponent from "../components/navbar";
 import {getToken} from "../config/api.ts";
 import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-import {useEffect} from "react";
+import {useEffect, useLayoutEffect} from "react";
 import {useAppDispatch} from "../redux/hooks.ts";
 import {getUserMe} from "../redux/reducers/variable.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -21,7 +21,7 @@ function Layout({children}: LayoutProps): JSX.Element {
         }
     }, [navigate]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (getToken() !== null && pathname !== "/seller/magazines") {
             dispatch(getUserMe()).then(unwrapResult)
                 .catch(e => {

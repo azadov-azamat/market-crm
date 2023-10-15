@@ -84,6 +84,7 @@ export default function AddProduct() {
                                     productMeasure: String(data.get("productMeasure")),
                                     adressId: Number(data.get("addresses")),
                                     productMainPrice: Number(mainPrice),
+                                    productCurrency: String(data.get("productCurrency")) === 'true' ? 'dollar' : 'sum',
                                     productImgUrl: String(data.get("productImgUrl"))
                                 }))
                                 navigate(`/seller/products/${getMgId()}`)
@@ -112,6 +113,21 @@ export default function AddProduct() {
                                     placeholder={"Mahsulot option kiriting"}
                                     label={"Option"}/>
                             </div>
+                            <div className={`${inputDiv}  flex items-center gap-2`}>
+                                <InputComponent.Text
+                                    required
+                                    name={"productMainPrice"}
+                                    placeholder={"Mahsulot narxini kiriting"}
+                                    label={"Asosiy narxi"}
+                                    value={mainPrice}
+                                    onChange={e => setMainPrice(handleNumberMask(e.target.value))}
+                                />
+                                <select name="productCurrency" id="productCurrency" required
+                                        className={"outline-0 border border-black/50 rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
+                                    <option value={"true"}>dollar</option>
+                                    <option value={"false"}>sum</option>
+                                </select>
+                            </div>
                             <div className={inputDiv}>
                                 <InputComponent.Text
                                     required
@@ -120,16 +136,6 @@ export default function AddProduct() {
                                     label={"Narxi"}
                                     value={price}
                                     onChange={e => setPrice(handleNumberMask(e.target.value))}
-                                />
-                            </div>
-                            <div className={inputDiv}>
-                                <InputComponent.Text
-                                    required
-                                    name={"productMainPrice"}
-                                    placeholder={"Mahsulot narxini kiriting"}
-                                    label={"Narxi"}
-                                    value={mainPrice}
-                                    onChange={e => setMainPrice(handleNumberMask(e.target.value))}
                                 />
                             </div>
                             <div className={`${inputDiv} flex items-center gap-2`}>

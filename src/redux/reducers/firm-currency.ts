@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
-import {http_auth} from "../../config/api.ts";
+import {http_auth, http_nbu} from "../../config/api.ts";
 import {
     currencyDataProps,
     FirmCurrencyInterface,
@@ -103,10 +103,21 @@ export const patchCurrency = createAsyncThunk('firmCurrency/patchCurrency', asyn
     }
 })
 
+export const getCurrencyNbu = createAsyncThunk('firmCurrency/getCurrencyNbu', async (_, {rejectWithValue}) => {
+    try {
+        const response = await http_nbu.get('/arkhiv-kursov-valyut/json/')
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 const initialState: FirmCurrencyInterface = {
     firms: [],
     firm: null,
     currencies: [],
+    nbu: [],
     currency: null,
     currentPage: 0,
     limit: 10,
@@ -260,6 +271,10 @@ export const firmCurrencySlice = createSlice({
         builder.addCase(patchCurrency.rejected, (state: FirmCurrencyInterface) => {
             toast.error("File error")
             state.loading = false
+        })
+
+        builder.addCase(getCurrencyNbu.fulfilled, (state: FirmCurrencyInterface, action) => {
+            state.nbu = action.payload
         })
     }
 })

@@ -88,6 +88,7 @@ export interface ProductsDataProps extends DataProps {
     productOption?: string;
     productPrice: number;
     productQuantity: number;
+    productCurrency: 'dollar' | 'sum';
     productMainPrice: number;
     storeId: number;
     adressId: number;

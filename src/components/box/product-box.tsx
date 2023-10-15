@@ -21,6 +21,7 @@ export default function ProductBox(props: ProductsDataProps) {
         productMainPrice,
         productMeasure,
         productQuantity,
+        productCurrency,
         id,
         productModel,
         productOption
@@ -30,10 +31,13 @@ export default function ProductBox(props: ProductsDataProps) {
     const dispatch = useAppDispatch()
 
     const {baskets} = useAppSelector(state => state.variables)
+    const {nbu} = useAppSelector(state => state.firms)
 
     const [isBasket, setIsBasket] = React.useState<boolean>(false)
 
     const currentAmount = baskets[baskets.findIndex(item => item.id === id)]?.amount;
+  // @ts-ignore
+  const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
 
     React.useEffect(() => {
         if (baskets.find(item => item.id === id)) setIsBasket(true)
@@ -104,10 +108,10 @@ export default function ProductBox(props: ProductsDataProps) {
                 </div>
                 <div className="my-3 sm:my-0">
                     <Typography variant={"small"} className={"font-bold text-lg"}>
-                        {formatter.format(productPrice)}
+                    {productCurrency === 'dollar' ? formatter.format(productPrice * dollarCur) : formatter.format(productPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Asosiy narxi: {productMainPrice}
+                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(productMainPrice * dollarCur) : formatter.format(productMainPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
                         Miqdori: {productQuantity} {productMeasure}

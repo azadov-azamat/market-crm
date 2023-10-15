@@ -10,6 +10,9 @@ import {getMgId} from "../../config/servise.ts";
 import React from "react";
 import {getProducts, getStores} from "../../redux/reducers/variable.ts";
 import {UrlParamsDataProps} from "../../interface/search/search.interface.ts";
+import { getCurrencyNbu } from "../../redux/reducers/firm-currency.ts";
+import qs from 'qs'
+import CustomPagination from "../../custom-pagination.tsx";
 
 interface Pr {
     isView?: boolean
@@ -18,9 +21,15 @@ interface Pr {
 export default function ProductList({isView}: Pr) {
 
     const dispatch = useAppDispatch()
-    const {pathname} = useLocation()
+    const {pathname, search} = useLocation()
 
-    const {products, stores} = useAppSelector(state => state.variables)
+    const query = qs.parse(search, {ignoreQueryPrefix: true})
+
+    const {products, pageCount, totalCount, currentPage, limit,  stores} = useAppSelector(state => state.variables)
+
+    React.useEffect(() => {
+        dispatch(getCurrencyNbu())
+    }, [])
 
     React.useEffect(() => {
         dispatch(getStores())
@@ -28,12 +37,20 @@ export default function ProductList({isView}: Pr) {
 
     React.useEffect(() => {
         const data: UrlParamsDataProps = {
+            // limit: 10,
             filter: JSON.stringify({
                 storeId: getMgId()
             })
         }
-        dispatch(getProducts({...data}))
+        
+        if (search){
+            dispatch(getProducts({...query, ...data}))
+        } else {
+            dispatch(getProducts({...data}))
+        }
+    }, [search])
 
+    React.useEffect(()=>{
         return () => {
             dispatch({
                 type: 'product/getProducts/fulfilled',
@@ -43,7 +60,6 @@ export default function ProductList({isView}: Pr) {
             })
         }
     }, [])
-
 
     const breadCumbc: BreadCumbsDataProps[] = [
         {
@@ -74,6 +90,7 @@ export default function ProductList({isView}: Pr) {
                                     productMainPrice={item.productMainPrice}
                                     productName={item.productName}
                                     productPrice={item.productPrice}
+                                    productCurrency={item.productCurrency}
                                     id={item.id}
                                     adressId={item.adressId}
                                     productImgUrl={item.productImgUrl}
@@ -86,6 +103,13 @@ export default function ProductList({isView}: Pr) {
                     })
                 }
             </div>
+            {/* <CustomPagination 
+                    limit={limit}
+                    size={products.length} 
+                    totalCount={totalCount} 
+                    totalPages={pageCount} 
+                    currentPage={currentPage}
+                /> */}
         </div>
     );
 }

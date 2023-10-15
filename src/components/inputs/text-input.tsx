@@ -4,7 +4,8 @@ interface TextInputProps {
     type?: 'text' | 'number' | 'email' | 'password' | 'date' | 'textarea' | 'phone'
     label: string
     value?: string | number
-    name: string
+    name: string;
+    maxLength?: number;
     placeholder?: string;
     defaultValue?: string | number | undefined;
     error?: boolean
@@ -21,6 +22,7 @@ export default function TextInput({
                                       name,
                                       placeholder,
     defaultValue,
+    maxLength,
                                       error = false,
                                       required = false,
                                       disabled = false,
@@ -44,6 +46,7 @@ export default function TextInput({
                     defaultValue={defaultValue}
                     value={value}
                     name={name}
+                    maxLength={maxLength}
                     placeholder={placeholder}
                     onChange={onChange}
                     disabled={disabled}

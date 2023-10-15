@@ -1,6 +1,5 @@
-// import React from 'react'
+import React from 'react'
 import {createRoot} from 'react-dom/client'
-import App from './App.tsx'
 import {BrowserRouter} from "react-router-dom";
 import {ThemeProvider} from "@material-tailwind/react";
 import {ToastContainer} from "react-toastify";
@@ -9,6 +8,8 @@ import 'react-toastify/scss/main.scss';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import {Provider} from "react-redux";
 import {store} from "./redux/store.ts";
+
+const LazyApp = React.lazy(() => import('./App.tsx'))
 
 const app = (
     <Provider store={store}>
@@ -25,7 +26,7 @@ const app = (
                 pauseOnHover={false}
             />
             <ThemeProvider>
-                <App/>
+                <LazyApp/>
             </ThemeProvider>
         </BrowserRouter>
     </Provider>

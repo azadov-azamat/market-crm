@@ -12,13 +12,18 @@ import {noIMG} from "../../config/api.ts";
 
 export default function BasketBox(props: BasketsDataProps) {
 
-    const {productName, productImgUrl, productPrice, productMainPrice, productMeasure, productQuantity, id} = props
+    const {productName, productImgUrl, productPrice, productCurrency, productMainPrice, productMeasure, productQuantity, id} = props
 
     const dispatch = useAppDispatch()
     const {baskets} = useAppSelector(state => state.variables)
+    const {nbu} = useAppSelector(state => state.firms)
 
     const currentAmount = baskets[baskets.findIndex(item => item.id === id)]?.amount;
     const currentDiscount = baskets[baskets.findIndex(item => item.id === id)]?.discount || 0;
+
+     // @ts-ignore
+    const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
+    const afterCurrency = (productCurrency === "dollar" ? (productPrice * dollarCur) : productPrice)
 
     const increment = (text: string) => {
         if (baskets.find(item => item.id === id)) {
@@ -30,6 +35,23 @@ export default function BasketBox(props: BasketsDataProps) {
         } else {
             dispatch(setBasket({...props, amount: '1'}))
         }
+    }
+
+    function pieceItemIn() {
+        if (baskets.find(item => item.id === id)) {
+            if (Number(currentAmount) + 1 > productQuantity) {
+                toast.error(`Xozirda ${productQuantity + productMeasure} mahsulot mavjud`)
+            } else {
+                dispatch(incrementBasket({id, amount: Number(currentAmount) + 1}))
+            }
+        } else {
+            dispatch(setBasket({...props, amount: "1"}))
+        }
+    }
+
+    function pieceItemDic() {
+        dispatch(incrementBasket({id, amount: Number(currentAmount) - 1}))
+        if ((Number(currentAmount) - 1) < 1) dispatch(removeBasket(Number(id)))
     }
 
     return (
@@ -51,24 +73,31 @@ export default function BasketBox(props: BasketsDataProps) {
                         Miqdori: {productQuantity} {productMeasure}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Narxi: {formatter.format(productPrice)}
+                        Narxi: {formatter.format(afterCurrency)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Asosiy narxi: {formatter.format(productMainPrice)}
+                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(productMainPrice * dollarCur) : formatter.format(productMainPrice)}
                     </Typography>
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-5 xl:mt-0">
                         <div
                             className={"w-9/12 h-8 flex xl:hidden justify-between items-center"}>
-                            <InputComponent.Text value={currentAmount}
-                                                 name={"amount"}
-                                                 placeholder={"Miqdorini kiriting"}
-                                                 onChange={(e: {
-                                                     target: { value: string; };
-                                                 }) => increment(handleNumberMask(e.target.value))}
-                                                 label={"Miqdorini kiriting"}/>
+                            {productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
+                                                                              name={"amount"}
+                                                                              placeholder={"Miqdorini kiriting"}
+                                                                              onChange={(e: {
+                                                                                  target: { value: string; };
+                                                                              }) => increment(handleNumberMask(e.target.value))}
+                                                                              label={""}/> : <div   className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                            onClick={pieceItemDic}>-</Typography>
+                                <Typography
+                                    variant={"small"}>{currentAmount}</Typography>
+                                <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                            onClick={pieceItemIn}>+</Typography>
+                            </div>}
                         </div>
-                        <div className="mt-4">
+                        <div className={productMeasure !== 'dona' ? "mt-4" : "mt-0"}>
                             <Button color={'red'} className={"p-3"} onClick={() => id && dispatch(removeBasket(id))}>
                                 <FaTrash/>
                             </Button>
@@ -78,19 +107,27 @@ export default function BasketBox(props: BasketsDataProps) {
                 <div className="hidden w-4/12 h-full xl:flex xl:flex-col gap-3 justify-center">
                     <div className="flex w-full items-center gap-3">
                         <div
-                            className={"w-8/12 h-8 flex justify-between mb-6"}>
-                            <InputComponent.Text value={currentAmount}
-                                                 name={"amount"}
-                                                 placeholder={"Miqdorini kiriting"}
-                                                 onChange={(e: {
-                                                     target: { value: string; };
-                                                 }) => increment(handleNumberMask(e.target.value))}
-                                                 label={"Miqdorini kiriting"}/>
+                            className={`w-8/12 h-8 flex justify-between ${productMeasure !== 'dona' ? "mb-6" : "mb-0"}`}>
+                          {productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
+                                                                              name={"amount"}
+                                                                              placeholder={"Miqdorini kiriting"}
+                                                                              onChange={(e: {
+                                                                                  target: { value: string; };
+                                                                              }) => increment(handleNumberMask(e.target.value))}
+                                                                              label={""}/> : <div   className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                            onClick={pieceItemDic}>-</Typography>
+                                <Typography
+                                    variant={"small"}>{currentAmount}</Typography>
+                                <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                            onClick={pieceItemIn}>+</Typography>
+                            </div>}
                         </div>
-                        <div className="mt-5">
+                        <div className={productMeasure !== 'dona' ? "mt-5" : "mt-0"}>
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {formatter.format(currentAmount !== "0" ? (productPrice - currentDiscount) * Number(currentAmount) : productPrice)}
+                                {formatter.format(currentAmount !== "0" ?
+                                             (afterCurrency - currentDiscount) * Number(currentAmount) : afterCurrency)}
                             </Typography>
                         </div>
                     </div>
@@ -98,6 +135,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         <InputComponent.Text value={currentDiscount}
                                              disabled={!baskets.find(item => item.id === Number(id))}
                                              name={"discount-item"}
+                                             maxLength={(productPrice * dollarCur).toString().length}
                                              placeholder={"Chegirma qilasizmi?"}
                                              onChange={(e: {
                                                  target: { value: string; };
@@ -114,6 +152,7 @@ export default function BasketBox(props: BasketsDataProps) {
                     <InputComponent.Text value={currentDiscount}
                                          disabled={!baskets.find(item => item.id === Number(id))}
                                          name={"discount-item"}
+                                         maxLength={(productPrice * dollarCur).toString().length}
                                          placeholder={"Chegirma qilasizmi?"}
                                          onChange={(e: {
                                              target: { value: string; };
@@ -125,7 +164,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base mt-4"}>
-                    {formatter.format(currentAmount !== "0" ? (productPrice - currentDiscount) * Number(currentAmount) : productPrice)}
+                    {formatter.format(currentAmount !== "0" ? (afterCurrency - currentDiscount) * Number(currentAmount) : afterCurrency)}
                 </Typography>
             </div>
         </Card>

@@ -5,22 +5,30 @@ import {useAppDispatch} from "../../redux/hooks.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {uploadFileServer} from "../../redux/reducers/file.ts";
 import {toast} from "react-toastify";
+import { string } from 'yup';
 
 interface FileInputProps {
     // label: string
     // value?: string | number
-    name: string
+    name: string;
+    defaultImage?: string;
     // placeholder: string
     // required?: boolean
     // disabled?: boolean
     // onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function FileInput({name}: FileInputProps) {
+export default function FileInput({name, defaultImage}: FileInputProps) {
 
     const dispatch = useAppDispatch()
     const [image, setImage] = React.useState<string>("")
     const [fileSelected, setFileSelected] = React.useState<File>() // also tried <string | Blob>
+
+    React.useEffect(()=>{
+        if(defaultImage) {
+            setImage(defaultImage)
+        }
+    }, [defaultImage])
 
     const handleImageChange = function (e: React.ChangeEvent<HTMLInputElement>) {
         const fileList = e.target.files;

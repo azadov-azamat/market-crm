@@ -18,6 +18,7 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
     const dispatch = useAppDispatch()
     const {fltProduct} = useAppSelector(state => state.variables)
 
+    
     const [search, setSearch] = React.useState<string>("")
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 

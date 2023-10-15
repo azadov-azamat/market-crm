@@ -29,6 +29,15 @@ export const getUserMe = createAsyncThunk('app/getUserMe', async (_, {rejectWith
     }
 })
 
+export const patchUser = createAsyncThunk('app/patchUser', async (data: any, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.patch(`/sellers/${data?.id}`, data?.body)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 export const createClient = createAsyncThunk('clients/createClient', async (data: ClientDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.post('/clients', data)
@@ -312,6 +321,10 @@ export const variableSlice = createSlice({
 
         builder.addCase(getSales.fulfilled, (state: InitialStateProps, action) => {
             state.sales = action.payload.data
+            state.currentPage = action.payload?.currentPage
+            state.limit = action.payload?.limit
+            state.pageCount = action.payload?.pageCount
+            state.totalCount = action.payload?.totalCount
             state.loading = false
         })
         builder.addCase(getSales.pending, (state: InitialStateProps) => {
@@ -356,6 +369,10 @@ export const variableSlice = createSlice({
 
         builder.addCase(getProducts.fulfilled, (state: InitialStateProps, action) => {
             state.products = action.payload.data
+            state.currentPage = action.payload.currentPage
+            state.limit = action.payload.limit
+            state.pageCount = action.payload.pageCount
+            state.totalCount = action.payload.totalCount
             state.loading = false
         })
         builder.addCase(getProducts.pending, (state: InitialStateProps) => {

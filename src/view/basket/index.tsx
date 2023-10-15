@@ -15,13 +15,15 @@ import * as InputComponent from "../../components/inputs";
 import {DebtorDataProps, SaleDataProps, SoldProductDataProps} from "../../interface/redux/variable.interface.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
+import { getCurrencyNbu } from "../../redux/reducers/firm-currency.ts";
 
 export default function Basket() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {baskets, stores, client, mixedPay, userData} = useAppSelector(state => state.variables)
-
+    const {nbu} = useAppSelector(state => state.firms)
+    
     const [totalPrice, setTotalPrice] = React.useState<number>(0)
     // const [commit, setCommit] = React.useState<string>('')
     const [totalAfterDiscount, setTotalAfterDiscount] = React.useState<number>(0)
@@ -31,12 +33,15 @@ export default function Basket() {
     const toggleDebt = () => setDebt(!isDebt)
     const toggleMixed = (bool: boolean) => setMixed(bool)
 
+      // @ts-ignore
+      const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
+
     React.useEffect(() => {
         let totalAmount = 0;
         let discountAmount = 0;
         for (const basket of baskets) {
-            totalAmount += (basket.productPrice * Number(basket.amount))
-            discountAmount += (basket.productPrice - (basket.discount || 0)) * Number(basket.amount)
+            totalAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) * Number(basket.amount))
+            discountAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) - (basket.discount || 0)) * Number(basket.amount)
         }
         setTotalPrice(totalAmount)
         setTotalAfterDiscount(discountAmount)
@@ -76,6 +81,7 @@ export default function Basket() {
 
     React.useEffect(() => {
         dispatch(getStores())
+        dispatch(getCurrencyNbu())
     }, [])
 
     function setSolProduct(): SoldProductDataProps[] {
@@ -176,6 +182,7 @@ export default function Basket() {
                                          productQuantity,
                                          id,
                                          adressId,
+                                         productCurrency,
                                          storeId,
                                          productMainPrice
                                      }, ind) => (
@@ -186,6 +193,7 @@ export default function Basket() {
                                 amount={amount}
                                 productName={productName}
                                 productPrice={productPrice}
+                                productCurrency={productCurrency}
                                 id={id}
                                 adressId={adressId}
                                 productImgUrl={productImgUrl}
