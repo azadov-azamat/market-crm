@@ -89,7 +89,7 @@ export default function Basket() {
         for (const basket of baskets) {
             sold.push({
                 productId: basket.id || 0,
-                soldPrice: basket.productPrice - Number(basket?.discount || 0),
+                soldPrice: (basket.productCurrency === 'dollar' ? basket.productPrice * dollarCur : basket.productPrice) - Number(basket?.discount || 0),
                 soldQuantity: Number(basket.amount),
                 soldProductName: basket.productName,
                 soldProductMeasure: basket.productMeasure

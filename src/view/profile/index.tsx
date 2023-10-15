@@ -5,9 +5,10 @@ import {getMgId} from "../../config/servise.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {Button, Card, CardBody} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
-import { getStores, patchUser } from "../../redux/reducers/variable.ts";
+import { getStores, getUserMe, patchUser } from "../../redux/reducers/variable.ts";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Profile() {
 
@@ -60,7 +61,8 @@ export default function Profile() {
                                     }
                                 }
                                 dispatch(patchUser(data)).then(unwrapResult).then(function () {
-                                   
+                                   dispatch(getUserMe())
+                                    toast.success("Saqlandi")
                                 })
                             }}>
                             <div className={`${inputDiv} w-full flex justify-center`}>
