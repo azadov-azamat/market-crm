@@ -126,8 +126,8 @@ export default function BasketBox(props: BasketsDataProps) {
                         <div className={productMeasure !== 'dona' ? "mt-5" : "mt-0"}>
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {formatter.format(currentAmount !== "" ?
-                                             (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency)}
+                                {formatter.format(roundMath(currentAmount !== "" ?
+                                             (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency))}
                             </Typography>
                         </div>
                     </div>
@@ -164,7 +164,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base mt-4"}>
-                    {formatter.format(currentAmount !== "0" ? (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency)}
+                    {formatter.format(roundMath(currentAmount !== "0" ? (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency))}
                 </Typography>
             </div>
         </Card>

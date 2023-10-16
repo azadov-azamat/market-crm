@@ -1,7 +1,7 @@
 import BasketBox from "../../components/box/basket-box.tsx";
 import {Button, Card, CardBody, Radio, Typography} from "@material-tailwind/react";
 import React from "react";
-import {formatter, getMgId, handleSwitchPayType} from "../../config/servise.ts";
+import {formatter, getMgId, handleSwitchPayType, roundMath} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {DebtorSidebar} from "./debtor-sidebar.tsx";
@@ -131,8 +131,8 @@ export default function Basket() {
                     const data: SaleDataProps = {
                         soldproducts: setSolProduct() || [],
                         storeId: Number(getMgId()),
-                        saleMainPrice: totalPrice,
-                        saleSoldPrice: totalAfterDiscount,
+                        saleMainPrice: roundMath(totalPrice),
+                        saleSoldPrice: roundMath(totalAfterDiscount),
                         sellerId: userData?.id || 0,
                         saleDebt: payType === "debt-pay",
                         comment: String(formData.get("commit")),
@@ -142,7 +142,6 @@ export default function Basket() {
 
                     dispatch(createSale(data)).then(unwrapResult)
                         .then(res => {
-                            console.log(payType)
                             if (payType === "debt-pay") {
                                 let debtAmount = 0
                                 for (let i = 0; i < mixedPay.length; i++) {
@@ -152,7 +151,7 @@ export default function Basket() {
                                 const debtData: DebtorDataProps = {
                                     storeId: Number(getMgId()),
                                     clientId: client?.id || 0,
-                                    debt: -(Math.round(totalAfterDiscount - debtAmount)),
+                                    debt: -(Math.round(roundMath(totalAfterDiscount) - debtAmount)),
                                     saleId: res.data?.id
                                 }
                                 dispatch(createDebt(debtData)).then(unwrapResult)
@@ -291,14 +290,14 @@ export default function Basket() {
                                 <Typography variant={"small"} className={"font-bold text-base"}>Jami
                                     (chegirma): </Typography>
                                 <Typography variant={"small"}
-                                            className={"font-bold text-base"}>{formatter.format(totalAfterDiscount)}</Typography>
+                                            className={"font-bold text-base"}>{formatter.format(roundMath(totalAfterDiscount))}</Typography>
                             </div>
                             <div className="">
                                 <ul>
                                     <li className={"w-full flex items-center justify-between my-2"}>
                                         <Typography variant={"small"} className={"font-bold text-sm"}>Umumiy
                                             narx: </Typography>
-                                        <Typography variant={"small"} className={"font-bold text-sm"}>{formatter.format(totalPrice)}</Typography>
+                                        <Typography variant={"small"} className={"font-bold text-sm"}>{formatter.format(roundMath(totalPrice))}</Typography>
                                     </li>
                                     {baskets.map((item, ind) => (
                                         <li key={ind} className={"w-full flex items-center justify-between my-2"}>
@@ -351,7 +350,7 @@ export default function Basket() {
                                                 mixedPay.map((item, ind) => <div
                                                     className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                                     <div className={"text-sm w-1/12`"}>{ind + 1}</div>
-                                                    <div className={"text-sm pl-5 w-7/12"}>{formatter.format(item.paymentAmount)}</div>
+                                                    <div className={"text-sm pl-5 w-7/12"}>{formatter.format(roundMath(item.paymentAmount))}</div>
                                                     <div
                                                         className={"text-sm w-4/12"}>{handleSwitchPayType(item.paymentType)}</div>
                                                 </div>)

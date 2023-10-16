@@ -13,7 +13,7 @@ import {
     setMixedPayList
 } from "../../redux/reducers/variable.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
-import {formatter, getMgId, handleNumberMask, handleSwitchPayType} from "../../config/servise.ts";
+import {formatter, getMgId, handleNumberMask, handleSwitchPayType, roundMath} from "../../config/servise.ts";
 import {toast} from "react-toastify";
 import {MixedPaySidebar} from "./mixed-pay-sidebar.tsx";
 import {unwrapResult} from "@reduxjs/toolkit";
@@ -51,8 +51,6 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
             ]))
         }
     }, [gvnPrice]);
-
-    console.log(mixedPay)
 
     return (
         <SidebarModal title={"Qarz savdo"} open={open} toggle={toggle}>
@@ -101,11 +99,11 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
 
                 {!debtUser ? <>
                     <div
-                        className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{formatter.format(totalPrice)}
+                        className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>{formatter.format(roundMath(totalPrice))}
                     </div>
                     {gvnPrice !== "" && <div
                         className='text-center text-sm border bg-black/30 text-white rounded-xl py-1'>Qarz
-                        qoldiq: {formatter.format(totalPrice - Number(gvnPrice))}
+                        qoldiq: {formatter.format(roundMath(totalPrice) - Number(gvnPrice))}
                     </div>}
                     {isOther ? <>
                             <div className="text-sm text-center text-white bg-black/20 py-0.5 rounded-xl cursor-pointer"
