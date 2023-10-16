@@ -29,6 +29,7 @@ export default function DebtsList() {
         navigate({
             search: qs.stringify({
                 filter: JSON.stringify({
+                    clientId: client?.id,
                     debtStatus: id
                 })
             })
@@ -43,18 +44,18 @@ export default function DebtsList() {
         setAmount(num)
     }, [debts])
 
-    React.useEffect(() => {
-        if (client) {
-            navigate({
-                search: qs.stringify({
-                    filter: JSON.stringify({
-                        clientId: client?.id,
-                        debtStatus: "active"
-                    })
-                })
-            })
-        }
-    }, [client])
+    // React.useEffect(() => {
+    //     if (client) {
+    //         navigate({
+    //             search: qs.stringify({
+    //                 filter: JSON.stringify({
+    //                     clientId: client?.id,
+    //                     debtStatus: "active"
+    //                 })
+    //             })
+    //         })
+    //     }
+    // }, [client])
 
     React.useEffect(() => {
         if (location.search) {
@@ -62,6 +63,7 @@ export default function DebtsList() {
         } else {
             dispatch(getDebtList({
                 filter: JSON.stringify({
+                    clientId: client?.id,
                     debtStatus: "active"
                 })
             }))
