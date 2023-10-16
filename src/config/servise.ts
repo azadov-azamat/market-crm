@@ -2,7 +2,7 @@ import {baseUrl, getAuthorizationHeader} from "./api.ts";
 import axios from "axios";
 
 export function handleNumberMask(text: string) {
-    return text.replace(/[^0-9.]/g, '');
+    return text.replace(/[^0-9.-]/g, '').replace(/^(-)|-+/g,'$1').replace(/^([^.]*\.)|\.+/g, '$1')
 }
 
 export function handleSwitchPayType(text: string): string {

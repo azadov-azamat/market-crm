@@ -19,7 +19,7 @@ export default function BasketBox(props: BasketsDataProps) {
     const {nbu} = useAppSelector(state => state.firms)
 
     const currentAmount = baskets[baskets.findIndex(item => item.id === id)]?.amount;
-    const currentDiscount = baskets[baskets.findIndex(item => item.id === id)]?.discount || 0;
+    const currentDiscount = baskets[baskets.findIndex(item => item.id === id)]?.discount || "";
 
      // @ts-ignore
     const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
@@ -126,8 +126,8 @@ export default function BasketBox(props: BasketsDataProps) {
                         <div className={productMeasure !== 'dona' ? "mt-5" : "mt-0"}>
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {formatter.format(currentAmount !== "0" ?
-                                             (afterCurrency - currentDiscount) * Number(currentAmount) : afterCurrency)}
+                                {formatter.format(currentAmount !== "" ?
+                                             (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency)}
                             </Typography>
                         </div>
                     </div>
@@ -135,7 +135,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         <InputComponent.Text value={currentDiscount}
                                              disabled={!baskets.find(item => item.id === Number(id))}
                                              name={"discount-item"}
-                                             maxLength={productPrice.toString().length}
+                                            //  maxLength={productPrice.toString().length}
                                              placeholder={"Chegirma qilasizmi?"}
                                              onChange={(e: {
                                                  target: { value: string; };
@@ -152,7 +152,7 @@ export default function BasketBox(props: BasketsDataProps) {
                     <InputComponent.Text value={currentDiscount}
                                          disabled={!baskets.find(item => item.id === Number(id))}
                                          name={"discount-item"}
-                                         maxLength={(productPrice * dollarCur).toString().length}
+                                        //  maxLength={(productPrice * dollarCur).toString().length}
                                          placeholder={"Chegirma qilasizmi?"}
                                          onChange={(e: {
                                              target: { value: string; };
@@ -164,7 +164,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base mt-4"}>
-                    {formatter.format(currentAmount !== "0" ? (afterCurrency - currentDiscount) * Number(currentAmount) : afterCurrency)}
+                    {formatter.format(currentAmount !== "0" ? (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency)}
                 </Typography>
             </div>
         </Card>

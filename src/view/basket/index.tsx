@@ -43,6 +43,7 @@ export default function Basket() {
             totalAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) * Number(basket.amount))
             discountAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) - (basket.discount || 0)) * Number(basket.amount)
         }
+        
         setTotalPrice(totalAmount)
         setTotalAfterDiscount(discountAmount)
     }, [baskets])

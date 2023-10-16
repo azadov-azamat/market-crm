@@ -100,7 +100,7 @@ export interface ProductsDataProps extends DataProps {
 
 export interface BasketsDataProps extends ProductsDataProps {
     amount: string;
-    discount?: number;
+    discount?: number | '';
 }
 
 export interface StoresDataProps extends DataProps {

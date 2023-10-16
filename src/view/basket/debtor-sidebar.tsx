@@ -179,7 +179,18 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                 <InputComponent.Text
                     name={"paidSum"}
                     value={gvnPrice}
-                    onChange={e => setGvnPrice(handleNumberMask(e.target.value))}
+                    onChange={e => {
+                        const num = e.target.value
+                        if (debtUser) {
+                            setGvnPrice(handleNumberMask(num))
+                        } else {
+                            if (totalPrice >= Number(num)) {
+                                setGvnPrice(handleNumberMask(num))
+                            } else {
+                                toast.warning("Umumiy narxdan oshmasligi kerak")
+                            }
+                        }
+                    }}
                     placeholder={"To'lov qilmoqchi bo'lgan summa"}
                     label={"Beriladigan pul"}
                 />

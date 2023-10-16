@@ -5,7 +5,6 @@ import {useAppDispatch} from "../../redux/hooks.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {uploadFileServer} from "../../redux/reducers/file.ts";
 import {toast} from "react-toastify";
-import { string } from 'yup';
 
 interface FileInputProps {
     // label: string
