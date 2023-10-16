@@ -29,6 +29,10 @@ export const formatter = new Intl.NumberFormat('uz-UZ', {
     minimumFractionDigits: 0
 });
 
+export const roundMath =(sum: number): number => {
+    return Math.round(sum/1000) * 1000
+}
+
 export const getCheckFile = (id: number) => {
     axios({
         url: baseUrl + `/sales/file/${id}`, //your url

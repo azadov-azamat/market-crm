@@ -89,7 +89,7 @@ export default function Basket() {
         for (const basket of baskets) {
             sold.push({
                 productId: basket.id || 0,
-                soldPrice: (basket.productCurrency === 'dollar' ? basket.productPrice * dollarCur : basket.productPrice) - Number(basket?.discount || 0),
+                soldPrice: Math.round((basket.productCurrency === 'dollar' ? basket.productPrice * dollarCur : basket.productPrice) - Number(basket?.discount || 0)),
                 soldQuantity: Number(basket.amount),
                 soldProductName: basket.productName,
                 soldProductMeasure: basket.productMeasure
@@ -141,11 +141,17 @@ export default function Basket() {
 
                     dispatch(createSale(data)).then(unwrapResult)
                         .then(res => {
+                            console.log(payType)
                             if (payType === "debt-pay") {
+                                let debtAmount = 0
+                                for (let i = 0; i < mixedPay.length; i++) {
+                                    debtAmount += mixedPay[i].paymentAmount
+                                }
+
                                 const debtData: DebtorDataProps = {
                                     storeId: Number(getMgId()),
                                     clientId: client?.id || 0,
-                                    debt: -totalAfterDiscount,
+                                    debt: -(Math.round(totalAfterDiscount - debtAmount)),
                                     saleId: res.data?.id
                                 }
                                 dispatch(createDebt(debtData)).then(unwrapResult)

@@ -8,7 +8,7 @@ import {toast} from "react-toastify";
 import {ProductsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket} from "../../redux/reducers/variable.ts";
-import {formatter, handleNumberMask} from "../../config/servise.ts";
+import {formatter, handleNumberMask, roundMath} from "../../config/servise.ts";
 import {BiXCircle} from "react-icons/bi";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
@@ -108,10 +108,10 @@ export default function ProductBox(props: ProductsDataProps) {
                 </div>
                 <div className="my-3 sm:my-0">
                     <Typography variant={"small"} className={"font-bold text-lg"}>
-                    {productCurrency === 'dollar' ? formatter.format(productPrice * dollarCur) : formatter.format(productPrice)}
+                    {productCurrency === 'dollar' ? formatter.format(roundMath(productPrice * dollarCur)) : formatter.format(productPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(productMainPrice * dollarCur) : formatter.format(productMainPrice)}
+                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(roundMath(productMainPrice * dollarCur)) : formatter.format(productMainPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
                         Miqdori: {productQuantity} {productMeasure}

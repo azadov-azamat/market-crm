@@ -2,7 +2,7 @@ import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {toast} from "react-toastify";
 import {FaTrash} from "react-icons/fa";
-import {formatter, handleNumberMask} from "../../config/servise.ts";
+import {formatter, handleNumberMask, roundMath} from "../../config/servise.ts";
 import {BasketsDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
@@ -73,10 +73,10 @@ export default function BasketBox(props: BasketsDataProps) {
                         Miqdori: {productQuantity} {productMeasure}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Narxi: {formatter.format(afterCurrency)}
+                        Narxi: {formatter.format(roundMath(afterCurrency))}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(productMainPrice * dollarCur) : formatter.format(productMainPrice)}
+                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(roundMath(productMainPrice * dollarCur)) : formatter.format(roundMath(productMainPrice))}
                     </Typography>
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-5 xl:mt-0">
@@ -135,7 +135,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         <InputComponent.Text value={currentDiscount}
                                              disabled={!baskets.find(item => item.id === Number(id))}
                                              name={"discount-item"}
-                                             maxLength={(productPrice * dollarCur).toString().length}
+                                             maxLength={productPrice.toString().length}
                                              placeholder={"Chegirma qilasizmi?"}
                                              onChange={(e: {
                                                  target: { value: string; };
