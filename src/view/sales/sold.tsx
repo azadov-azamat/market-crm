@@ -13,6 +13,7 @@ import {HiQrCode} from 'react-icons/hi2'
 import qs from "qs";
 import FilterSales from "./filter.tsx";
 import {FaFilter} from "react-icons/fa";
+import CustomPagination from "../../custom-pagination.tsx";
 
 interface SoldProductProps {
     clientId?: number;
@@ -24,7 +25,16 @@ export default function SoldProducts({clientId}: SoldProductProps) {
     const location = useLocation()
     const dispatch = useAppDispatch()
 
-    const {stores, sales, client, userData} = useAppSelector(state => state.variables)
+    const {
+        stores,
+        sales,
+        client,
+        pageCount,
+        totalCount,
+        currentPage,
+        limit,
+        userData
+    } = useAppSelector(state => state.variables)
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
     const [filter, setFilter] = React.useState<boolean>(false)
@@ -67,9 +77,9 @@ export default function SoldProducts({clientId}: SoldProductProps) {
                 filter: JSON.stringify({clientId: clientId})
             }))
         } else if (location.search) {
-            dispatch(getSales({...query}))
+            dispatch(getSales({...query, limit: 10, filter: JSON.stringify({storeId: getMgId()})}))
         } else {
-            dispatch(getSales({}))
+            dispatch(getSales({limit: 10, filter: JSON.stringify({storeId: getMgId()})}))
         }
     }, [location.search, client])
 
@@ -85,6 +95,15 @@ export default function SoldProducts({clientId}: SoldProductProps) {
             })
         }
     }, [])
+
+    const handlePaginate = (page: number) => {
+        dispatch(getSales({
+            ...query,
+            limit: 10,
+            filter: JSON.stringify({storeId: getMgId()}),
+            page: page || 0
+        }))
+    }
 
     return (
         <div>
@@ -179,6 +198,16 @@ export default function SoldProducts({clientId}: SoldProductProps) {
                         )
                     })
                 }
+            </div>
+            <div className="">
+                <CustomPagination
+                    limit={limit}
+                    size={sales.length}
+                    totalCount={totalCount}
+                    totalPages={pageCount}
+                    currentPage={currentPage}
+                    handlePaginate={handlePaginate}
+                />
             </div>
             <FilterSales open={filter} toggle={handleFilter}/>
         </div>

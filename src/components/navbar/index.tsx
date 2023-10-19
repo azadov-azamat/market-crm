@@ -199,7 +199,7 @@ export default function NavbarComponent(): JSX.Element {
             </Menu>
         );
     }
-console.log(fltProduct)
+
     return (
         <nav
             className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>

@@ -82,6 +82,14 @@ export default function ProductList({isView}: Pr) {
         }
     ]
 
+    const handlePaginate = (page: number) => {
+        dispatch(getProducts({
+            ...query,
+            limit: 10,
+            page: page || 0
+        }))
+    }
+
     return (
         <div
             className={"flex flex-col gap-2"}>
@@ -120,6 +128,7 @@ export default function ProductList({isView}: Pr) {
                     totalCount={totalCount}
                     totalPages={pageCount}
                     currentPage={currentPage}
+                    handlePaginate={handlePaginate}
                 />
             </div>
         </div>

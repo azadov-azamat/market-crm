@@ -14,27 +14,13 @@ interface CustomPaginationDataProps{
     totalPages: number;
     totalCount: number;
     limit: number;
+    handlePaginate: any;
 
 }
-export default function CustomPagination({currentPage, size, totalPages, limit, totalCount}: CustomPaginationDataProps){
-
-    const dispatch = useAppDispatch()
-    const location = useLocation()
-
-    const query = qs.parse(location.search, {ignoreQueryPrefix: true})
-
-    // const [currentPage, setCurrentPage] = React.useState(8);
+export default function CustomPagination({currentPage, size, totalPages, limit, totalCount, handlePaginate}: CustomPaginationDataProps){
 
     const startIndex = (currentPage === 1 ? (currentPage - 1) : ((currentPage - 1) * limit)) + 1
     const lastIndex = startIndex + (size - 1)
-
-    const handlePaginate = (page: number) => {
-        dispatch(getProducts({
-                ...query,
-                limit: 10,
-                page: page || 0
-        }))
-    }
 
    return (
         <Card className='mt-2'>

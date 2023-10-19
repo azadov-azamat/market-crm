@@ -15,7 +15,7 @@ import * as InputComponent from "../../components/inputs";
 import {DebtorDataProps, SaleDataProps, SoldProductDataProps} from "../../interface/redux/variable.interface.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
-import { getCurrencyNbu } from "../../redux/reducers/firm-currency.ts";
+import {getCurrencyNbu} from "../../redux/reducers/firm-currency.ts";
 
 export default function Basket() {
 
@@ -23,7 +23,7 @@ export default function Basket() {
     const dispatch = useAppDispatch()
     const {baskets, stores, client, mixedPay, userData} = useAppSelector(state => state.variables)
     const {nbu} = useAppSelector(state => state.firms)
-    
+
     const [totalPrice, setTotalPrice] = React.useState<number>(0)
     // const [commit, setCommit] = React.useState<string>('')
     const [totalAfterDiscount, setTotalAfterDiscount] = React.useState<number>(0)
@@ -33,8 +33,8 @@ export default function Basket() {
     const toggleDebt = () => setDebt(!isDebt)
     const toggleMixed = (bool: boolean) => setMixed(bool)
 
-      // @ts-ignore
-      const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
+    // @ts-ignore
+    const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
 
     React.useEffect(() => {
         let totalAmount = 0;
@@ -43,7 +43,7 @@ export default function Basket() {
             totalAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) * Number(basket.amount))
             discountAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) - (basket.discount || 0)) * Number(basket.amount)
         }
-        
+
         setTotalPrice(totalAmount)
         setTotalAfterDiscount(discountAmount)
     }, [baskets])
@@ -127,53 +127,57 @@ export default function Basket() {
                 onSubmit={(e) => {
                     e.preventDefault()
                     const formData = new FormData(e.currentTarget)
+                    if (isDebt && client === null) {
+                        return toast.error("Mijoz tanlanmagan!")
+                    } else {
 
-                    const data: SaleDataProps = {
-                        soldproducts: setSolProduct() || [],
-                        storeId: Number(getMgId()),
-                        saleMainPrice: roundMath(totalPrice),
-                        saleSoldPrice: roundMath(totalAfterDiscount),
-                        sellerId: userData?.id || 0,
-                        saleDebt: payType === "debt-pay",
-                        comment: String(formData.get("commit")),
-                        payments: mixedPay,
-                        clientId: client?.id || null
+                        const data: SaleDataProps = {
+                            soldproducts: setSolProduct() || [],
+                            storeId: Number(getMgId()),
+                            saleMainPrice: roundMath(totalPrice),
+                            saleSoldPrice: roundMath(totalAfterDiscount),
+                            sellerId: userData?.id || 0,
+                            saleDebt: payType === "debt-pay",
+                            comment: String(formData.get("commit")),
+                            payments: mixedPay,
+                            clientId: client?.id || null
+                        }
+
+                        dispatch(createSale(data)).then(unwrapResult)
+                            .then(res => {
+                                if (payType === "debt-pay") {
+                                    let debtAmount = 0
+                                    for (let i = 0; i < mixedPay.length; i++) {
+                                        debtAmount += mixedPay[i].paymentAmount
+                                    }
+
+                                    const debtData: DebtorDataProps = {
+                                        storeId: Number(getMgId()),
+                                        clientId: client?.id || 0,
+                                        debt: -(Math.round(roundMath(totalAfterDiscount) - debtAmount)),
+                                        saleId: res.data?.id
+                                    }
+                                    dispatch(createDebt(debtData)).then(unwrapResult)
+                                        .then(() => {
+                                            toast.success("Sotuv saqlandi!")
+                                        })
+                                        .catch(err => {
+                                            console.log(err)
+                                        })
+                                }
+                                // getCheckFile(String(res.data.id))
+                                dispatch(setListBasket([]))
+                                toast.success("Sotuv saqlandi!")
+                                navigate(`/seller/sold-product/${res.data?.id}`)
+                            })
+                            .catch(err => {
+                                console.log(err)
+                                if (err.response.status === 404) {
+                                    return toast.error("Iltimos barcha maydonlar to'ldirilganligini tekshiring")
+                                }
+                                toast.error("Savdoni saqlashda xatolik, iltimos qayta urinib ko'ring")
+                            })
                     }
-
-                    dispatch(createSale(data)).then(unwrapResult)
-                        .then(res => {
-                            if (payType === "debt-pay") {
-                                let debtAmount = 0
-                                for (let i = 0; i < mixedPay.length; i++) {
-                                    debtAmount += mixedPay[i].paymentAmount
-                                }
-
-                                const debtData: DebtorDataProps = {
-                                    storeId: Number(getMgId()),
-                                    clientId: client?.id || 0,
-                                    debt: -(Math.round(roundMath(totalAfterDiscount) - debtAmount)),
-                                    saleId: res.data?.id
-                                }
-                                dispatch(createDebt(debtData)).then(unwrapResult)
-                                    .then(() => {
-                                        toast.success("Sotuv saqlandi!")
-                                    })
-                                    .catch(err => {
-                                        console.log(err)
-                                    })
-                            }
-                            // getCheckFile(String(res.data.id))
-                            dispatch(setListBasket([]))
-                            toast.success("Sotuv saqlandi!")
-                            navigate(`/seller/sold-product/${res.data?.id}`)
-                        })
-                        .catch(err => {
-                            console.log(err)
-                            if (err.response.status === 404) {
-                                return toast.error("Iltimos barcha maydonlar to'ldirilganligini tekshiring")
-                            }
-                            toast.error("Savdoni saqlashda xatolik, iltimos qayta urinib ko'ring")
-                        })
                     // navigate(`/seller/products/${getMgId()}`)
                 }}
                 className={"flex flex-col md:flex-row w-full h-auto gap-5"}>
@@ -297,7 +301,8 @@ export default function Basket() {
                                     <li className={"w-full flex items-center justify-between my-2"}>
                                         <Typography variant={"small"} className={"font-bold text-sm"}>Umumiy
                                             narx: </Typography>
-                                        <Typography variant={"small"} className={"font-bold text-sm"}>{formatter.format(roundMath(totalPrice))}</Typography>
+                                        <Typography variant={"small"}
+                                                    className={"font-bold text-sm"}>{formatter.format(roundMath(totalPrice))}</Typography>
                                     </li>
                                     {baskets.map((item, ind) => (
                                         <li key={ind} className={"w-full flex items-center justify-between my-2"}>
@@ -350,7 +355,8 @@ export default function Basket() {
                                                 mixedPay.map((item, ind) => <div
                                                     className={"w-full flex justify-between py-1 border-b"} key={ind}>
                                                     <div className={"text-sm w-1/12`"}>{ind + 1}</div>
-                                                    <div className={"text-sm pl-5 w-7/12"}>{formatter.format(roundMath(item.paymentAmount))}</div>
+                                                    <div
+                                                        className={"text-sm pl-5 w-7/12"}>{formatter.format(roundMath(item.paymentAmount))}</div>
                                                     <div
                                                         className={"text-sm w-4/12"}>{handleSwitchPayType(item.paymentType)}</div>
                                                 </div>)
