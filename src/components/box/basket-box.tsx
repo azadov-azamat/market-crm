@@ -12,7 +12,16 @@ import {noIMG} from "../../config/api.ts";
 
 export default function BasketBox(props: BasketsDataProps) {
 
-    const {productName, productImgUrl, productPrice, productCurrency, productMainPrice, productMeasure, productQuantity, id} = props
+    const {
+        productName,
+        productImgUrl,
+        productPrice,
+        productCurrency,
+        productMainPrice,
+        productMeasure,
+        productQuantity,
+        id
+    } = props
 
     const dispatch = useAppDispatch()
     const {baskets} = useAppSelector(state => state.variables)
@@ -21,9 +30,10 @@ export default function BasketBox(props: BasketsDataProps) {
     const currentAmount = baskets[baskets.findIndex(item => item.id === id)]?.amount;
     const currentDiscount = baskets[baskets.findIndex(item => item.id === id)]?.discount || "";
 
-     // @ts-ignore
+    // @ts-ignore
     const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
-    const afterCurrency = (productCurrency === "dollar" ? (productPrice * dollarCur) : productPrice)
+    const afterCurrency = roundMath((productCurrency === "dollar" ? (productPrice * dollarCur) : productPrice) || 0)
+    const afterMainCurrency = roundMath((productCurrency === "dollar" ? (productMainPrice * dollarCur) : productMainPrice) || 0)
 
     const increment = (text: string) => {
         if (baskets.find(item => item.id === id)) {
@@ -73,10 +83,11 @@ export default function BasketBox(props: BasketsDataProps) {
                         Miqdori: {productQuantity} {productMeasure}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Narxi: {formatter.format(roundMath(afterCurrency))}
+                        Narxi: {formatter.format(afterCurrency)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(roundMath(productMainPrice * dollarCur)) : formatter.format(roundMath(productMainPrice))}
+                        Asosiy
+                        narxi: {formatter.format(afterMainCurrency)}
                     </Typography>
                     <div
                         className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-5 xl:mt-0">
@@ -88,7 +99,8 @@ export default function BasketBox(props: BasketsDataProps) {
                                                                               onChange={(e: {
                                                                                   target: { value: string; };
                                                                               }) => increment(handleNumberMask(e.target.value))}
-                                                                              label={""}/> : <div   className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                                                              label={""}/> : <div
+                                className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
                                 <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
                                             onClick={pieceItemDic}>-</Typography>
                                 <Typography
@@ -108,13 +120,14 @@ export default function BasketBox(props: BasketsDataProps) {
                     <div className="flex w-full items-center gap-3">
                         <div
                             className={`w-8/12 h-8 flex justify-between ${productMeasure !== 'dona' ? "mb-6" : "mb-0"}`}>
-                          {productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
+                            {productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
                                                                               name={"amount"}
                                                                               placeholder={"Miqdorini kiriting"}
                                                                               onChange={(e: {
                                                                                   target: { value: string; };
                                                                               }) => increment(handleNumberMask(e.target.value))}
-                                                                              label={""}/> : <div   className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                                                              label={""}/> : <div
+                                className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
                                 <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
                                             onClick={pieceItemDic}>-</Typography>
                                 <Typography
@@ -123,11 +136,11 @@ export default function BasketBox(props: BasketsDataProps) {
                                             onClick={pieceItemIn}>+</Typography>
                             </div>}
                         </div>
-                        <div className={productMeasure !== 'dona' ? "mt-5" : "mt-0"}>
+                        <div className={productMeasure !== 'dona' ? "" : "mt-0"}>
                             <Typography variant={"h2"}
                                         className={"font-bold text-base"}>
-                                {formatter.format(roundMath(currentAmount !== "" ?
-                                             (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency))}
+                                {formatter.format(currentAmount !== "" ?
+                                    (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency)}
                             </Typography>
                         </div>
                     </div>
@@ -135,7 +148,7 @@ export default function BasketBox(props: BasketsDataProps) {
                         <InputComponent.Text value={currentDiscount}
                                              disabled={!baskets.find(item => item.id === Number(id))}
                                              name={"discount-item"}
-                                            //  maxLength={productPrice.toString().length}
+                            //  maxLength={productPrice.toString().length}
                                              placeholder={"Chegirma qilasizmi?"}
                                              onChange={(e: {
                                                  target: { value: string; };
@@ -152,7 +165,7 @@ export default function BasketBox(props: BasketsDataProps) {
                     <InputComponent.Text value={currentDiscount}
                                          disabled={!baskets.find(item => item.id === Number(id))}
                                          name={"discount-item"}
-                                        //  maxLength={(productPrice * dollarCur).toString().length}
+                        //  maxLength={(productPrice * dollarCur).toString().length}
                                          placeholder={"Chegirma qilasizmi?"}
                                          onChange={(e: {
                                              target: { value: string; };
@@ -164,7 +177,7 @@ export default function BasketBox(props: BasketsDataProps) {
                 </div>
                 <Typography variant={"h2"}
                             className={"font-bold text-base mt-4"}>
-                    {formatter.format(roundMath(currentAmount !== "0" ? (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency))}
+                    {formatter.format(currentAmount !== "0" ? (afterCurrency - Number(currentDiscount)) * Number(currentAmount) : afterCurrency)}
                 </Typography>
             </div>
         </Card>

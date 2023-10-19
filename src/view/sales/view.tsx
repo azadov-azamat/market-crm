@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router-dom"
 import {useAppDispatch, useAppSelector} from "../../redux/hooks"
 import {getSaleById, getStores} from '../../redux/reducers/variable'
 import {BreadCumbsDataProps} from '../../interface/modal/modal.interface'
-import {formatter, getCheckFile, getMgId, handleSwitchPayType} from '../../config/servise'
+import {formatter, getCheckFile, getMgId, handleSwitchPayType, roundMath} from '../../config/servise'
 import BreadcumbsComponent from '../../components/page-title/breadcumbs'
 import {Card, CardBody, Typography} from '@material-tailwind/react'
 import DateFormatClockComponent from '../../components/date-format/oclock'
@@ -121,8 +121,8 @@ export default function ViewSales() {
                                                 return (
                                                     <div className="flex relative" key={ip}>
                                                         <div className="w-1/3">{pr.soldProductName}</div>
-                                                        <div className="w-1/3">{formatter.format(pr.soldPrice)}</div>
-                                                        <div className="w-1/3">{pr.soldQuantity}</div>
+                                                        <div className="w-1/3">{formatter.format(roundMath(pr.soldPrice))}</div>
+                                                        <div className="w-1/3">{pr.soldQuantity} {pr.soldProductMeasure}</div>
                                                         <div className="absolute right-0">
                                                             <FiExternalLink
                                                                 className="text-green-500 text-base cursor-pointer"
@@ -191,7 +191,7 @@ export default function ViewSales() {
                         </CardBody>
                         {sale?.saleDebt && <div className="absolute -right-1 -top-1">
                             <FiExternalLink className="text-green-500 text-xl cursor-pointer"
-                                            onClick={() => navigate(`/seller/debtor/${sale?.client?.id}}`)}/>
+                                            onClick={() => navigate(`/seller/debtor/${sale?.client?.id}`)}/>
                         </div>}
                     </Card>
                 </div>
