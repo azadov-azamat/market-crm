@@ -50,7 +50,7 @@ export default function ViewDebtor() {
         dispatch(getStores())
     }, [])
 
-    React.useLayoutEffect(() => {
+    React.useEffect(() => {
         dispatch(getClientById(String(id)))
 
         return () => {
@@ -82,7 +82,7 @@ export default function ViewDebtor() {
                 </CardBody>
             </Card>
 
-            {active === "1" && <SoldProducts/>}
+            {active === "1" && <SoldProducts clientId={Number(id)}/>}
 
             {active === "2" && <DebtsList/>}
 

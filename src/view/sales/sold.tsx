@@ -14,7 +14,10 @@ import qs from "qs";
 import FilterSales from "./filter.tsx";
 import {FaFilter} from "react-icons/fa";
 
-export default function SoldProducts() {
+interface SoldProductProps {
+    clientId?: number;
+}
+export default function SoldProducts({clientId}: SoldProductProps) {
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -42,10 +45,10 @@ export default function SoldProducts() {
     ]
 
     React.useEffect(() => {
-        if (client) {
+        if (clientId) {
             navigate({
                 search: qs.stringify({
-                    filter: JSON.stringify({clientId: client?.id})
+                    filter: JSON.stringify({clientId: clientId})
                 })
             })
         } else {
@@ -55,7 +58,7 @@ export default function SoldProducts() {
                 })
             })
         }
-    }, [client])
+    }, [clientId])
 
     React.useEffect(() => {
         if (location.search) {
