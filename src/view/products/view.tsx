@@ -9,7 +9,7 @@ import {
     setBasket,
     setDiscountBasket
 } from "../../redux/reducers/variable.ts";
-import {formatter, handleNumberMask} from "../../config/servise.ts";
+import {formatter, handleNumberMask, roundMath} from "../../config/servise.ts";
 import {toast} from "react-toastify";
 import ProductList from "./list.tsx";
 import {SlBasket} from "react-icons/sl";
@@ -20,6 +20,8 @@ import {FaTrash} from "react-icons/fa";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {noIMG} from "../../config/api.ts";
+import {BiEdit} from "react-icons/bi";
+import EditProduct from "./edit-product.tsx";
 // import React from "react";
 
 export default function ViewProduct() {
@@ -28,11 +30,20 @@ export default function ViewProduct() {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {stores, baskets, product} = useAppSelector(state => state.variables)
+    const {nbu} = useAppSelector(state => state.firms)
 
     const [isBasket, setIsBasket] = React.useState<boolean>(false)
+    const [isEdit, setEdit] = React.useState<boolean>(false)
 
     const currentAmount = baskets[baskets.findIndex(item => item.id === Number(id))]?.amount || "0";
     const currentDiscount = baskets[baskets.findIndex(item => item.id === Number(id))]?.discount || 0;
+
+    const toggleEdit = () => setEdit(!isEdit)
+
+    // @ts-ignore
+    const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
+    const afterCurrency = roundMath((product?.productCurrency === "dollar" ? (product?.productPrice * dollarCur) : product?.productPrice) || 0)
+    const afterMainCurrency = roundMath((product?.productCurrency === "dollar" ? (product?.productMainPrice * dollarCur) : product?.productMainPrice) || 0)
 
     const increment = (text: string) => {
         if (product !== null) {
@@ -55,6 +66,15 @@ export default function ViewProduct() {
 
     React.useEffect(() => {
         dispatch(getProductById(String(id)))
+
+        return ()=>{
+            dispatch({
+                type: "product/getProductById/fulfilled",
+                payload: {
+                    data: null
+                }
+            })
+        }
     }, [id])
 
     const breadCumbc: BreadCumbsDataProps[] = [
@@ -96,7 +116,7 @@ export default function ViewProduct() {
                                 Miqdori: {product?.productQuantity} {product?.productMeasure}
                             </Typography>
                             <Typography variant={"small"} className={"font-medium text-base"}>
-                                Narxi: {formatter.format(Number(product?.productPrice) || 0)}
+                                Narxi: {afterCurrency}
                             </Typography>
                             <div
                                 className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
@@ -127,7 +147,7 @@ export default function ViewProduct() {
                                 <div className="">
                                     <Typography variant={"h2"}
                                                 className={"font-bold text-base"}>
-                                        {product !== null && formatter.format(currentAmount !== "0" ? (product?.productPrice - currentDiscount) * Number(currentAmount) : product?.productPrice)}
+                                        {product !== null && formatter.format(currentAmount !== "0" ? ((afterCurrency - currentDiscount) * Number(currentAmount)) : afterCurrency)}
                                     </Typography>
                                 </div>
                             </div>
@@ -162,35 +182,38 @@ export default function ViewProduct() {
                         </div>
                         <Typography variant={"lead"}
                                     className={"font-bold text-base mt-4"}>
-                            {product !== null && formatter.format(currentAmount !== "0" ? (product?.productPrice - currentDiscount) * Number(currentAmount) : product?.productPrice)}
+                            {product !== null && formatter.format(currentAmount !== "0" ? (afterCurrency - currentDiscount) * Number(currentAmount) : afterCurrency)}
                         </Typography>
                     </div>
                 </Card>
                 <Card shadow color={"white"} className={"border w-full md:w-3/12"}>
                     <CardBody className={"flex flex-col"}>
-                        <div className="w-full mb-3 py-2 border-b border-dashed">
+                        <div className="w-full flex justify-between items-center mb-3 py-2 border-b border-dashed">
                             <Typography variant={"h2"}
                                         className={"font-bold text-xl"}>
-                                {formatter.format(product?.productPrice || 0)}
+                                {formatter.format(afterCurrency)}
                             </Typography>
+                            <div className="">
+                                <BiEdit size={23} color={"orange"} onClick={toggleEdit} className={"cursor-pointer"}/>
+                            </div>
                         </div>
                         <div className="flex flex-col gap-2 mt-12">
                             <div className="">
                                 <Typography variant={"paragraph"}
                                             className={"font-medium text-xs"}>
-                                    Asosiy marxi: {formatter.format(product?.productMainPrice || 0)}
+                                    Asosiy narxi: {formatter.format(afterMainCurrency)}
                                 </Typography>
                             </div>
                             <div className="">
                                 <Typography variant={"paragraph"}
                                             className={"font-medium text-xs"}>
-                                    {product?.productModel}
+                                    Modeli: {product?.productModel}
                                 </Typography>
                             </div>
                             <div className="">
                                 <Typography variant={"paragraph"}
                                             className={"font-medium text-xs"}>
-                                    {product?.productOption}
+                                    Izoh: {product?.productOption}
                                 </Typography>
                             </div>
                             {isBasket ? <>
@@ -205,7 +228,7 @@ export default function ViewProduct() {
                                 </Button>
                             </> : <>
                                 <Button className={"w-full flex justify-center items-center gap-2"}
-                                        disabled={product?.productQuantity === 0} color={"blue"}
+                                        disabled={(product?.productQuantity || 1) < 1} color={"blue"}
                                         onClick={() => {
                                             increment("1")
                                             navigate("/seller/baskets")
@@ -217,7 +240,7 @@ export default function ViewProduct() {
                                 </Button>
                                 <Button onClick={() => increment("1")}
                                         className={"flex justify-center items-center normal-case  gap-2"}
-                                        disabled={product?.productQuantity === 0}
+                                        disabled={(product?.productQuantity || 1) < 1}
                                         color={'light-green'}><SlBasket
                                     className={'text-lg'}/> Korzinkaga qo'shish</Button>
                             </>
@@ -226,6 +249,7 @@ export default function ViewProduct() {
                     </CardBody>
                 </Card>
             </div>
+            <EditProduct open={isEdit} toggle={toggleEdit}/>
             <div className="w-full text-center my-5">
                 <Typography variant={"h2"}
                             className={"font-bold text-lg"}>

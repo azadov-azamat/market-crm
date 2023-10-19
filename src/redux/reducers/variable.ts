@@ -159,6 +159,16 @@ export const createProduct = createAsyncThunk('product/createProduct', async (da
     }
 })
 
+export const patchProduct = createAsyncThunk('product/patchProduct', async (data: any, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.patch(`/products/${data?.id}`, data?.body)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const getProducts = createAsyncThunk('product/getProducts', async (data: UrlParamsDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.get('/products', {

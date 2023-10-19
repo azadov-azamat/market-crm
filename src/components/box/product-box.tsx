@@ -36,8 +36,9 @@ export default function ProductBox(props: ProductsDataProps) {
     const [isBasket, setIsBasket] = React.useState<boolean>(false)
 
     const currentAmount = baskets[baskets.findIndex(item => item.id === id)]?.amount;
-  // @ts-ignore
-  const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
+
+    // @ts-ignore
+    const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
 
     React.useEffect(() => {
         if (baskets.find(item => item.id === id)) setIsBasket(true)
@@ -108,10 +109,11 @@ export default function ProductBox(props: ProductsDataProps) {
                 </div>
                 <div className="my-3 sm:my-0">
                     <Typography variant={"small"} className={"font-bold text-lg"}>
-                    {productCurrency === 'dollar' ? formatter.format(roundMath(productPrice * dollarCur)) : formatter.format(productPrice)}
+                        {productCurrency === 'dollar' ? formatter.format(roundMath(productPrice * dollarCur)) : formatter.format(productPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
-                        Asosiy narxi: {productCurrency === 'dollar' ? formatter.format(roundMath(productMainPrice * dollarCur)) : formatter.format(productMainPrice)}
+                        Asosiy
+                        narxi: {productCurrency === 'dollar' ? formatter.format(roundMath(productMainPrice * dollarCur)) : formatter.format(productMainPrice)}
                     </Typography>
                     <Typography variant={"small"} className={"font-medium text-base"}>
                         Miqdori: {productQuantity} {productMeasure}
@@ -127,7 +129,8 @@ export default function ProductBox(props: ProductsDataProps) {
                                                                               onChange={(e: {
                                                                                   target: { value: string; };
                                                                               }) => increment(handleNumberMask(e.target.value))}
-                                                                              label={""}/> : <div   className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                                                              label={""}/> : <div
+                                className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
                                 <Typography variant={"small"} className={"cursor-pointer px-2 py-1 rounded text-base"}
                                             onClick={pieceItemDic}>-</Typography>
                                 <Typography
