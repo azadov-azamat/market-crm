@@ -18,10 +18,10 @@ import {SlBasket} from "react-icons/sl";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import SearchModal from "./search-modal.tsx";
-import {filterProduct, getProductsSearch, logoutFunc} from "../../redux/reducers/variable.ts";
+import {getProductsSearch, logoutFunc} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
 import {formatter, getMgId} from "../../config/servise.ts";
-import qs from "qs";
+// import qs from "qs";
 import {noIMG} from "../../config/api.ts";
 
 export default function NavbarComponent(): JSX.Element {
@@ -34,7 +34,7 @@ export default function NavbarComponent(): JSX.Element {
 
     const [search, setSearch] = React.useState<string>("")
     const [isModal, setModal] = React.useState<boolean>(false)
-    const query = qs.parse(location.search, {ignoreQueryPrefix: true})
+    // const query = qs.parse(location.search, {ignoreQueryPrefix: true})
     const toggleModal = () => setModal(!isModal)
 
     const [profileMenuItems, setProfileMenuItems] = React.useState([
@@ -105,29 +105,45 @@ export default function NavbarComponent(): JSX.Element {
         }
     }, [location.pathname]);
 
-    useEffect(() => {
-        if (search.length !== 0) {
-            navigate({
-                search: qs.stringify({
-                    filter: JSON.stringify({
-                        storeId: getMgId()
-                    }),
-                    search: search
-                })
-            })
-        } else {
-            navigate({
-                search: ""
-            })
-            dispatch(filterProduct(""))
-        }
-    }, [search])
+    // useEffect(() => {
+    //     if (search.length !== 0) {
+    //         navigate({
+    //             search: qs.stringify({
+    //                 filter: JSON.stringify({
+    //                     storeId: getMgId()
+    //                 }),
+    //                 search: search
+    //             })
+    //         })
+    //     } else {
+    //         navigate({
+    //             search: ""
+    //         })
+    //         dispatch(filterProduct(""))
+    //     }
+    // }, [search])
 
     useEffect(() => {
-        if (search.length !== 0) {
-            dispatch(getProductsSearch({...query}))
+        if (search.length >= 3) {
+            dispatch(getProductsSearch({
+                filter: JSON.stringify({
+                    storeId: getMgId()
+                }),
+                search: search
+            }))
+        } else {
+            // navigate({
+            //     search: ""
+            // })
+            // dispatch(filterProduct())
+            dispatch({
+                type: 'product/getProductsSearch/fulfilled',
+                payload: {
+                    data: []
+                }
+            })
         }
-    }, [location.search]);
+    }, [search]);
 
     function ProfileMenu() {
         const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -183,7 +199,7 @@ export default function NavbarComponent(): JSX.Element {
             </Menu>
         );
     }
-
+console.log(fltProduct)
     return (
         <nav
             className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>

@@ -74,7 +74,7 @@ export default function ProductBox(props: ProductsDataProps) {
 
     return (
         <Card shadow color={"white"}
-              className={`relative w-full md:h-96  h-auto ${productQuantity === 0 && 'opacity-40'}`}>
+              className={`relative w-full md:h-96  h-auto ${productQuantity < 1 && 'opacity-40'}`}>
             <div className="w-full flex justify-end">
                 {isBasket && <BiXCircle onClick={() => {
                     dispatch(removeBasket(Number(id)))
@@ -136,7 +136,7 @@ export default function ProductBox(props: ProductsDataProps) {
                                             onClick={pieceItemIn}>+</Typography>
                             </div>}
                         </div> : <>
-                            <Button className={"py-1.5 md:w-9/12"} disabled={productQuantity === 0} color={"blue"}
+                            <Button className={"py-1.5 md:w-9/12"} disabled={productQuantity < 1} color={"blue"}
                                     onClick={() => {
                                         increment("1")
                                         navigate("/seller/baskets")
@@ -150,7 +150,7 @@ export default function ProductBox(props: ProductsDataProps) {
                                 setIsBasket(true)
                             }}
                                     className={"flex justify-center items-center py-1.5"}
-                                    disabled={productQuantity === 0}
+                                    disabled={productQuantity < 1}
                                     color={'light-green'}><SlBasket
                                 className={'text-lg'}/></Button>
                         </>

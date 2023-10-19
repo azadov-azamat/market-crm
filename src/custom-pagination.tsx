@@ -1,8 +1,10 @@
 
 import ReactPaginate from 'react-paginate'
-import {useLocation, useNavigate} from "react-router-dom"
+import {useLocation} from "react-router-dom"
 import qs from 'qs'
 import { Card, CardBody } from '@material-tailwind/react';
+import { useAppDispatch } from "./redux/hooks";
+import { getProducts } from "./redux/reducers/variable";
 
 interface CustomPaginationDataProps{
     currentPage: number;
@@ -14,29 +16,28 @@ interface CustomPaginationDataProps{
 }
 export default function CustomPagination({currentPage, size, totalPages, limit, totalCount}: CustomPaginationDataProps){
 
-    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
     const location = useLocation()
 
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
-    const startIndex = (currentPage === 1 ? (currentPage - 1) : ((currentPage - 1) * limit))
+    const startIndex = (currentPage === 1 ? (currentPage - 1) : ((currentPage - 1) * limit)) + 1
     const lastIndex = startIndex + (size - 1)
 
     const handlePaginate = (page: number) => {
-        navigate({
-            search: qs.stringify({
+        dispatch(getProducts({
                 ...query,
+                limit: 10,
                 page: page + 1 || undefined
-            })
-        })
+        }))
     }
 
    return (
         <Card className='mt-2'>
-           <CardBody className="p-0 gap-4 flex items-center justify-between py-1">
-           <p className={"hidden md:flex"}>Ma`lumotlar {startIndex + 1} dan {lastIndex + 1} gacha, {totalCount} ta dan
+           <CardBody className="p-0 gap-4 flex items-center justify-between py-2 px-3">
+           <p className={"hidden md:flex"}>Ma`lumotlar {startIndex} dan {lastIndex} gacha, {totalCount} ta dan
             </p>
-            <p className={"flex md:hidden"}>{startIndex + 1}/{lastIndex + 1} - {totalCount}</p>
+            <p className={"flex md:hidden"}>{startIndex}/{lastIndex} - {totalCount}</p>
             <div>
                 <ReactPaginate
                     previousLabel={''}

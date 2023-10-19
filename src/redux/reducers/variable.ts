@@ -237,7 +237,7 @@ const reducers = {
     setDiscountBasket: (state: InitialStateProps, action: PayloadAction<any>) => {
         const baskets = state.baskets
         const crnInd = baskets.findIndex(item => item.id === Number(action.payload?.id))
-        baskets[crnInd].discount = Number(action.payload?.discount) || 0
+        baskets[crnInd].discount = Number(action.payload?.discount) || ""
     },
     setDebtorData: (state: InitialStateProps, action: PayloadAction<ClientDataProps | null>) => {
         state.client = action.payload
@@ -245,15 +245,8 @@ const reducers = {
     setOrder: (state: InitialStateProps, action: PayloadAction<OrderDataProps>) => {
         state.orders = [...state.orders, action.payload]
     },
-    filterProduct: (state: InitialStateProps, action: PayloadAction<string>) => {
-        const products = state.products
-        if (action.payload.length === 0) {
+    filterProduct: (state: InitialStateProps) => {
             state.fltProduct = []
-        } else {
-            state.fltProduct = products.filter(item => item.storeId === Number(getMgId() || 1))
-                .filter(item => item.productName.match(action.payload))
-                .concat(products.filter(item => item.productPrice >= Number(action.payload)))
-        }
     },
     setMixedPayList: (state: InitialStateProps, action: PayloadAction<MixedPayDataProps[]>) => {
         state.mixedPay = action.payload
@@ -395,13 +388,6 @@ export const variableSlice = createSlice({
 
         builder.addCase(getProductsSearch.fulfilled, (state: InitialStateProps, action) => {
             state.fltProduct = action.payload.data
-            state.loading = false
-        })
-        builder.addCase(getProductsSearch.pending, (state: InitialStateProps) => {
-            state.loading = true
-        })
-        builder.addCase(getProductsSearch.rejected, (state: InitialStateProps) => {
-            state.loading = false
         })
 
         builder.addCase(createProduct.fulfilled, (state: InitialStateProps, action) => {

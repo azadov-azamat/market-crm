@@ -59,9 +59,9 @@ export default function Debtors() {
 
     React.useEffect(() => {
         if (location.search) {
-            dispatch(getClients({...query}))
+            dispatch(getClients({...query, limit: 10}))
         } else {
-            dispatch(getClients({}))
+            dispatch(getClients({limit: 10}))
         }
     }, [location])
 

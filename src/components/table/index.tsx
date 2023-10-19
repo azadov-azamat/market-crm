@@ -14,6 +14,7 @@ export default function TableComponent({
                                            totalPages,
                                            progressPending,
                                            size,
+                                           limit,
                                            isPagination = true,
                                            selectableRows,
                                            onSelectedRowsChange,
@@ -24,7 +25,7 @@ export default function TableComponent({
 
     const query = qs.parse(location.search, {ignoreQueryPrefix: true})
 
-    const startIndex = currentPage === 1 ? currentPage : (currentPage * 10)
+    const startIndex = (currentPage === 1 ? (currentPage - 1) : ((currentPage - 1) * limit)) + 1
     const lastIndex = startIndex + (size - 1)
 
 
@@ -32,17 +33,17 @@ export default function TableComponent({
 
     const handlePaginate = (page: number) => {
         navigate({
-            pathname: location.pathname,
             search: qs.stringify({
                 ...query,
-                page: page + 1 || undefined
+                page: page + 1 || undefined,
+                limit: 10
             })
         })
     }
 
     const CustomPagination = () => (
         <div className='mt-2 flex items-center justify-between'>
-            <p className={"hidden md:flex"}>Ma`lumotlar {startIndex + 1} dan {lastIndex} gacha, {totalCount} ta dan
+            <p className={"hidden md:flex"}>Ma`lumotlar {startIndex} dan {lastIndex} gacha, {totalCount} ta dan
             </p>
             <div>
                 <ReactPaginate

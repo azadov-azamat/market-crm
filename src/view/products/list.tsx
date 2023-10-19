@@ -12,7 +12,7 @@ import {getProducts, getStores} from "../../redux/reducers/variable.ts";
 import {UrlParamsDataProps} from "../../interface/search/search.interface.ts";
 import { getCurrencyNbu } from "../../redux/reducers/firm-currency.ts";
 import qs from 'qs'
-// import CustomPagination from "../../custom-pagination.tsx";
+import CustomPagination from "../../custom-pagination.tsx";
 
 interface Pr {
     isView?: boolean
@@ -27,26 +27,24 @@ export default function ProductList({isView}: Pr) {
 
     const {
         products,
-        //  pageCount,
-        //   totalCount, 
-        //   currentPage, 
-        //   limit,  
+         pageCount,
+          totalCount, 
+          currentPage, 
+          limit,  
           stores} = useAppSelector(state => state.variables)
 
     React.useEffect(() => {
         dispatch(getCurrencyNbu())
-    }, [])
-
-    React.useEffect(() => {
         dispatch(getStores())
     }, [])
 
     React.useEffect(() => {
-        const data: UrlParamsDataProps = {
+        const data = {
             // limit: 10,
             filter: JSON.stringify({
                 storeId: getMgId()
-            })
+            }),
+            limit: 10
         }
         
         if (search){
@@ -109,14 +107,14 @@ export default function ProductList({isView}: Pr) {
                     })
                 }
             </div>
-         <div className="hidden">
-         {/* <CustomPagination 
+         <div className="">
+         <CustomPagination 
                     limit={limit}
                     size={products.length} 
                     totalCount={totalCount} 
                     totalPages={pageCount} 
                     currentPage={currentPage}
-                /> */}
+                />
          </div>
         </div>
     );
