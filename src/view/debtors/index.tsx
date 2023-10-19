@@ -9,7 +9,7 @@ import React from "react";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
-import {getClients, getStores} from "../../redux/reducers/variable.ts";
+import {getClientsByStoreId, getStores} from "../../redux/reducers/variable.ts";
 import DateFormatComponent from "../../components/date-format";
 import {FaEye, FaFilter} from "react-icons/fa";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -59,9 +59,9 @@ export default function Debtors() {
 
     React.useEffect(() => {
         if (location.search) {
-            dispatch(getClients({...query, limit: 10}))
+            dispatch(getClientsByStoreId({storeId: getMgId(), param: {...query, limit: 10}}))
         } else {
-            dispatch(getClients({limit: 10}))
+            dispatch(getClientsByStoreId({storeId: getMgId(), param: {limit: 10}}))
         }
     }, [location])
 
@@ -89,6 +89,12 @@ export default function Debtors() {
             width: '150px',
             wrap: true,
             selector: (row: ClientDataProps) => row.clientPhone
+        },
+        {
+            name: "Qarzdorligi",
+            width: '150px',
+            wrap: true,
+            cell: (row: ClientDataProps) => row?.debtSum
         },
         {
             name: 'Qaytarish sanasi',

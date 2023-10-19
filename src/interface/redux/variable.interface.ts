@@ -123,6 +123,7 @@ export interface ClientDataProps extends DataProps {
     payments?: MixedPayDataProps[] | []
     sales?: SaleDataProps[] | [];
     debts?: DebtorDataProps[] |[];
+    debtSum?: string;
 }
 
 export interface DataProps {

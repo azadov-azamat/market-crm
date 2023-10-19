@@ -9,8 +9,7 @@ import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import React from "react";
 import {getProducts, getStores} from "../../redux/reducers/variable.ts";
-import {UrlParamsDataProps} from "../../interface/search/search.interface.ts";
-import { getCurrencyNbu } from "../../redux/reducers/firm-currency.ts";
+import {getCurrencyNbu} from "../../redux/reducers/firm-currency.ts";
 import qs from 'qs'
 import CustomPagination from "../../custom-pagination.tsx";
 
@@ -27,11 +26,18 @@ export default function ProductList({isView}: Pr) {
 
     const {
         products,
-         pageCount,
-          totalCount, 
-          currentPage, 
-          limit,  
-          stores} = useAppSelector(state => state.variables)
+        pageCount,
+        totalCount,
+        currentPage,
+        limit,
+        stores
+    } = useAppSelector(state => state.variables)
+
+    // React.useEffect(()=>{
+    //   setTimeout(function (){
+    //       window.location.reload()
+    //   }, 500)
+    // }, [])
 
     React.useEffect(() => {
         dispatch(getCurrencyNbu())
@@ -46,15 +52,15 @@ export default function ProductList({isView}: Pr) {
             }),
             limit: 10
         }
-        
-        if (search){
+
+        if (search) {
             dispatch(getProducts({...query, ...data}))
         } else {
             dispatch(getProducts({...data}))
         }
     }, [search])
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         return () => {
             dispatch({
                 type: 'product/getProducts/fulfilled',
@@ -107,15 +113,15 @@ export default function ProductList({isView}: Pr) {
                     })
                 }
             </div>
-         <div className="">
-         <CustomPagination 
+            <div className="">
+                <CustomPagination
                     limit={limit}
-                    size={products.length} 
-                    totalCount={totalCount} 
-                    totalPages={pageCount} 
+                    size={products.length}
+                    totalCount={totalCount}
+                    totalPages={pageCount}
                     currentPage={currentPage}
                 />
-         </div>
+            </div>
         </div>
     );
 }

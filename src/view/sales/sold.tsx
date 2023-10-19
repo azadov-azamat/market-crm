@@ -17,6 +17,7 @@ import {FaFilter} from "react-icons/fa";
 interface SoldProductProps {
     clientId?: number;
 }
+
 export default function SoldProducts({clientId}: SoldProductProps) {
 
     const navigate = useNavigate()
@@ -61,12 +62,16 @@ export default function SoldProducts({clientId}: SoldProductProps) {
     }, [clientId])
 
     React.useEffect(() => {
-        if (location.search) {
+        if (clientId) {
+            dispatch(getSales({
+                filter: JSON.stringify({clientId: clientId})
+            }))
+        } else if (location.search) {
             dispatch(getSales({...query}))
         } else {
             dispatch(getSales({}))
         }
-    }, [location.search])
+    }, [location.search, client])
 
     React.useEffect(() => {
         dispatch(getStores())

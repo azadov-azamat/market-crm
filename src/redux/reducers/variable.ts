@@ -3,15 +3,16 @@ import {Dictionary} from "../../helpers/enumuration/dictionary";
 import i18n from "i18next";
 import {
     BasketsDataProps,
-    ClientDataProps, DebtorDataProps,
+    ClientDataProps,
+    DebtorDataProps,
     InitialStateProps,
     LoginDataProps,
     MixedPayDataProps,
     OrderDataProps,
-    ProductsDataProps, SaleDataProps
+    ProductsDataProps,
+    SaleDataProps
 } from "../../interface/redux/variable.interface";
 import {toast} from "react-toastify";
-import {getMgId} from "../../config/servise.ts";
 import {http, http_auth, TOKEN} from "../../config/api.ts";
 import {UrlParamsDataProps} from "../../interface/search/search.interface.ts";
 
@@ -57,6 +58,18 @@ export const getClients = createAsyncThunk('clients/getClients', async (data: Ur
         return rejectWithValue(error)
     }
 })
+
+export const getClientsByStoreId = createAsyncThunk('clients/getClientsByStoreId', async (data: any, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.get(`/clients/sms/${data?.storeId}`, {
+            params: data?.param
+        })
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 
 export const getClientById = createAsyncThunk('clients/getClientById', async (data: string, {rejectWithValue}) => {
     try {
@@ -298,6 +311,21 @@ export const variableSlice = createSlice({
             state.loading = true
         })
         builder.addCase(getClients.rejected, (state: InitialStateProps) => {
+            state.loading = false
+        })
+
+        builder.addCase(getClientsByStoreId.fulfilled, (state: InitialStateProps, action) => {
+            state.clients = action.payload.data
+            state.currentPage = action.payload?.currentPage
+            state.limit = action.payload?.limit
+            state.pageCount = action.payload?.pageCount
+            state.totalCount = action.payload?.totalCount
+            state.loading = false
+        })
+        builder.addCase(getClientsByStoreId.pending, (state: InitialStateProps) => {
+            state.loading = true
+        })
+        builder.addCase(getClientsByStoreId.rejected, (state: InitialStateProps) => {
             state.loading = false
         })
 
