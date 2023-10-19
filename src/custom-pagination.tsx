@@ -26,7 +26,7 @@ export default function CustomPagination({
     const lastIndex = startIndex + (size - 1)
 
     return (
-        <Card className='mt-2'>
+        <Card className='mt-2 w-full'>
             <CardBody className="p-0 gap-4 flex items-center justify-between py-2 px-3">
                 <p className={"hidden md:flex"}>Ma`lumotlar {startIndex} dan {lastIndex} gacha, {totalCount} ta dan
                 </p>
