@@ -9,36 +9,14 @@ import {useNavigate} from "react-router-dom";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
 import {formatter, getMgId} from "../../config/servise.ts";
-// import qs from "qs";
 
 export default function SearchModal({toggle, open}: ModalInterfaceProps) {
 
-    // const location = useLocation()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {fltProduct} = useAppSelector(state => state.variables)
-
     
     const [search, setSearch] = React.useState<string>("")
-    // const query = qs.parse(location.search, {ignoreQueryPrefix: true})
-
-    // useEffect(() => {
-    //     if (search.length !== 0) {
-    //         navigate({
-    //             search: qs.stringify({
-    //                 filter: JSON.stringify({
-    //                     storeId: getMgId()
-    //                 }),
-    //                 search: search
-    //             })
-    //         })
-    //     } else {
-    //         navigate({
-    //             search: ""
-    //         })
-    //         dispatch(filterProduct(""))
-    //     }
-    // }, [search])
 
     useEffect(() => {
         if (search.length >= 3) {
@@ -89,10 +67,15 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
                                             className={"font-bold text-sm"}>
                                     {item.productName}
                                 </Typography>
-                                <div className="w-full flex justify-between">
-                                    <Typography variant={"small"} className={"font-bold text-xs"}>
-                                        {formatter.format(item.productPrice)}
-                                    </Typography>
+                                <div className="w-full flex justify-between items-end">
+                                    <div className="">
+                                        <Typography variant={"small"} className={"font-bold text-xs"}>
+                                            {formatter.format(item.productPrice)}
+                                        </Typography>
+                                        <Typography variant={"small"} className={"font-bold text-xs"}>
+                                            Model: {item.productModel}
+                                        </Typography>
+                                    </div>
                                     <Typography variant={"small"} className={"font-medium text-xs"}>
                                         Miqdori: {item.productQuantity} {item.productMeasure}
                                     </Typography>

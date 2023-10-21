@@ -237,10 +237,15 @@ export default function NavbarComponent(): JSX.Element {
                                                         className={"font-bold text-sm"}>
                                                 {item.productName}
                                             </Typography>
-                                            <div className="w-full flex justify-between">
-                                                <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                    {formatter.format(item.productPrice)}
-                                                </Typography>
+                                            <div className="w-full flex justify-between items-end">
+                                               <div className="">
+                                                   <Typography variant={"small"} className={"font-bold text-xs"}>
+                                                       {formatter.format(item.productPrice)}
+                                                   </Typography>
+                                                   <Typography variant={"small"} className={"font-bold text-xs"}>
+                                                       Model: {item.productModel}
+                                                   </Typography>
+                                               </div>
                                                 <Typography variant={"small"} className={"font-medium text-xs"}>
                                                     Miqdori: {item.productQuantity} {item.productMeasure}
                                                 </Typography>
