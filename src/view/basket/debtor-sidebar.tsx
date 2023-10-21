@@ -67,8 +67,8 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             clientPaymentDate: data.get("clientPaymentDate")
                         }
                     }
-                    dispatch(patchClient(patchData)).then(unwrapResult).then(() => {
-
+                    dispatch(patchClient(patchData)).then(unwrapResult).then((res) => {
+                        dispatch(setDebtorData(res.data))
                     })
                         .catch(err => {
                             console.log(err)
