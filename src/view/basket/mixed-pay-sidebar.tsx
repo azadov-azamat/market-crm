@@ -45,7 +45,6 @@ export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps
     function handleMask(e: React.ChangeEvent<HTMLInputElement>, index: number) {
         const {name, value} = e.target
 
-        // console.log(name, value)
         if (name === 'paymentAmount') {
             const num = Number(handleNumberMask(value))
             let amount = 0

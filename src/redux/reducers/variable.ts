@@ -48,6 +48,16 @@ export const createClient = createAsyncThunk('clients/createClient', async (data
     }
 })
 
+export const patchClient = createAsyncThunk('app/patchClient', async (data: any, {rejectWithValue}) => {
+    try {
+        const response = await http_auth.patch(`/clients/${data?.id}`, data?.body)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const getClients = createAsyncThunk('clients/getClients', async (data: UrlParamsDataProps, {rejectWithValue}) => {
     try {
         const response = await http_auth.get('/clients', {

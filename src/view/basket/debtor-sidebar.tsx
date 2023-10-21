@@ -9,6 +9,7 @@ import {
     createDebt,
     createPayment,
     getClients,
+    patchClient,
     setDebtorData,
     setMixedPayList
 } from "../../redux/reducers/variable.ts";
@@ -33,6 +34,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
     const [gvnPrice, setGvnPrice] = React.useState("")
     const [isOther, setOther] = React.useState<boolean>(false)
     const [isMixed, setMixed] = React.useState<boolean>(false)
+    const [isNullDate, setNullDate] = React.useState<boolean>(false)
 
     const uz = '+998'
     const toggleMixed = (bool: boolean) => setMixed(bool)
@@ -57,6 +59,21 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
             <form onSubmit={(e) => {
                 e.preventDefault()
                 const data = new FormData(e.currentTarget)
+
+                if (isNullDate) {
+                    const patchData = {
+                        id: client?.id,
+                        body: {
+                            clientPaymentDate: data.get("clientPaymentDate")
+                        }
+                    }
+                    dispatch(patchClient(patchData)).then(unwrapResult).then(() => {
+
+                    })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
 
                 if (debtUser) {
                     const debtData: DebtorDataProps = {
@@ -141,30 +158,47 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                                 label={"To'lov qilish sanasi"}
                             />
                         </> :
-                        <InputComponent.Select
-                            name="clientId"
-                            required={!isOther}
-                            label={"Mijozlar"}
-                            placeholder="Mijozlardan birini tanlang..."
-                            options={[{id: null, clientName: "Boshqa"}, ...clients]}
-                            optionLabel={"clientName"}
-                            optionValue={"id"}
-                            onFocus={() => {
-                                dispatch(getClients({}))
-                            }}
-                            onChange={(e) => {
-                                // @ts-ignore
-                                if (e["id"] === null) {
-                                    setOther(true)
-                                    dispatch(setDebtorData(null))
-                                } else {
+                        <>
+                            <InputComponent.Select
+                                name="clientId"
+                                required={!isOther}
+                                label={"Mijozlar"}
+                                placeholder="Mijozlardan birini tanlang..."
+                                options={[{id: null, clientName: "Boshqa"}, ...clients]}
+                                optionLabel={"clientName"}
+                                optionValue={"id"}
+                                onFocus={() => {
+                                    dispatch(getClients({}))
+                                }}
+                                onChange={(e) => {
                                     // @ts-ignore
-                                    dispatch(setDebtorData(e))
-                                    setOther(false)
+                                    if (e["id"] === null) {
+                                        setOther(true)
+                                        dispatch(setDebtorData(null))
+                                    } else {
+                                        // @ts-ignore
+                                        dispatch(setDebtorData(e))
+                                        setOther(false)
+                                        // @ts-ignore
+                                        if (e["clientPaymentDate"] === null) {
+                                            setNullDate(true)
+                                        } else {
+                                            setNullDate(false)
+                                        }
+                                    }
                                 }
+                                }
+                            />
+                            {
+                                isNullDate && <InputComponent.Text
+                                    name={"clientPaymentDate"}
+                                    required
+                                    type={"date"}
+                                    placeholder={"Qarz qaytarilish sanasi"}
+                                    label={"To'lov qilish sanasi"}
+                                />
                             }
-                            }
-                        />
+                        </>
                     }
                 </> : <>
                     <div
@@ -262,7 +296,8 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                             color={"red"}
                             type={"reset"}>Bekor
                         qilish</Button>
-                    <Button className={"normal-case"} disabled={!isOther && !debtUser ? !client : false} color={"orange"} type={"submit"}>Saqlash</Button>
+                    <Button className={"normal-case"} disabled={!isOther && !debtUser ? !client : false}
+                            color={"orange"} type={"submit"}>Saqlash</Button>
                 </div>
             </form>
             {isMixed &&
