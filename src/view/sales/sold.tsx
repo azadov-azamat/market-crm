@@ -77,9 +77,9 @@ export default function SoldProducts({clientId}: SoldProductProps) {
                 filter: JSON.stringify({clientId: clientId})
             }))
         } else if (location.search) {
-            dispatch(getSales({...query, limit: 10, filter: JSON.stringify({storeId: getMgId()})}))
+            dispatch(getSales({...query, limit: 10, sort: '-id', filter: JSON.stringify({storeId: getMgId()})}))
         } else {
-            dispatch(getSales({limit: 10, filter: JSON.stringify({storeId: getMgId()})}))
+            dispatch(getSales({limit: 10,sort: '-id', filter: JSON.stringify({storeId: getMgId()})}))
         }
     }, [location.search, client])
 
@@ -100,6 +100,7 @@ export default function SoldProducts({clientId}: SoldProductProps) {
         dispatch(getSales({
             ...query,
             limit: 10,
+            sort: '-id',
             filter: JSON.stringify({storeId: getMgId()}),
             page: page || 0
         }))
@@ -126,7 +127,7 @@ export default function SoldProducts({clientId}: SoldProductProps) {
                                           className="cursor-pointer">
                                     <div className="">
                                         <Typography variant="paragraph"
-                                                    className="text-base font-bold">#{ind + 1} {item?.store?.storeName}</Typography>
+                                                    className="text-base font-bold">#{item?.id} {item?.store?.storeName}</Typography>
                                     </div>
                                     <div className="flex">
                                         <Typography variant="small"

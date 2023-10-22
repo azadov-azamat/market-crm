@@ -1,6 +1,7 @@
 export interface InitialStateProps {
     lang: string;
     loading: boolean;
+    isBasketLoad: boolean;
     userData: UserDataProps | null;
     stores: StoresDataProps[] | [];
     products: ProductsDataProps[] | [];

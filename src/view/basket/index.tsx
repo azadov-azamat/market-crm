@@ -21,7 +21,7 @@ export default function Basket() {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const {baskets, stores, client, mixedPay, userData} = useAppSelector(state => state.variables)
+    const {isBasketLoad, baskets, stores, client, mixedPay, userData} = useAppSelector(state => state.variables)
     const {nbu} = useAppSelector(state => state.firms)
 
     const [totalPrice, setTotalPrice] = React.useState<number>(0)
@@ -365,7 +365,7 @@ export default function Basket() {
                                     }
                                     <li className={"w-full flex justify-center mt-5"}>
                                         <Button className={"normal-case"} type={"submit"} color={"green"}
-                                                disabled={baskets.length === 0}>
+                                                disabled={baskets.length === 0 || isBasketLoad}>
                                             Buyurtmani aktivlashtirish
                                         </Button>
                                     </li>

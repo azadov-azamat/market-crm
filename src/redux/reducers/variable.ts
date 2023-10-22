@@ -222,6 +222,7 @@ export const createPayment = createAsyncThunk('payment/createPayment', async (da
 const initialState: InitialStateProps = {
     lang: localStorage.getItem('i18nextLng') || 'ru',
     loading: false,
+    isBasketLoad: false,
     userData: null,
     stores: [],
     products: [],
@@ -462,6 +463,16 @@ export const variableSlice = createSlice({
         })
         builder.addCase(getDebtList.rejected, (state: InitialStateProps) => {
             state.loading = false
+        })
+
+        builder.addCase(createSale.fulfilled, (state: InitialStateProps) => {
+            state.isBasketLoad = false
+        })
+        builder.addCase(createSale.pending, (state: InitialStateProps) => {
+            state.isBasketLoad = true
+        })
+        builder.addCase(createSale.rejected, (state: InitialStateProps) => {
+            state.isBasketLoad = false
         })
     }
 })
