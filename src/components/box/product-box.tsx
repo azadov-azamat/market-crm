@@ -88,7 +88,6 @@ export default function ProductBox(props: ProductsDataProps) {
                         <LazyLoadImage effect={"black-and-white"}
                                        className={"object-cover object-center md:h-36 sm:h-40 h-36"} alt={productName}
                                        src={productImgUrl || noIMG}
-                            // src={"https://w7.pngwing.com/pngs/1008/303/png-transparent-shopping-cart-icon-product-return-shopping-cart-retail-supermarket-objects.png"}
                         />
 
                     </div>

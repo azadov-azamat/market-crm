@@ -28,7 +28,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
 
     const dispatch = useAppDispatch()
 
-    const {clients, mixedPay, client} = useAppSelector(state => state.variables)
+    const {clients, mixedPay, client, uz} = useAppSelector(state => state.variables)
 
     const [phone, setPhone] = React.useState("")
     const [gvnPrice, setGvnPrice] = React.useState("")
@@ -36,7 +36,6 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
     const [isMixed, setMixed] = React.useState<boolean>(false)
     const [isNullDate, setNullDate] = React.useState<boolean>(false)
 
-    const uz = '+998'
     const toggleMixed = (bool: boolean) => setMixed(bool)
 
     const setArrayToggle = (payTy: string) => {
@@ -138,7 +137,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                                 name={"clientAdress"}
                                 required={isOther}
                                 placeholder={"Qarzga oluvchi manzili"}
-                                label={"Manzilni kiriting"}
+                                label={"Manzil"}
                             />
                             <InputComponent.Text
                                 name={"clientPhone"}
@@ -147,7 +146,7 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                                 value={phone}
                                 onChange={event => setPhone(handleNumberMask(event.target.value))}
                                 placeholder={"Qarzga oluvchi telefon raqami"}
-                                label={"Telefon kiriting"}
+                                label={"Telefon raqam"}
                             />
 
                             <InputComponent.Text

@@ -89,7 +89,7 @@ export default function FileInput({name, defaultImage}: FileInputProps) {
                         </div>
                         :
                         <span
-                            className={"border border-black/50 w-32 h-32 flex flex-col items-center justify-center cursor-pointer"}
+                            className={"border border-black w-32 h-32 flex flex-col items-center justify-center cursor-pointer"}
                             onClick={uploadFile}
                         >
                     <AiOutlineFileImage className={"text-3xl mb-3"}/>

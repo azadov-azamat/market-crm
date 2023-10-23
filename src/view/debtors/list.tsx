@@ -121,7 +121,7 @@ export default function DebtsList() {
                             <Typography variant="small" className="text-base font-bold">Jami: &nbsp;</Typography>
                             <div className="flex gap-4 items-center">
                                 <Typography variant="small" className="text-base"> {formatter.format(amount)}</Typography>
-                                {active !== 'archive' && <div className={"border border-black/50 rounded p-1"}>
+                                {active !== 'archive' && <div className={"border border-black rounded p-1"}>
                                     <BiPlus onClick={toggleDebt}/>
                                 </div>}
                             </div>

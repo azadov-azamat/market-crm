@@ -22,8 +22,8 @@ export default function TextareaInput({
         <div className="input-wrapper w-full">
             {label !== "" && <label htmlFor={label} className={"font-medium text-xs block mb-1"}>{label} {required && "*"}</label>}
             <textarea
-                className={"text-base font-normal w-full border border-black/50 rounded-xl px-2 md:py-2 py-1 " +
-                    "placeholder:text-sm placeholder:font-normal focus:border-black/50 outline-0"}
+                className={"text-base font-normal w-full border border-black rounded-xl px-2 md:py-2 py-1 " +
+                    "placeholder:text-sm placeholder:font-normal focus:border-black outline-0"}
                 id={label}
                 required={required}
                 value={value}

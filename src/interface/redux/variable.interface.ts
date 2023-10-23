@@ -19,6 +19,7 @@ export interface InitialStateProps {
     clients: ClientDataProps[] | [];
     client: ClientDataProps | null;
 
+    uz: "998";
     currentPage: number;
     pageCount: number;
     limit: number;

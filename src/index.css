@@ -1,3 +1,5 @@
+@import "src/assets/css/index.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,5 +11,9 @@
 }
 
 body {
-    background: #EEEEEE;
+    background: #f4f7fd;
+}
+
+button {
+    @apply bg-primary normal-case;
 }

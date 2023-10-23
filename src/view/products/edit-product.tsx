@@ -61,7 +61,7 @@ export default function EditProduct({toggle, open}: ModalInterfaceProps) {
                             onChange={e => setPrice(handleNumberMask(e.target.value))}
                         />
                         <select name="productCurrency" id="productCurrency" required
-                                className={"outline-0 border border-black/50 rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
+                                className={"outline-0 border border-black rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
                             <option selected={product?.productCurrency === 'dollar'} value={"true"}>dollar</option>
                             <option selected={product?.productCurrency !== 'dollar'} value={"false"}>sum</option>
                         </select>
@@ -76,7 +76,7 @@ export default function EditProduct({toggle, open}: ModalInterfaceProps) {
                             onChange={e => setQuantity(handleNumberMask(e.target.value))}
                         />
                         <select name="productMeasure" id="productMeasure" required
-                                className={"outline-0 border border-black/50 rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
+                                className={"outline-0 border border-black rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
                             {measureList.map((item, ind) => (
                                 <option selected={product?.productMeasure === item} key={ind}
                                         value={item}>{item}</option>

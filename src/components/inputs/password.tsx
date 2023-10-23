@@ -7,9 +7,7 @@ interface PasswordProps {
     name: string
 }
 
-export default function Password(
-    { name}: PasswordProps
-) {
+export default function Password({name}: PasswordProps) {
 
     const [isShow, setShow] = React.useState<boolean>(false)
     const toggleShow = () => setShow(!isShow)

@@ -239,6 +239,7 @@ const initialState: InitialStateProps = {
     clients: [],
     client: null,
 
+    uz: "998",
     currentPage: 0,
     pageCount: 0,
     limit: 0,

@@ -123,7 +123,7 @@ export default function AddProduct() {
                                     onChange={e => setMainPrice(handleNumberMask(e.target.value))}
                                 />
                                 <select name="productCurrency" id="productCurrency" required
-                                        className={"outline-0 border border-black/50 rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
+                                        className={"outline-0 border border-black rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
                                     <option value={"true"}>dollar</option>
                                     <option value={"false"}>sum</option>
                                 </select>
@@ -148,7 +148,7 @@ export default function AddProduct() {
                                     onChange={e => setQuantity(handleNumberMask(e.target.value))}
                                 />
                                 <select name="productMeasure" id="productMeasure" required
-                                        className={"outline-0 border border-black/50 rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
+                                        className={"outline-0 border border-black rounded-xl mt-4 px-2 md:py-2.5 py-1.5"}>
                                     {measureList.map((item, ind) => <option key={ind} value={item}>{item}</option>)}
                                 </select>
                             </div>
@@ -156,7 +156,7 @@ export default function AddProduct() {
                                 <label htmlFor="addresses" className={"font-medium text-xs block mb-1"}>Mahsulot manzili
                                     *</label>
                                 <select name="addresses" id="addresses" required
-                                        className={"outline-0 border border-black/50 rounded-xl px-2 md:py-2.5 py-1.5"}>
+                                        className={"outline-0 border border-black rounded-xl px-2 md:py-2.5 py-1.5"}>
                                     {adresses.map((item, ind) => <option key={ind}
                                                                          value={item.id}>{item.adressName}</option>)}
                                 </select>
