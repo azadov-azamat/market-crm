@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {useNavigate, useParams} from "react-router-dom";
-import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
+import {Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {
     getProductById,
@@ -22,6 +22,7 @@ import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {noIMG} from "../../config/api.ts";
 import {BiEdit} from "react-icons/bi";
 import EditProduct from "./edit-product.tsx";
+import ButtonComponent from "../../components/button";
 // import React from "react";
 
 export default function ViewProduct() {
@@ -35,7 +36,7 @@ export default function ViewProduct() {
     const [isBasket, setIsBasket] = React.useState<boolean>(false)
     const [isEdit, setEdit] = React.useState<boolean>(false)
 
-    const currentAmount = baskets[baskets.findIndex(item => item.id === Number(id))]?.amount || "0";
+    const currentAmount = baskets[baskets.findIndex(item => item.id === Number(id))]?.amount || 0;
     const currentDiscount = baskets[baskets.findIndex(item => item.id === Number(id))]?.discount || 0;
 
     const toggleEdit = () => setEdit(!isEdit)
@@ -59,6 +60,30 @@ export default function ViewProduct() {
         }
     }
 
+    function pieceItemIn() {
+        if (product !== null) {
+            if (baskets.find(item => item.id === Number(id))) {
+                if (Number(currentAmount) + 1 > product?.productQuantity) {
+                    toast.error(`Xozirda ${product?.productQuantity + product?.productMeasure} mahsulot mavjud`)
+                } else {
+                    dispatch(incrementBasket({id, amount: Number(currentAmount) + 1}))
+                }
+            } else {
+                dispatch(setBasket({...product, amount: "1"}))
+            }
+        }
+    }
+
+    function pieceItemDic() {
+        if ((Number(currentAmount) - 1) < 1) {
+            setIsBasket(false)
+            dispatch(removeBasket(Number(id)))
+        } else {
+            dispatch(incrementBasket({id, amount: Number(currentAmount) - 1}))
+        }
+    }
+
+
     React.useEffect(() => {
         if (baskets.find(item => item.id === Number(id))) setIsBasket(true)
         else setIsBasket(false)
@@ -67,7 +92,7 @@ export default function ViewProduct() {
     React.useEffect(() => {
         dispatch(getProductById(String(id)))
 
-        return ()=>{
+        return () => {
             dispatch({
                 type: "product/getProductById/fulfilled",
                 payload: {
@@ -121,14 +146,33 @@ export default function ViewProduct() {
                             <div
                                 className="flex h-full items-center xl:items-end justify-between xl:justify-start mt-3 xl:mt-0">
                                 <div
-                                    className={"w-full h-8 flex "}>
-                                    <InputComponent.Text value={currentAmount}
-                                                         name={"amount-item"}
-                                                         placeholder={"Miqdorini kiriting"}
-                                                         onChange={(e: {
-                                                             target: { value: string; };
-                                                         }) => increment(handleNumberMask(e.target.value))}
-                                                         label={"Miqdorini kiriting"}/>
+                                    className={"md:w-1/2 w-full h-8 flex "}>
+                                    {product?.productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
+                                                                                               name={"amount"}
+                                                                                               placeholder={"Miqdorini kiriting"}
+                                                                                               onChange={(e: {
+                                                                                                   target: {
+                                                                                                       value: string;
+                                                                                                   };
+                                                                                               }) => increment(handleNumberMask(e.target.value))}
+                                                                                               label={""}/> : <div
+                                        className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                        <Typography variant={"small"}
+                                                    className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                                    onClick={pieceItemDic}>-</Typography>
+                                        <Typography
+                                            variant={"small"}>{currentAmount}</Typography>
+                                        <Typography variant={"small"}
+                                                    className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                                    onClick={pieceItemIn}>+</Typography>
+                                    </div>}
+                                    {/*<InputComponent.Text value={currentAmount}*/}
+                                    {/*                     name={"amount-item"}*/}
+                                    {/*                     placeholder={"Miqdorini kiriting"}*/}
+                                    {/*                     onChange={(e: {*/}
+                                    {/*                         target: { value: string; };*/}
+                                    {/*                     }) => increment(handleNumberMask(e.target.value))}*/}
+                                    {/*                     label={"Miqdorini kiriting"}/>*/}
                                 </div>
                             </div>
                         </div>
@@ -136,13 +180,32 @@ export default function ViewProduct() {
                             <div className="flex w-full items-center gap-3">
                                 <div
                                     className={"w-6/12 h-8 flex "}>
-                                    <InputComponent.Text value={currentAmount}
-                                                         name={"amount-item"}
-                                                         placeholder={"Miqdorini kiriting"}
-                                                         onChange={(e: {
-                                                             target: { value: string; };
-                                                         }) => increment(handleNumberMask(e.target.value))}
-                                                         label={"Miqdorini kiriting"}/>
+                                    {product?.productMeasure !== 'dona' ? <InputComponent.Text value={currentAmount}
+                                                                                               name={"amount"}
+                                                                                               placeholder={"Miqdorini kiriting"}
+                                                                                               onChange={(e: {
+                                                                                                   target: {
+                                                                                                       value: string;
+                                                                                                   };
+                                                                                               }) => increment(handleNumberMask(e.target.value))}
+                                                                                               label={""}/> : <div
+                                        className={"w-full h-8 rounded-lg border border-black flex justify-between items-center select-none"}>
+                                        <Typography variant={"small"}
+                                                    className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                                    onClick={pieceItemDic}>-</Typography>
+                                        <Typography
+                                            variant={"small"}>{currentAmount}</Typography>
+                                        <Typography variant={"small"}
+                                                    className={"cursor-pointer px-2 py-1 rounded text-base"}
+                                                    onClick={pieceItemIn}>+</Typography>
+                                    </div>}
+                                    {/*<InputComponent.Text value={currentAmount}*/}
+                                    {/*                     name={"amount-item"}*/}
+                                    {/*                     placeholder={"Miqdorini kiriting"}*/}
+                                    {/*                     onChange={(e: {*/}
+                                    {/*                         target: { value: string; };*/}
+                                    {/*                     }) => increment(handleNumberMask(e.target.value))}*/}
+                                    {/*                     label={"Miqdorini kiriting"}/>*/}
                                 </div>
                                 <div className="">
                                     <Typography variant={"h2"}
@@ -217,32 +280,40 @@ export default function ViewProduct() {
                                 </Typography>
                             </div>
                             {isBasket ? <>
-                                <Button className={"w-full flex justify-center items-center gap-2"}
-                                        color={"red"}
-                                        onClick={() => dispatch(removeBasket(Number(id)))}
-                                >
-                                    <FaTrash className={'text-lg'}/>
-                                    <Typography variant={"small"} className={"normal-case text-xs "}>
-                                        Korzinkadan olib tashlash
-                                    </Typography>
-                                </Button>
+                                <ButtonComponent className={"border border-red"}
+                                                 onClick={() => dispatch(removeBasket(Number(id)))}
+                                                 outline
+                                                 label={<div className={"flex items-center gap-2"}>
+                                                     <FaTrash className={'text-lg text-red'}/>
+                                                     <Typography variant={"small"} className={"normal-case text-xs "}>
+                                                         Korzinkadan olib tashlash
+                                                     </Typography>
+                                                 </div>}
+                                />
                             </> : <>
-                                <Button className={"w-full flex justify-center items-center gap-2"}
-                                        disabled={(product?.productQuantity || 1) < 1} color={"blue"}
-                                        onClick={() => {
-                                            increment("1")
-                                            navigate("/seller/baskets")
-                                        }}>
-                                    <LuShoppingBasket className={'text-lg'}/>
-                                    <Typography variant={"small"} className={"normal-case text-xs "}>
-                                        Bittada sotib olish
-                                    </Typography>
-                                </Button>
-                                <Button onClick={() => increment("1")}
-                                        className={"flex justify-center items-center normal-case  gap-2"}
-                                        disabled={(product?.productQuantity || 1) < 1}
-                                        color={'light-green'}><SlBasket
-                                    className={'text-lg'}/> Korzinkaga qo'shish</Button>
+                                <ButtonComponent className={"bg-primary group"}
+                                                 disabled={(product?.productQuantity || 1) < 1}
+                                                 onClick={() => {
+                                                     increment("1")
+                                                     navigate("/seller/baskets")
+                                                 }}
+                                                 label={<>
+                                                     <LuShoppingBasket
+                                                         className={'text-lg text-white group-hover:text-black'}/>
+                                                     <Typography variant={"small"} className={"normal-case text-xs "}>
+                                                         Bittada sotib olish
+                                                     </Typography>
+                                                 </>}
+                                />
+                                <ButtonComponent onClick={() => increment("1")}
+                                                 className={"border border-green"}
+                                                 outline
+                                                 disabled={(product?.productQuantity || 1) < 1}
+                                                 label={<div className={"text-green flex items-center gap-2"}>
+                                                     <SlBasket
+                                                         className={'text-lg text-green'}/> Korzinkaga qo'shish
+                                                 </div>}
+                                />
                             </>
                             }
                         </div>

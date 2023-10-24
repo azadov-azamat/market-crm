@@ -1,4 +1,3 @@
-// import React from 'react';
 
 import Select, {ActionMeta, SingleValue} from "react-select";
 import React from "react";

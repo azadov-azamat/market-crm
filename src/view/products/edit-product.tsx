@@ -1,4 +1,3 @@
-import {Button} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
@@ -6,6 +5,7 @@ import DialogModal from "../../components/modal/dialog";
 import {handleNumberMask} from "../../config/servise.ts";
 import React, {useEffect} from "react";
 import {patchProduct} from "../../redux/reducers/variable.ts";
+import ButtonComponent from "../../components/button";
 
 export default function EditProduct({toggle, open}: ModalInterfaceProps) {
 
@@ -20,7 +20,7 @@ export default function EditProduct({toggle, open}: ModalInterfaceProps) {
     useEffect(() => {
         setPrice(product?.productPrice.toString() || '')
 
-        return()=>{
+        return () => {
             setPrice("")
             setQuantity("")
         }
@@ -85,11 +85,13 @@ export default function EditProduct({toggle, open}: ModalInterfaceProps) {
                     </div>
                 </div>
                 <div className={"flex gap-3 w-full justify-center mt-3"}>
-                    <Button type={"reset"} color={"red"}
-                            onClick={toggleCancel}
-                            className={"normal-case text-xs "}>Bekor qilish</Button>
-                    <Button type={"submit"} color={"green"}
-                            className={"normal-case text-xs "}>Saqlash</Button>
+                    <ButtonComponent type={"reset"}
+                                     onClick={toggleCancel}
+                                     outline
+                                     className={"text-xs border border-red"} label={"Bekor qilish"}/>
+
+                    <ButtonComponent type={"submit"}
+                                     className={"bg-primary"} label={"Saqlash"}/>
                 </div>
             </form>
         </DialogModal>
