@@ -1,5 +1,5 @@
 import BasketBox from "../../components/box/basket-box.tsx";
-import {Button, Card, CardBody, Radio, Typography} from "@material-tailwind/react";
+import {Card, CardBody, Radio, Typography} from "@material-tailwind/react";
 import React from "react";
 import {formatter, getMgId, handleSwitchPayType, roundMath} from "../../config/servise.ts";
 import {BiEdit} from "react-icons/bi";
@@ -16,6 +16,7 @@ import {DebtorDataProps, SaleDataProps, SoldProductDataProps} from "../../interf
 import {unwrapResult} from "@reduxjs/toolkit";
 import {toast} from "react-toastify";
 import {getCurrencyNbu} from "../../redux/reducers/firm-currency.ts";
+import ButtonComponent from "../../components/button";
 
 export default function Basket() {
 
@@ -30,6 +31,7 @@ export default function Basket() {
     const [payType, setPayType] = React.useState<string>("")
     const [isDebt, setDebt] = React.useState<boolean>(false)
     const [isMixed, setMixed] = React.useState<boolean>(false)
+    const [isUserP, setUserP] = React.useState<boolean>(false)
     const toggleDebt = () => setDebt(!isDebt)
     const toggleMixed = (bool: boolean) => setMixed(bool)
 
@@ -44,8 +46,8 @@ export default function Basket() {
             discountAmount += ((basket.productCurrency === 'dollar' ? (basket.productPrice * dollarCur) : basket.productPrice) - (basket.discount || 0)) * Number(basket.amount)
         }
 
-        setTotalPrice(totalAmount)
-        setTotalAfterDiscount(discountAmount)
+        setTotalPrice(roundMath(totalAmount))
+        setTotalAfterDiscount(roundMath(discountAmount))
     }, [baskets])
 
     React.useEffect(() => {
@@ -90,7 +92,7 @@ export default function Basket() {
         for (const basket of baskets) {
             sold.push({
                 productId: basket.id || 0,
-                soldPrice: Math.round((basket.productCurrency === 'dollar' ? basket.productPrice * dollarCur : basket.productPrice) - Number(basket?.discount || 0)),
+                soldPrice: roundMath((basket.productCurrency === 'dollar' ? basket.productPrice * dollarCur : basket.productPrice) - Number(basket?.discount || 0)),
                 soldQuantity: Number(basket.amount),
                 soldProductName: basket.productName,
                 soldProductMeasure: basket.productMeasure
@@ -98,6 +100,18 @@ export default function Basket() {
         }
         return sold
     }
+
+    React.useEffect(() => {
+        if (payType === "debt-pay") {
+            if (client?.id === undefined || client?.clientPaymentDate === null) {
+                setUserP(true)
+            } else {
+                setUserP(false)
+            }
+        } else {
+            setUserP(false)
+        }
+    }, [payType, client])
 
     if (baskets.length === 0) {
         return (
@@ -107,11 +121,11 @@ export default function Basket() {
                 </div>
                 <div className={"w-full h-[80vh] flex justify-center items-center"}>
                     <div className="flex flex-col items-center gap-3">
-                        <Typography variant={"h4"}>
+                        <h1>
                             Savat hozirda bo'sh
-                        </Typography>
-                        <Button className={"normal-case"} onClick={() => navigate(`/seller/products/${getMgId()}`)}>Mahsulot
-                            tanlang</Button>
+                        </h1>
+                        <ButtonComponent className={"bg-primary"} label={"Mahsulot tanlash"}
+                                         onClick={() => navigate(`/seller/products/${getMgId()}`)}/>
                     </div>
                 </div>
             </div>
@@ -134,8 +148,8 @@ export default function Basket() {
                         const data: SaleDataProps = {
                             soldproducts: setSolProduct() || [],
                             storeId: Number(getMgId()),
-                            saleMainPrice: roundMath(totalPrice),
-                            saleSoldPrice: roundMath(totalAfterDiscount),
+                            saleMainPrice: totalPrice,
+                            saleSoldPrice: totalAfterDiscount,
                             sellerId: userData?.id || 0,
                             saleDebt: payType === "debt-pay",
                             comment: String(formData.get("commit")),
@@ -154,7 +168,7 @@ export default function Basket() {
                                     const debtData: DebtorDataProps = {
                                         storeId: Number(getMgId()),
                                         clientId: client?.id || 0,
-                                        debt: -(Math.round(roundMath(totalAfterDiscount) - debtAmount)),
+                                        debt: -(Math.round(totalAfterDiscount - debtAmount)),
                                         saleId: res.data?.id
                                     }
                                     dispatch(createDebt(debtData)).then(unwrapResult)
@@ -165,7 +179,6 @@ export default function Basket() {
                                             console.log(err)
                                         })
                                 }
-                                // getCheckFile(String(res.data.id))
                                 dispatch(setListBasket([]))
                                 toast.success("Sotuv saqlandi!")
                                 navigate(`/seller/sold-product/${res.data?.id}`)
@@ -178,7 +191,6 @@ export default function Basket() {
                                 toast.error("Savdoni saqlashda xatolik, iltimos qayta urinib ko'ring")
                             })
                     }
-                    // navigate(`/seller/products/${getMgId()}`)
                 }}
                 className={"flex flex-col md:flex-row w-full h-auto gap-5"}>
                 <div className="w-full xl:w-7/12 flex flex-col gap-5">
@@ -282,9 +294,8 @@ export default function Basket() {
                                 <InputComponent.Textarea
                                     name={"commit"}
                                     placeholder={"Sotuv uchun izoh qoldirish"}
-                                    label={"Izoh"}/>
-                                {/*<Textarea label="Izoh qoldirish" value={commit}*/}
-                                {/*          onChange={e => setCommit(e.target.value)}/>*/}
+                                    label={"Izoh"}
+                                />
                             </div>
                         </CardBody>
                     </Card>
@@ -294,7 +305,7 @@ export default function Basket() {
                                 <Typography variant={"small"} className={"font-bold text-base"}>Jami
                                     (chegirma): </Typography>
                                 <Typography variant={"small"}
-                                            className={"font-bold text-base"}>{formatter.format(roundMath(totalAfterDiscount))}</Typography>
+                                            className={"font-bold text-base"}>{formatter.format(totalAfterDiscount)}</Typography>
                             </div>
                             <div className="">
                                 <ul>
@@ -302,7 +313,7 @@ export default function Basket() {
                                         <Typography variant={"small"} className={"font-bold text-sm"}>Umumiy
                                             narx: </Typography>
                                         <Typography variant={"small"}
-                                                    className={"font-bold text-sm"}>{formatter.format(roundMath(totalPrice))}</Typography>
+                                                    className={"font-bold text-sm"}>{formatter.format(totalPrice)}</Typography>
                                     </li>
                                     {baskets.map((item, ind) => (
                                         <li key={ind} className={"w-full flex items-center justify-between my-2"}>
@@ -364,10 +375,13 @@ export default function Basket() {
                                         </div>
                                     }
                                     <li className={"w-full flex justify-center mt-5"}>
-                                        <Button className={"normal-case"} type={"submit"} color={"green"}
-                                                disabled={baskets.length === 0 || isBasketLoad}>
-                                            Buyurtmani aktivlashtirish
-                                        </Button>
+                                        <ButtonComponent
+                                            className={"bg-primary"}
+                                            label={"Buyurtmani aktivlashtirish"}
+                                            type={"submit"}
+                                            loading={isBasketLoad}
+                                            disabled={baskets.length === 0 || isBasketLoad || isUserP}
+                                        />
                                     </li>
                                 </ul>
                             </div>

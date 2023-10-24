@@ -1,4 +1,4 @@
-import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
+import {Card, CardBody, Typography} from "@material-tailwind/react";
 import {LazyLoadImage} from "react-lazy-load-image-component";
 import {toast} from "react-toastify";
 import {FaTrash} from "react-icons/fa";
@@ -8,6 +8,7 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {incrementBasket, removeBasket, setBasket, setDiscountBasket} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
+import ButtonComponent from "../button";
 // import React from "react";
 
 export default function BasketBox(props: BasketsDataProps) {
@@ -110,9 +111,9 @@ export default function BasketBox(props: BasketsDataProps) {
                             </div>}
                         </div>
                         <div className={productMeasure !== 'dona' ? "mt-4" : "mt-0"}>
-                            <Button color={'red'} className={"p-3"} onClick={() => id && dispatch(removeBasket(id))}>
-                                <FaTrash/>
-                            </Button>
+                            <ButtonComponent className={"p-3 border border-red"}
+                                             onClick={() => id && dispatch(removeBasket(id))} outline
+                                             label={<FaTrash className={"text-red"}/>}/>
                         </div>
                     </div>
                 </div>

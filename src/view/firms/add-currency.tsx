@@ -1,9 +1,9 @@
-import {Button} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import DialogModal from "../../components/modal/dialog";
 import {createCurrency, patchCurrency, setCurrency} from "../../redux/reducers/firm-currency.ts";
+import ButtonComponent from "../../components/button";
 
 export default function AddCurrency({toggle, open}: ModalInterfaceProps) {
 
@@ -61,11 +61,12 @@ export default function AddCurrency({toggle, open}: ModalInterfaceProps) {
                     </div>
                 </div>
                 <div className={"flex gap-3 w-full justify-end mt-3"}>
-                    <Button type={"reset"} color={"red"}
-                            onClick={toggleCancel}
-                            className={"normal-case text-xs "}>Bekor qilish</Button>
-                    <Button type={"submit"} color={"green"}
-                            className={"normal-case text-xs "}>Saqlash</Button>
+                    <ButtonComponent type={"reset"}
+                                     outline
+                                     onClick={toggleCancel}
+                                     className={"text-red border border-red"} label={"Bekor qilish"}/>
+                    <ButtonComponent type={"submit"}
+                                     className={"bg-primary"} label={"Saqlash"}/>
                 </div>
             </form>
         </DialogModal>

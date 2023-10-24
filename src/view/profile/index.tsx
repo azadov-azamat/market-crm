@@ -3,12 +3,13 @@ import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
-import {Button, Card, CardBody} from "@material-tailwind/react";
+import {Card, CardBody} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
-import { getStores, getUserMe, patchUser } from "../../redux/reducers/variable.ts";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import {getStores, getUserMe, patchUser} from "../../redux/reducers/variable.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import ButtonComponent from "../../components/button";
 
 export default function Profile() {
 
@@ -61,7 +62,7 @@ export default function Profile() {
                                     }
                                 }
                                 dispatch(patchUser(data)).then(unwrapResult).then(function () {
-                                   dispatch(getUserMe())
+                                    dispatch(getUserMe())
                                     toast.success("Saqlandi")
                                 })
                             }}>
@@ -74,7 +75,6 @@ export default function Profile() {
                             <div className={inputDiv}>
                                 <InputComponent.Text
                                     name={"sellerName"}
-                                    required
                                     placeholder={"Familiya Ism Sharif"}
                                     defaultValue={userData?.sellerName}
                                     label={"F.I.O"}/>
@@ -83,9 +83,7 @@ export default function Profile() {
                             <div className={inputDiv}>
                                 <InputComponent.Text
                                     name={"sellerPhone"}
-                                    required
-
-                                defaultValue={userData?.sellerPhone}
+                                    defaultValue={userData?.sellerPhone}
                                     placeholder={"Telefon raqamingiz"}
                                     label={"Telefon raqam"}/>
                             </div>
@@ -99,11 +97,11 @@ export default function Profile() {
                             </div>
 
                             <div className={"flex gap-3 w-full justify-end mt-3"}>
-                                <Button type={"reset"} color={"red"}
-                                        onClick={() => navigate(`/seller/products/${getMgId()}`)}
-                                        className={"normal-case text-xs "}>Orqaga</Button>
-                                <Button type={"submit"} color={"green"}
-                                        className={"normal-case text-xs "}>Saqlash</Button>
+                                <ButtonComponent type={"reset"}
+                                                 onClick={() => navigate(`/seller/products/${getMgId()}`)}
+                                                 className={"text-red bg-red text-xs "} label={"Orqaga"}/>
+                                <ButtonComponent type={"submit"}
+                                                 className={"bg-primary text-xs "} label={"Saqlash"}/>
                             </div>
                         </form>
                     </CardBody>

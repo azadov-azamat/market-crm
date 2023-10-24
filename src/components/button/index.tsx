@@ -28,7 +28,7 @@ export default function ButtonComponent({
     return (
         <Button
             className={`${className} flex items-center justify-center 
-                gap-2 normal-case ${outline ? 'text-black hover:text-white hover:bg-transparent' : 'text-white hover:text-black'}`}
+                gap-2 normal-case ${outline ? 'text-black  hover:bg-transparent' : 'text-white hover:text-black'}`}
             type={type} fullWidth
             onClick={onClick}
             variant={variant}

@@ -1,10 +1,10 @@
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import SidebarModal from "../../components/modal/sidebar";
 import * as InputComponent from "../../components/inputs";
-import {Button} from "@material-tailwind/react";
 import {useLocation, useNavigate} from "react-router-dom";
 import qs from "qs";
 import {useAppSelector} from "../../redux/hooks.ts";
+import ButtonComponent from "../../components/button";
 
 export default function FilterCurrencies({toggle, open}: ModalInterfaceProps) {
     const location = useLocation()
@@ -57,14 +57,17 @@ export default function FilterCurrencies({toggle, open}: ModalInterfaceProps) {
                     type={"date"}
                     label={"Tugash vaqt"}
                 />
-                <div className="flex items-center justify-between mt-8">
-                    <Button className={"normal-case"} onClick={() => {
-                        navigate({search: ""})
-                        toggle()
-                    }}
-                            color={"red"}
-                            type={"reset"}>Tozalash</Button>
-                    <Button className={"normal-case"} color={"orange"} type={"submit"}>Saqlash</Button>
+                <div className="flex items-center justify-between mt-8 gap-2">
+                    <ButtonComponent type={"reset"}
+                                     outline
+                                     onClick={() => {
+                                         navigate({search: ""})
+                                         toggle()
+                                     }}
+                                     className={"text-red border border-red"} label={"Tozalash"}/>
+                    <ButtonComponent type={"submit"}
+                                     className={"bg-primary"} label={"Saqlash"}/>
+
                 </div>
             </form>
         </SidebarModal>

@@ -7,7 +7,7 @@ import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import {getStores} from "../../redux/reducers/variable.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
-import {Button, Card, CardBody} from "@material-tailwind/react";
+import {Card, CardBody} from "@material-tailwind/react";
 import TableComponent from "../../components/table";
 import {TableColumn} from "react-data-table-component";
 import {BiPencil, BiPlus} from "react-icons/bi";
@@ -16,6 +16,7 @@ import DateFormatClockComponent from "../../components/date-format/oclock.tsx";
 import AddCurrency from "./add-currency.tsx";
 import {FaFilter} from "react-icons/fa";
 import FilterCurrencies from "./filter-currencies.tsx";
+import ButtonComponent from "../../components/button";
 
 export default function FirmView() {
 
@@ -43,6 +44,15 @@ export default function FirmView() {
 
     React.useLayoutEffect(() => {
         dispatch(getFirmById(String(id)))
+
+        return () => {
+            dispatch({
+                type: 'firmCurrency/getFirmById/fulfilled',
+                payload: {
+                    data: null
+                }
+            })
+        }
     }, [id])
 
 
@@ -143,11 +153,13 @@ export default function FirmView() {
             <div className="w-full flex justify-between items-center my-2 overflow-ellipsis overflow-hidden">
                 <BreadcumbsComponent data={breadCumbc}/>
                 <div className="flex gap-2">
-                    <Button color={"green"}
-                            onClick={handleFilter}>
-                        <FaFilter size={16}/>
-                    </Button>
-                    <Button onClick={toggleCreate} color={"green"}><BiPlus size={16}/></Button>
+                    <ButtonComponent onClick={handleFilter} className="border border-green" outline
+                                     label={<FaFilter size={16} className={'text-green'}/>}/>
+                    <ButtonComponent
+                        onClick={toggleCreate}
+                        className="border border-green"
+                        outline
+                        label={<BiPlus size={16} className={'text-green'}/>}/>
                 </div>
             </div>
             <Card className={"flex justify-center my-2 w-full border"}>

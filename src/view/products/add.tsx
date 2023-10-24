@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Button, Card, CardBody, Typography} from "@material-tailwind/react";
+import {Card, CardBody, Typography} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {getMgId, handleNumberMask} from "../../config/servise.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
@@ -8,6 +8,7 @@ import {createProduct, getAddresses, getStores} from "../../redux/reducers/varia
 import {useNavigate} from "react-router-dom";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
+import ButtonComponent from "../../components/button";
 
 export default function AddProduct() {
 
@@ -51,9 +52,11 @@ export default function AddProduct() {
                 <div className={"w-full h-[80vh] flex justify-center items-center"}>
                     <div className="flex flex-col items-center gap-3">
                         <Typography variant={"h4"}>
-                           Do'kon mavjud emas
+                            Do'kon mavjud emas
                         </Typography>
-                        <Button className={"normal-case"} onClick={() => navigate(`/seller/magazines`)}>Do'konlar</Button>
+                        <ButtonComponent
+                            className={"bg-primary"}
+                            onClick={() => navigate(`/seller/magazines`)} label={"Do'konlar"}/>
                     </div>
                 </div>
             </div>
@@ -162,11 +165,11 @@ export default function AddProduct() {
                                 </select>
                             </div>
                             <div className={"flex gap-3 w-full justify-end mt-3"}>
-                                <Button type={"reset"} color={"red"}
-                                        onClick={() => navigate(`/seller/products/${getMgId()}`)}
-                                        className={"normal-case text-xs "}>Orqaga</Button>
-                                <Button type={"submit"} color={"green"}
-                                        className={"normal-case text-xs "}>Saqlash</Button>
+                                <ButtonComponent type={"reset"}
+                                                 onClick={() => navigate(`/seller/products/${getMgId()}`)}
+                                                 className={"text-red bg-red "} label={"Orqaga"}/>
+                                <ButtonComponent label={"Saqlash"} type={"submit"}
+                                                 className={"bg-primary"}/>
                             </div>
                         </form>
                     </CardBody>

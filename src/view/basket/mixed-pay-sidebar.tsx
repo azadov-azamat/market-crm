@@ -1,6 +1,6 @@
 import React from 'react';
 import SidebarModal from "../../components/modal/sidebar";
-import {Button, Radio} from "@material-tailwind/react";
+import {Radio} from "@material-tailwind/react";
 import {MixedPayDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {setMixedPayList} from "../../redux/reducers/variable.ts";
@@ -9,6 +9,7 @@ import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import * as InputComponent from "../../components/inputs";
 import {BiX} from "react-icons/bi";
 import {toast} from "react-toastify";
+import ButtonComponent from "../../components/button";
 
 interface MixedPaySidebarProps extends ModalInterfaceProps {
     totalPrice: number;
@@ -134,20 +135,20 @@ export function MixedPaySidebar({open, toggle, totalPrice}: MixedPaySidebarProps
                     </div>
                     <div
                         className={`absolute -right-3`}>
-                        {inputFields.length > 1 && <Button className={"normal-case p-1"} color={"red"}
-                                                           onClick={() => handleRemove(index)}>
-                            <BiX className={"text-xl"}/>
-                        </Button>}
+                        {inputFields.length > 1 && <ButtonComponent className={"bg-red p-1 group"}
+                                                                    onClick={() => handleRemove(index)}
+                                                                    label={<BiX className={"text-xl group-hover:text-red text-white"}/>}/>
+                        }
                     </div>
                 </div>
             ))}
             <div
                 className={`flex items-center justify-center`}>
                 {!isAdd &&
-                    <Button className={"normal-case"} color={"green"} onClick={handleAdd}>Qo'shish</Button>}
+                    <ButtonComponent className={"bg-green"} onClick={handleAdd} label={"Qo'shish"}/>}
             </div>
             <div className="flex items-center justify-end mt-8">
-                <Button color={"green"} onClick={SavePayments} className={"w-full normal-case"}>Saqlash</Button>
+                <ButtonComponent onClick={SavePayments} className={"w-full bg-primary"} label={'Saqlash'}/>
             </div>
         </SidebarModal>
     );

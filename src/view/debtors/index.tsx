@@ -3,7 +3,7 @@ import TableComponent from "../../components/table";
 import {TableColumn} from "react-data-table-component";
 import {ClientDataProps} from "../../interface/redux/variable.interface.ts";
 import {BiPencil} from "react-icons/bi";
-import {Button, Card, CardBody} from "@material-tailwind/react";
+import {Card, CardBody} from "@material-tailwind/react";
 // import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
 import React from "react";
 import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
@@ -16,6 +16,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {DebtorSidebar} from "../basket/debtor-sidebar.tsx";
 import qs from "qs";
 import FilterDebts from "./filter.tsx";
+import ButtonComponent from "../../components/button";
 
 export default function Debtors() {
 
@@ -119,7 +120,6 @@ export default function Debtors() {
                                   toggleDebt()
                               }}
                     />
-                    {/*<BiTrash width={20} className={"cursor-pointer text-red-500 text-base"}/>*/}
                 </div>
             )
         }
@@ -127,13 +127,12 @@ export default function Debtors() {
 
     return (
         <div>
-            <div className="w-full overflow-ellipsis overflow-hidden">
+            <div className="w-full flex items-center justify-between mb-3 overflow-ellipsis overflow-hidden">
                 <BreadcumbsComponent data={breadCumbc}/>
-            </div>
-            <div className="mb-3 flex justify-between">
-                <Button onClick={handleFilter} className="btn-icon">
-                    <FaFilter size={16}/>
-                </Button>
+                <div className="">
+                    <ButtonComponent onClick={handleFilter} className="border border-green" outline
+                                     label={<FaFilter size={16} className={'text-green'}/>}/>
+                </div>
             </div>
             <Card>
                 <CardBody>

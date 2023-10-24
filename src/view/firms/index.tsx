@@ -7,7 +7,7 @@ import {BreadCumbsDataProps} from "../../interface/modal/modal.interface.ts";
 import {getMgId} from "../../config/servise.ts";
 import {getStores} from "../../redux/reducers/variable.ts";
 import BreadcumbsComponent from "../../components/page-title/breadcumbs.tsx";
-import {Button, Card, CardBody} from "@material-tailwind/react";
+import {Card, CardBody} from "@material-tailwind/react";
 import TableComponent from "../../components/table";
 import {TableColumn} from "react-data-table-component";
 import {FaEye, FaFilter} from "react-icons/fa";
@@ -16,6 +16,7 @@ import {firmDataProps} from "../../interface/redux/firm-currency.interface.ts";
 import DateFormatClockComponent from "../../components/date-format/oclock.tsx";
 import AddFirm from "./add-firm.tsx";
 import FilterFirms from "./filter-firms.tsx";
+import ButtonComponent from "../../components/button";
 
 export default function Firms() {
 
@@ -122,7 +123,6 @@ export default function Firms() {
                     <BiPencil width={30} className={"cursor-pointer text-orange-500 text-base"}
                               onClick={() => editItem(row)}
                     />
-                    {/*<BiTrash width={20} className={"cursor-pointer text-red-500 text-base"}/>*/}
                 </div>
             )
         }
@@ -133,11 +133,13 @@ export default function Firms() {
             <div className="w-full flex justify-between items-center my-2 overflow-ellipsis overflow-hidden">
                 <BreadcumbsComponent data={breadCumbc}/>
                 <div className="flex gap-2">
-                    <Button color={"green"}
-                            onClick={handleFilter}>
-                        <FaFilter size={16}/>
-                    </Button>
-                    <Button onClick={toggleCreate} color={"green"}><BiPlus size={16}/></Button>
+                    <ButtonComponent onClick={handleFilter} className="border border-green" outline
+                                     label={<FaFilter size={16} className={'text-green'}/>}/>
+                    <ButtonComponent
+                        onClick={toggleCreate}
+                        className="border border-green"
+                        outline
+                        label={<BiPlus size={16} className={'text-green'}/>}/>
                 </div>
             </div>
             <Card>

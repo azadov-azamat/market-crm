@@ -1,10 +1,9 @@
-
 import {ModalInterfaceProps} from "../../interface/modal/modal.interface.ts";
 import SidebarModal from "../../components/modal/sidebar";
 import * as InputComponent from "../../components/inputs";
-import {Button} from "@material-tailwind/react";
 import {useLocation, useNavigate} from "react-router-dom";
 import qs from "qs";
+import ButtonComponent from "../../components/button";
 
 export default function FilterDebts({toggle, open}: ModalInterfaceProps) {
     const location = useLocation()
@@ -29,14 +28,15 @@ export default function FilterDebts({toggle, open}: ModalInterfaceProps) {
                     placeholder={"Ismi yoki telefon raqami bo'yiha qidiruv..."}
                     label={" Ismi/telefon raqami"}
                 />
-                <div className="flex items-center justify-between mt-8">
-                    <Button className={"normal-case"} onClick={() => {
+                <div className="flex items-center justify-between mt-8 gap-3">
+                    <ButtonComponent label={"Tozalash"} className={"border border-yellow "}
+                                     outline onClick={() => {
                         navigate({search: ""})
                         toggle()
-                    }}
-                            color={"red"}
-                            type={"reset"}>Tozalash</Button>
-                    <Button className={"normal-case"} color={"orange"} type={"submit"}>Saqlash</Button>
+                    }}/>
+                    <ButtonComponent label={"Saqlash"}
+                                     className={"bg-primary"}
+                                     type={"submit"}/>
                 </div>
             </form>
         </SidebarModal>

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import SidebarModal from "../../components/modal/sidebar";
-import {Button, Radio} from "@material-tailwind/react";
+import {Radio} from "@material-tailwind/react";
 import * as InputComponent from "../../components/inputs";
 import {ClientDataProps, DebtorDataProps} from "../../interface/redux/variable.interface.ts";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
@@ -18,6 +18,7 @@ import {formatter, getMgId, handleNumberMask, handleSwitchPayType, roundMath} fr
 import {toast} from "react-toastify";
 import {MixedPaySidebar} from "./mixed-pay-sidebar.tsx";
 import {unwrapResult} from "@reduxjs/toolkit";
+import ButtonComponent from "../../components/button";
 
 interface DebtorModalProps extends ModalInterfaceProps {
     totalPrice: number;
@@ -290,13 +291,12 @@ export function DebtorSidebar({open, toggle, totalPrice, debtUser}: DebtorModalP
                         }
                     </div>
                 </div>}
-                <div className="flex items-center justify-between mt-8">
-                    <Button className={"normal-case"} onClick={toggle}
-                            color={"red"}
-                            type={"reset"}>Bekor
-                        qilish</Button>
-                    <Button className={"normal-case"} disabled={!isOther && !debtUser ? !client : false}
-                            color={"orange"} type={"submit"}>Saqlash</Button>
+                <div className="flex items-center justify-between mt-8 gap-2">
+                    <ButtonComponent className={"bg-red hover:text-red"} onClick={toggle}
+                                     type={"reset"} label={"Bekor qilish"}/>
+                    <ButtonComponent label={"Saqlash"} className={"bg-primary"}
+                                     disabled={!isOther && !debtUser ? !client : false}
+                                     type={"submit"}/>
                 </div>
             </form>
             {isMixed &&
