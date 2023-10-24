@@ -245,9 +245,9 @@ export default function NavbarComponent(): JSX.Element {
                     <div className="block md:hidden ">
                         <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
                     </div>
-                    {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs"}>
-                        <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
-                            <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
+                    {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs bg-red cursor-pointer"}>
+                        <div className="p-1 md:p-2" onClick={() => navigate("/seller/baskets")}>
+                            <SlBasket className={'text-2xl cursor-pointer'}/> {/* === korzinka icon === */}
                         </div>
                     </Badge> : <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
                         <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}

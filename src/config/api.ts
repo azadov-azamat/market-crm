@@ -1,10 +1,11 @@
 import axios from "axios";
+import noImg from '../assets/noImg.png'
 
 export const TOKEN = "magazine-seller"
 // export const baseUrl = "https://guzarpost.uz/api/v1"
 export const uriNbu = 'https://cbu.uz/uz'
 export const baseUrl = "https://api.marketlochin.uz/api/v1";
-export const noIMG = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTKYUV7MhggIFbp11n_GaG__uYdPIWh8wTtyt9wtgldalCnN1qMvghZ0uholPhmV2jHmHc&usqp=CAU'
+export const noIMG = noImg
 export const getToken = () => localStorage.getItem(TOKEN)
 
 export const getAuthorizationHeader = (): string => `Bearer ${getToken()}`;

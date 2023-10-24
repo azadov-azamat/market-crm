@@ -1,0 +1,21 @@
+.pagination {
+  @apply flex items-center;
+  .page-link {
+    @apply border border-black text-black;
+    [aria-label='Next'] {
+      @apply hidden;
+    }
+  }
+
+  .active {
+    .page-link {
+      @apply bg-primary text-white border-none;
+    }
+  }
+
+  .disabled {
+    .page-link {
+      @apply bg-primary/10 border border-black/50 text-black;
+    }
+  }
+}

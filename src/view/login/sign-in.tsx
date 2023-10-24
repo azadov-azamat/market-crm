@@ -87,7 +87,7 @@ export default function SignIn() {
                                     placeholder={"Ro'yhatga olingan maxfiy so'z"}
                                 />
                             </div>
-                            <ButtonComponent className={"bg-primary text-white hover:text-black"} label={"Kirish"} type={"submit"} loading={loading} disabled={loading}/>
+                            <ButtonComponent className={"bg-primary"} label={"Kirish"} type={"submit"} loading={loading} disabled={loading}/>
                         </form>
                     </CardBody>
                 </Card>

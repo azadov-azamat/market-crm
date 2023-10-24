@@ -86,7 +86,10 @@ export default function ProductList({isView}: Pr) {
         dispatch(getProducts({
             ...query,
             limit: 10,
-            page: page || 0
+            page: page || 0,
+            filter: JSON.stringify({
+                storeId: getMgId()
+            }),
         }))
     }
 

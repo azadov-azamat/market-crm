@@ -9,6 +9,7 @@ interface TextInputProps {
     variant?: 'text' | 'filled' | 'gradient' | 'outlined';
     disabled?: boolean
     loading?: boolean
+    outline?: boolean
     onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -20,13 +21,14 @@ export default function ButtonComponent({
                                             onClick,
                                             variant = 'text',
                                             loading = false,
+                                            outline = false,
                                         }: TextInputProps) {
 
 
     return (
         <Button
             className={`${className} flex items-center justify-center 
-                gap-2 normal-case`}
+                gap-2 normal-case ${outline ? 'text-black hover:text-white hover:bg-transparent' : 'text-white hover:text-black'}`}
             type={type} fullWidth
             onClick={onClick}
             variant={variant}

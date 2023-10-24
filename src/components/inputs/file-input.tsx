@@ -85,7 +85,7 @@ export default function FileInput({name, defaultImage}: FileInputProps) {
                             <BiXCircle onClick={() => {
                                 setImage("")
                             }}
-                                       className={"text-2xl absolute -top-2 -right-2 text-red-500 cursor-pointer"}/>
+                                       className={"text-2xl absolute -top-2 -right-2 text-red cursor-pointer"}/>
                         </div>
                         :
                         <span

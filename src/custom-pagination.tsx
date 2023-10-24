@@ -37,26 +37,6 @@ export default function CustomPagination({
                         total={totalPages}
                         onPageChange={page => handlePaginate(page)}
                     />
-                    {/*<ReactPaginate*/}
-                    {/*    previousLabel={''}*/}
-                    {/*    nextLabel={''}*/}
-                    {/*    forcePage={currentPage - 1}*/}
-                    {/*    onPageChange={page => handlePaginate(page.selected)}*/}
-                    {/*    pageCount={totalPages}*/}
-                    {/*    breakLabel={'...'}*/}
-                    {/*    pageRangeDisplayed={2}*/}
-                    {/*    marginPagesDisplayed={2}*/}
-                    {/*    activeClassName='active bg-blue-500 text-white'*/}
-                    {/*    pageClassName='page-item border p-2 px-3 rounded-[50%]'*/}
-                    {/*    breakClassName='page-item'*/}
-                    {/*    nextLinkClassName='page-link'*/}
-                    {/*    pageLinkClassName='page-link'*/}
-                    {/*    breakLinkClassName='page-link'*/}
-                    {/*    previousLinkClassName='page-link'*/}
-                    {/*    nextClassName='page-item next-item'*/}
-                    {/*    previousClassName='page-item prev-item'*/}
-                    {/*    containerClassName={'pagination react-paginate separated-pagination flex gap-2 pagination-sm justify-start pe-1'}*/}
-                    {/*/>*/}
                 </div>
             </CardBody>
         </Card>

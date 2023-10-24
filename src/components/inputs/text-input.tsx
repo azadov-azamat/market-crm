@@ -68,7 +68,7 @@ export default function TextInput({
                     : ''}
                 </div>
             </div>
-            {error && <p className="error text-red-500 text-xs font-normal mt-1 ml-3">Input filed can't be empty!</p>}
+            {error && <p className="error text-red text-xs font-normal mt-1 ml-3">Input filed can't be empty!</p>}
         </div>
     );
 }

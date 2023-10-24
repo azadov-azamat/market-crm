@@ -17,7 +17,7 @@ export default function Footer() {
                     <BsTelegram className={"text-2xl text-blue-500"}/>
                 </a>
                 <a target={"_blank"} href="https://www.instagram.com/azadov_azamat/">
-                    <BsInstagram className={"text-2xl text-red-400"}/>
+                    <BsInstagram className={"text-2xl text-red"}/>
                 </a>
 
             </div>
