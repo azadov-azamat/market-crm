@@ -23,6 +23,7 @@ import * as InputComponent from "../inputs";
 import {formatter, getMgId} from "../../config/servise.ts";
 // import qs from "qs";
 import {noIMG} from "../../config/api.ts";
+import logo from "../../assets/logo/logo-name.png";
 
 export default function NavbarComponent(): JSX.Element {
 
@@ -34,7 +35,7 @@ export default function NavbarComponent(): JSX.Element {
 
     const [search, setSearch] = React.useState<string>("")
     const [isModal, setModal] = React.useState<boolean>(false)
-    // const query = qs.parse(location.search, {ignoreQueryPrefix: true})
+
     const toggleModal = () => setModal(!isModal)
 
     const [profileMenuItems, setProfileMenuItems] = React.useState([
@@ -105,23 +106,6 @@ export default function NavbarComponent(): JSX.Element {
         }
     }, [location.pathname]);
 
-    // useEffect(() => {
-    //     if (search.length !== 0) {
-    //         navigate({
-    //             search: qs.stringify({
-    //                 filter: JSON.stringify({
-    //                     storeId: getMgId()
-    //                 }),
-    //                 search: search
-    //             })
-    //         })
-    //     } else {
-    //         navigate({
-    //             search: ""
-    //         })
-    //         dispatch(filterProduct(""))
-    //     }
-    // }, [search])
 
     useEffect(() => {
         if (search.length >= 3) {
@@ -132,10 +116,6 @@ export default function NavbarComponent(): JSX.Element {
                 search: search
             }))
         } else {
-            // navigate({
-            //     search: ""
-            // })
-            // dispatch(filterProduct())
             dispatch({
                 type: 'product/getProductsSearch/fulfilled',
                 payload: {
@@ -180,15 +160,14 @@ export default function NavbarComponent(): JSX.Element {
                                 onClick={onClick}
                                 className={`flex items-center gap-2 rounded ${
                                     isLastItem
-                                        ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                                        ? "text-red hover:bg-red/10 focus:bg-red/10 active:bg-red/10"
                                         : ""
                                 }`}
                             >
                                 <Typography
                                     as="span"
                                     variant="small"
-                                    className="font-normal"
-                                    color={isLastItem ? "red" : "inherit"}
+                                    className={isLastItem ? "text-red" : "text-black/80"}
                                 >
                                     {label}
                                 </Typography>
@@ -202,10 +181,13 @@ export default function NavbarComponent(): JSX.Element {
 
     return (
         <nav
-            className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-8 sm:px-6 px-5 py-1 border shadow-md"}>
-            <Typography onClick={() => navigate("/seller/magazines")} variant={'paragraph'} className={"font-bold"}>
-                Lochin
-            </Typography>
+            className={"w-full flex justify-between items-center sm:h-20 h-16 bg-white md:px-4 sm:px-2 px-1 py-1 border shadow-md"}>
+            <LazyLoadImage effect={"black-and-white"}
+                           className={"w-44 md:w-56 cursor-pointer"}
+                           onClick={() => navigate("/seller/magazines")}
+                           alt={"logo"}
+                           src={logo}
+            />
             {location.pathname !== "/seller/magazines" && <div className="relative w-4/12 hidden md:block">
                 <InputComponent.Text value={search}
                                      name={"search-item"}
@@ -238,14 +220,14 @@ export default function NavbarComponent(): JSX.Element {
                                                 {item.productName}
                                             </Typography>
                                             <div className="w-full flex justify-between items-end">
-                                               <div className="">
-                                                   <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                       {formatter.format(item.productPrice)}
-                                                   </Typography>
-                                                   <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                       Model: {item.productModel}
-                                                   </Typography>
-                                               </div>
+                                                <div className="">
+                                                    <Typography variant={"small"} className={"font-bold text-xs"}>
+                                                        {formatter.format(item.productPrice)}
+                                                    </Typography>
+                                                    <Typography variant={"small"} className={"font-bold text-xs"}>
+                                                        Model: {item.productModel}
+                                                    </Typography>
+                                                </div>
                                                 <Typography variant={"small"} className={"font-medium text-xs"}>
                                                     Miqdori: {item.productQuantity} {item.productMeasure}
                                                 </Typography>
