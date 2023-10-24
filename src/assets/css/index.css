@@ -13,13 +13,20 @@ span,
 svg,
 a,
 label {
-    @apply text-black;
+    @apply text-black font-normal;
 }
 
-p, a, span, label {
+p, a, label {
     @apply leading-5 text-base font-medium;
 }
 
 h1 {
     @apply font-bold text-2xl;
+}
+
+h4 {
+    @apply font-bold text-xl;
+}
+p{
+    @apply leading-5 font-medium;
 }
