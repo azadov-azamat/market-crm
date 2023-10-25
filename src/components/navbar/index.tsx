@@ -200,12 +200,12 @@ export default function NavbarComponent(): JSX.Element {
                                          target: { value: string; };
                                      }) => setSearch(e.target.value)}
                                      label={""}/>
-                <Collapse open={fltProduct.length !== 0} className={"fixed z-10"}>
-                    <Card className="w-4/12">
+                <Collapse open={fltProduct.length !== 0} className={"absolute z-10"}>
+                    <Card className="w-full mt-3">
                         <CardBody className={"m-0 p-2"}>
                             {
                                 fltProduct.map((item, ind) =>
-                                    <div key={ind} className={"flex my-2 border rounded p-1 cursor-pointer"}
+                                    <div key={ind} className={"flex my-2 border rounded px-3 py-2 cursor-pointer"}
                                          onClick={() => {
                                              navigate(`/seller/product/${item.id}`)
                                              setSearch("")
