@@ -20,7 +20,7 @@ import {LazyLoadImage} from "react-lazy-load-image-component";
 import SearchModal from "./search-modal.tsx";
 import {getProductsSearch, logoutFunc} from "../../redux/reducers/variable.ts";
 import * as InputComponent from "../inputs";
-import {formatter, getMgId} from "../../config/servise.ts";
+import {formatter, getMgId, roundMath} from "../../config/servise.ts";
 // import qs from "qs";
 import {noIMG} from "../../config/api.ts";
 import logo from "../../assets/logo/logo-name.png";
@@ -32,11 +32,15 @@ export default function NavbarComponent(): JSX.Element {
     const dispatch = useAppDispatch()
 
     const {baskets, fltProduct, userData} = useAppSelector(state => state.variables)
+    const {nbu} = useAppSelector(state => state.firms)
 
     const [search, setSearch] = React.useState<string>("")
     const [isModal, setModal] = React.useState<boolean>(false)
 
     const toggleModal = () => setModal(!isModal)
+
+    // @ts-ignore
+    const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
 
     const [profileMenuItems, setProfileMenuItems] = React.useState([
         {
@@ -222,7 +226,7 @@ export default function NavbarComponent(): JSX.Element {
                                             <div className="w-full flex justify-between items-end">
                                                 <div className="">
                                                     <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                        {formatter.format(item.productPrice)}
+                                                        {formatter.format(roundMath(item.productPrice * dollarCur))}
                                                     </Typography>
                                                     <Typography variant={"small"} className={"font-bold text-xs"}>
                                                         Model: {item.productModel}
@@ -245,13 +249,15 @@ export default function NavbarComponent(): JSX.Element {
                     <div className="block md:hidden ">
                         <BiSearch className={'text-2xl cursor-pointer'} onClick={toggleModal}/>
                     </div>
-                    {baskets.length !== 0 ? <Badge content={baskets.length} overlap="circular" className={"text-xs bg-red cursor-pointer"}>
-                        <div className="p-1 md:p-2" onClick={() => navigate("/seller/baskets")}>
-                            <SlBasket className={'text-2xl cursor-pointer'}/> {/* === korzinka icon === */}
-                        </div>
-                    </Badge> : <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
-                        <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
-                    </div>}
+                    {baskets.length !== 0 ?
+                        <Badge content={baskets.length} overlap="circular" className={"text-xs bg-red cursor-pointer"}>
+                            <div className="p-1 md:p-2" onClick={() => navigate("/seller/baskets")}>
+                                <SlBasket className={'text-2xl cursor-pointer'}/> {/* === korzinka icon === */}
+                            </div>
+                        </Badge> :
+                        <div className="p-1 md:p-2 cursor-pointer" onClick={() => navigate("/seller/baskets")}>
+                            <SlBasket className={'text-2xl '}/> {/* === korzinka icon === */}
+                        </div>}
                 </>}
                 <ProfileMenu/>
             </div>

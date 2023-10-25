@@ -8,14 +8,18 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {useNavigate} from "react-router-dom";
 import * as InputComponent from "../inputs";
 import {noIMG} from "../../config/api.ts";
-import {formatter, getMgId} from "../../config/servise.ts";
+import {formatter, getMgId, roundMath} from "../../config/servise.ts";
 
 export default function SearchModal({toggle, open}: ModalInterfaceProps) {
 
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {fltProduct} = useAppSelector(state => state.variables)
-    
+    const {nbu} = useAppSelector(state => state.firms)
+
+    // @ts-ignore
+    const dollarCur = parseInt(nbu.find(item => item.Ccy === "USD")?.Rate)
+
     const [search, setSearch] = React.useState<string>("")
 
     useEffect(() => {
@@ -70,7 +74,7 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
                                 <div className="w-full flex justify-between items-end">
                                     <div className="">
                                         <Typography variant={"small"} className={"font-bold text-xs"}>
-                                            {formatter.format(item.productPrice)}
+                                            {formatter.format(roundMath(item.productPrice * dollarCur))}
                                         </Typography>
                                         <Typography variant={"small"} className={"font-bold text-xs"}>
                                             Model: {item.productModel}

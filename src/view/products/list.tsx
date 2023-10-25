@@ -33,12 +33,6 @@ export default function ProductList({isView}: Pr) {
         stores
     } = useAppSelector(state => state.variables)
 
-    // React.useEffect(()=>{
-    //   setTimeout(function (){
-    //       window.location.reload()
-    //   }, 500)
-    // }, [])
-
     React.useEffect(() => {
         dispatch(getCurrencyNbu())
         dispatch(getStores())
