@@ -6,6 +6,7 @@ export const TOKEN = "magazine-seller"
 export const uriNbu = 'https://cbu.uz/uz'
 // export const baseUrl = "https://api.marketlochin.uz/api/v1";
 export const baseUrl = "https://test.marketlochin.uz/api/v1";
+
 export const noIMG = noImg
 export const getToken = () => localStorage.getItem(TOKEN)
 
