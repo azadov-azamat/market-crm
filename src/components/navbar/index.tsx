@@ -226,7 +226,7 @@ export default function NavbarComponent(): JSX.Element {
                                             <div className="w-full flex justify-between items-end">
                                                 <div className="">
                                                     <Typography variant={"small"} className={"font-bold text-xs"}>
-                                                        {formatter.format(roundMath(item.productPrice * dollarCur))}
+                                                        {formatter.format(roundMath(item.productCurrency === 'dollar' ? (item.productPrice * dollarCur) : item.productPrice))}
                                                     </Typography>
                                                     <Typography variant={"small"} className={"font-bold text-xs"}>
                                                         Model: {item.productModel}
