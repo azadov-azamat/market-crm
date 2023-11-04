@@ -4,13 +4,12 @@ import MagazineBox from "../../components/box/magazine-box.tsx";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {StoresDataProps} from "../../interface/redux/variable.interface.ts";
 import React from "react";
-import {getStores, logoutFunc} from "../../redux/reducers/variable.ts";
+import {getStores} from "../../redux/reducers/variable.ts";
 import {unwrapResult} from "@reduxjs/toolkit";
-import {useNavigate} from "react-router-dom";
 
 export default function Magazine() {
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {stores} = useAppSelector(state => state.variables)
 
@@ -19,13 +18,15 @@ export default function Magazine() {
             .then(() => {
 
             })
-            .catch(err => {
-                console.log(err)
-                if (err.response.status === 403) {
-                    dispatch(logoutFunc())
-                    navigate('/login')
-                }
-            })
+        // .catch(() => {
+        //     dispatch(getStores()).then(unwrapResult)
+        //         .catch(err => {
+        //             if (err.response.status === 403) {
+        //                 dispatch(logoutFunc())
+        //                 navigate('/login')
+        //             }
+        //         })
+        // })
     }, [])
 
     if (stores.length === 0) {

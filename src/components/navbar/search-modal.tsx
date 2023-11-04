@@ -50,44 +50,46 @@ export default function SearchModal({toggle, open}: ModalInterfaceProps) {
                     placeholder={"Mahsulotlarni nomini yoki narxini kiriting"}
                     label={"Mahsulotlarni qidirish"}/>
 
-                {
-                    fltProduct.map((item, ind) =>
-                        <div key={ind} className={"flex my-2 border rounded p-1 cursor-pointer"}
-                             onClick={() => {
-                                 navigate(`/seller/product/${item.id}`)
-                                 setSearch("")
-                                 toggle()
-                             }}
-                        >
-                            <div className="w-2/12 h-20">
-                                <LazyLoadImage effect={"black-and-white"}
-                                               className={"object-cover object-center h-20"}
-                                               alt={item.productName}
-                                               src={item.productImgUrl || noIMG}
-                                />
-                            </div>
-                            <div className="w-10/12 flex flex-col justify-between pl-3">
-                                <Typography variant={"small"}
-                                            className={"font-bold text-sm"}>
-                                    {item.productName}
-                                </Typography>
-                                <div className="w-full flex justify-between items-end">
-                                    <div className="">
-                                        <Typography variant={"small"} className={"font-bold text-xs"}>
-                                            {formatter.format(roundMath(item.productCurrency === 'dollar' ? (item.productPrice * dollarCur) : item.productPrice))}
-                                        </Typography>
-                                        <Typography variant={"small"} className={"font-bold text-xs"}>
-                                            Model: {item.productModel}
-                                        </Typography>
-                                    </div>
-                                    <Typography variant={"small"} className={"font-medium text-xs"}>
-                                        Miqdori: {item.productQuantity} {item.productMeasure}
-                                    </Typography>
-                                </div>
-                            </div>
-                        </div>
-                    )
-                }
+               <div className={`h-[${fltProduct.length}%] max-h-screen overflow-y-scroll`}>
+                   {
+                       fltProduct.map((item, ind) =>
+                           <div key={ind} className={"flex my-2 border rounded p-1 cursor-pointer"}
+                                onClick={() => {
+                                    navigate(`/seller/product/${item.id}`)
+                                    setSearch("")
+                                    toggle()
+                                }}
+                           >
+                               <div className="w-2/12 h-20">
+                                   <LazyLoadImage effect={"black-and-white"}
+                                                  className={"object-cover object-center h-20"}
+                                                  alt={item.productName}
+                                                  src={item.productImgUrl || noIMG}
+                                   />
+                               </div>
+                               <div className="w-10/12 flex flex-col justify-between pl-3">
+                                   <Typography variant={"small"}
+                                               className={"font-bold text-sm"}>
+                                       {item.productName}
+                                   </Typography>
+                                   <div className="w-full flex justify-between items-end">
+                                       <div className="">
+                                           <Typography variant={"small"} className={"font-bold text-xs"}>
+                                               {formatter.format(roundMath(item.productCurrency === 'dollar' ? (item.productPrice * dollarCur) : item.productPrice))}
+                                           </Typography>
+                                           <Typography variant={"small"} className={"font-bold text-xs"}>
+                                               Model: {item.productModel}
+                                           </Typography>
+                                       </div>
+                                       <Typography variant={"small"} className={"font-medium text-xs"}>
+                                           Miqdori: {item.productQuantity} {item.productMeasure}
+                                       </Typography>
+                                   </div>
+                               </div>
+                           </div>
+                       )
+                   }
+               </div>
             </div>
         </DialogModal>
     );
