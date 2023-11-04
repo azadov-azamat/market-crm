@@ -201,8 +201,8 @@ export default function NavbarComponent(): JSX.Element {
                                      }) => setSearch(e.target.value)}
                                      label={""}/>
                 <Collapse open={fltProduct.length !== 0} className={"absolute z-10"}>
-                    <Card className="w-full mt-3">
-                        <CardBody className={"m-0 p-2"}>
+                    <Card className="w-full mt-3 h-screen bg-transparent">
+                        <CardBody className={"m-0 p-2 overflow-y-scroll bg-white h-2/3"}>
                             {
                                 fltProduct.map((item, ind) =>
                                     <div key={ind} className={"flex my-2 border rounded px-3 py-2 cursor-pointer"}

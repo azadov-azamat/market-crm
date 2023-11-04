@@ -4,15 +4,28 @@ import MagazineBox from "../../components/box/magazine-box.tsx";
 import {useAppDispatch, useAppSelector} from "../../redux/hooks.ts";
 import {StoresDataProps} from "../../interface/redux/variable.interface.ts";
 import React from "react";
-import {getStores} from "../../redux/reducers/variable.ts";
+import {getStores, logoutFunc} from "../../redux/reducers/variable.ts";
+import {unwrapResult} from "@reduxjs/toolkit";
+import {useNavigate} from "react-router-dom";
 
 export default function Magazine() {
 
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const {stores} = useAppSelector(state => state.variables)
 
     React.useEffect(() => {
-        dispatch(getStores())
+        dispatch(getStores()).then(unwrapResult)
+            .then(() => {
+
+            })
+            .catch(err => {
+                console.log(err)
+                if (err.response.status === 403) {
+                    dispatch(logoutFunc())
+                    navigate('/login')
+                }
+            })
     }, [])
 
     if (stores.length === 0) {
@@ -33,7 +46,8 @@ export default function Magazine() {
     }
 
     return (
-        <section className={"w-full flex flex-col md:flex-row justify-center items-center gap-4 md:gap-10 my-10 md:mt-20"}>
+        <section
+            className={"w-full flex flex-col md:flex-row justify-center items-center gap-4 md:gap-10 my-10 md:mt-20"}>
             {stores.map((item: StoresDataProps, index) =>
                 <MagazineBox
                     key={index}
